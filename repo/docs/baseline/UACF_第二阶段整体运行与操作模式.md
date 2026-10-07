@@ -1,6 +1,10 @@
 # UACF 第二阶段整体运行与操作模式
 
-2026-10-07｜本地说明修订1｜中文 / English。本文说明截至本日的实际流程和下一步需验收的新增功能，不替代冻结包清单。旧设计及历史报告保留。
+## 当前阅读说明 · 2026-10-08
+
+本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。
+
+2026-10-08｜第二阶段公开版操作说明｜中文 / English。本文说明实际操作、当前结果及仍需独立验收的范围；文件身份以Release清单为准。旧设计及历史报告保留。
 
 ## 1. 对使用者来说，它做什么
 
@@ -14,11 +18,11 @@ English: UACF preserves work intent, progress, source-linked lessons and accepta
 
 本机已有常设前台时，打开本机服务页面，确认是自己的工作根与authority。首次浏览器配对只在本机完成；之后按会话有效期恢复。不要把认证文件、配对票据或本机绑定上传到社区。页面离线、未配对、会话过期和任务溢出都有不同处理原因。
 
-新用户的公开候选版目前仍依赖CPython 3.11和维护安装入口。没有DeepSeek、DSH或历史batch4账户，也应能建立空库、创建普通任务并查看真实0来源。**本次用户要求的“解压后双击自动准备环境、Codex/Pi/DSH辅助安装”尚未随旧候选完成，不能把该旧包称为面向零基础用户的最终安装包。** 后续安装器必须只使用官方锁定依赖、保留已有配置，并在隔离环境验证后纳入新冻结。
+下载Release完整ZIP并全部解压，双击“开始使用UACF.cmd”或Start-UACF.cmd。启动器寻找CPython3.11、按锁定hash安装官方依赖并打开本机前台；Codex/Pi/DSH分别有Install-for-*.cmd配置入口。已有Python环境的干净安装已测试；缺Python的官方引导分支未在本机实际触发，不宣称任意新机器均已验证。空库真实0来源，普通任务不要求DeepSeek、DSH或旧batch4账本。
 
 维护安装命令的现有参数是 `ops/install_public.ps1 -Root <你选的工作根>`；服务启动、停止和状态由 `ops/manage.ps1` 提供。这是技术维护入口，普通使用者不应每天重复安装。选择端口时遇到占用，应明确失败，不终止别人的进程。
 
-English: use your own local service and pair the browser locally. Never share credentials. The existing public candidate has a technical installation path; the requested beginner-friendly bootstrap and host-specific automatic installation are still pending. Ordinary tasks must work without a paid provider, a historical account or private data.
+English: use your own local service and pair the browser locally. Never share credentials. The full release ZIP includes Start-UACF.cmd and preserving Codex/Pi/DSH setup helpers. The Python-equipped clean path was tested; the missing-Python bootstrap and all real native-host environments are not universally verified. Ordinary tasks must work without a paid provider, a historical account or private data.
 
 ## 3. 建立工作：先明确任务，再开始执行
 
@@ -62,11 +66,11 @@ English: only real, explicitly mapped public host events establish native work s
 
 先核对最新覆盖清单，冻结真正未处理的来源和验收范围。2531对话的结构归档与900来源的详细候选分别统计。900不是通用系统上限，也不是新任务的假基线。旧成功输出可复用；未知、reserved、dispatched、response_known先对账，不换模型重跑。
 
-新批次分阶段推进。当前允许最多100新来源用于检验最新架构，拟设10、30、60、100检查点；闭环、隐私、规范对象/前台一致性或费用失败时停止新增。新费用金额尚未批准，因此现在新增历史处理为0，150检测交接也未产生。100授权不等于新预算授权，不用当前宿主全文代做100来绕开预算。
+新批次分阶段推进。当前允许最多100新来源用于检验最新架构，拟设10、30、60、100检查点；闭环、隐私、规范对象/前台一致性或费用失败时停止新增。所有者随后授权独立20元账户；100来源已完成完整公开正文处理和候选发布，21份完整来源风险复核占9.9936%正文，回执费用上界4.406337元。新的150实际检测未执行；其早期冻结准备保留。附件、领域真值及全量成对语义审查仍分别待验，不能把候选发布替代这些验收。
 
 附件没读、领域事实没验收应明确显示。归档是否完整、候选是否忠实、语义是否正确、领域真值是否成立，是四个独立问题。
 
-English: freeze uncovered sources from the latest manifest. Reuse settled outputs and reconcile unknown requests before retries. The authorized ceiling is 100 new sources for staged architecture checks, but no amount has been authorized for new paid dispatch. Current newly processed historical sources: zero.
+English: freeze uncovered sources from the latest manifest. Reuse settled outputs and reconcile unknown requests before retries. The owner subsequently authorized a separate CNY20 account. All100 frozen sources were processed and published as candidates;21 complete-source reviews covered9.9936% of public text. The observed fee upper bound is CNY4.406337. Candidate publication does not certify domain truth or full semantic review.
 
 ## 8. 本地资产怎样变成可分享模块
 
@@ -74,9 +78,9 @@ English: freeze uncovered sources from the latest manifest. Reuse settled output
 
 已有候选的脱敏应复用其既有结果，按当前修订补做投影与来源链接，不重提取900。新增候选走相同流程。先由当前宿主审查具体投影，再由用户审批实际公开范围；机械秘密扫描不能保证彻底脱敏。模块不是自动新硬规则；真正执行约束还需注册、门控、正反例和验收。
 
-**实现状态：**新分层模块代码仅生成；目前没有完成部署、UI调用、真实回填或公开模块包验收。不得把未来应有功能写成已运行。旧123文件候选仍原样保留，后续新公开范围必须重新冻结hash并复测。
+**实现状态：**分层模块已接入服务、上下文与前台；草稿导入、精确版本复核、来源条件回读与公开投影导出经过实际调用。三个抽象原则已纳入公开包，私人来源链接保留本机。旧候选无需重提取即可补做模块投影；这不表示900全部实例均已脱敏或全部模块均已独立验证。旧包保持原样，本版按实际新清单冻结。
 
-English: maintain a private provenance registry and a separate reusable public projection. Reuse existing settled candidates for backfill. Public cards contain abstract conditions and synthetic examples, not private source identifiers. The generated module code still needs integration, testing, UI and a new frozen package.
+English: maintain a private provenance registry and a separate reusable public projection. Reuse existing settled candidates for backfill. Public cards contain abstract conditions and synthetic examples, not private source identifiers. The module path is integrated and actual draft import, review, private-source read-back and public projection export were exercised. Three abstract advisory lessons are included; the entire historical library has not been sanitized or independently accepted.
 
 ## 9. 遇到问题与退出
 
@@ -88,6 +92,11 @@ English: use authenticated commands, not direct SQLite writes. Preserve unknown 
 
 相关阅读：正式总说明、补充04、早期迭代说明；维护合同与实际回执在engineering和本地deliverables中。公开发行时只收录经审查的说明，私人回执不随包分发。
 
+
+
+## Historical appendix / 历史补记（不是当前状态）
+
+以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.
 
 ## 2026-10-07 继续执行后的状态修订
 

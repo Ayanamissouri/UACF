@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-07T22:30:51.707363+00:00",
+  "date": "2026-10-07T22:58:14.324179+00:00",
   "files": [
     {
       "path": ".gitignore",
@@ -32,9 +32,14 @@
       "bytes": 264
     },
     {
+      "path": "Read-UACF.html",
+      "sha256": "00bb9652fc5d3f5c1729617887be8c00854387389e5fe0f83d9a44322daf2bbb",
+      "bytes": 1666
+    },
+    {
       "path": "README.md",
-      "sha256": "c79a29e272666295bc1f59def9743f22560f729e2750fadac63824d2a7db598b",
-      "bytes": 2913
+      "sha256": "26e18cf4e1babfde51a89378c2fc7a782428b52eb93918f9589e00c8bb298ff1",
+      "bytes": 3204
     },
     {
       "path": "repo/.gitattributes",
@@ -178,8 +183,8 @@
     },
     {
       "path": "repo/CHANGELOG.md",
-      "sha256": "b7fb10f60256e21249af386b5bf6047af48f975d6e98e6fc157f28a9e0ec7fd0",
-      "bytes": 5181
+      "sha256": "3ec69e1ff3b8d8d8fc0e79c0416fbc543e56f420957e8fb369d5966114ed700c",
+      "bytes": 5838
     },
     {
       "path": "repo/contracts/actions-batch2.schema.json",
@@ -238,83 +243,103 @@
     },
     {
       "path": "repo/docs/baseline/DSH_第一阶段设计补充04.html",
-      "sha256": "fcbe6b822f51ba3fcac157ccc8e1a16c58d5f1eaef5c66dda61ccf1414f0d048",
-      "bytes": 16240
+      "sha256": "8b3c75c15e5a72bb95b931d365f2df709a259b45299b516316493fe09a405b1e",
+      "bytes": 17598
     },
     {
       "path": "repo/docs/baseline/DSH_第一阶段设计补充04.md",
-      "sha256": "9047df98484ca58c4670c46227ee28316fd77ec037287c1ff7ae23ebff42a59e",
-      "bytes": 14841
+      "sha256": "bcc54fb6dc26ef51f9b927f369bb4af0996011603e29f10eca1acf2d65eecf4c",
+      "bytes": 16104
     },
     {
       "path": "repo/docs/baseline/UACF_900之后架构到底改变了什么.html",
-      "sha256": "1ea61d803ce4870f36d95c829d7e518fd7d2893e60348cfa722c38a508afa3f8",
-      "bytes": 13671
+      "sha256": "15edf81af29f64a51b815cb6fbe9813c7156fed14cc25f9059f17d0c4e690cd1",
+      "bytes": 14583
     },
     {
       "path": "repo/docs/baseline/UACF_900之后架构到底改变了什么.md",
-      "sha256": "6018ed288e3332f425b84c3b12a842d8795af02a90402d919425dc555f489bc5",
-      "bytes": 12313
+      "sha256": "aa25a1ae5d784247cfce131ac855fab4495355bd3c82de558a56b46130d9ce92",
+      "bytes": 13130
     },
     {
       "path": "repo/docs/baseline/UACF_Complete_System_Design_English.html",
-      "sha256": "1ef8b8ac63ba1bf9f382866165799f526aafe1595d1d2c92814042232ebba895",
-      "bytes": 23376
+      "sha256": "9b58cf428121c13d774e4653f487d1d4c46185de0f4de6bc58658ce62e1dbffb",
+      "bytes": 24436
     },
     {
       "path": "repo/docs/baseline/UACF_Complete_System_Design_English.md",
-      "sha256": "341c91dec24eb2746fc1d10e03593467189a092798999f6e9cb194abdc3005b0",
-      "bytes": 22051
+      "sha256": "82eade0876aef646385365f86af1ab3b5170f180051f7e36b5600466f29e1742",
+      "bytes": 23021
     },
     {
       "path": "repo/docs/baseline/UACF_User_Guide_English.html",
-      "sha256": "6188b499165c637642779ca5ceb74fb83c7ae526812ddfd323c16036bd776d79",
-      "bytes": 17284
+      "sha256": "5a0105e92be7531ffad8d4b283bf2cb10efbb87caef595e7b8b1c0ad19239ec0",
+      "bytes": 21742
     },
     {
       "path": "repo/docs/baseline/UACF_User_Guide_English.md",
-      "sha256": "032d411a2ff3eab50f034b430434e58358eda41b1d496af91c9421e579aa8f07",
-      "bytes": 16069
+      "sha256": "837f9a670f2a8e2fa506c2780f83ac36c756758025c10b5b910af20f7d2b5e61",
+      "bytes": 20348
+    },
+    {
+      "path": "repo/docs/baseline/UACF_交付要求逐项核对.html",
+      "sha256": "7e4b964a95f74a3cbd968840d58b542967bc6444499cfa3d5f89768f6d1bcd8a",
+      "bytes": 6360
+    },
+    {
+      "path": "repo/docs/baseline/UACF_交付要求逐项核对.md",
+      "sha256": "ac176f7a1629f9a71a1c295c4bd3cd60297ae3aec27b6e4e38a9932774bc6e53",
+      "bytes": 4793
     },
     {
       "path": "repo/docs/baseline/UACF_从早期工作台到当前流程的迭代说明.html",
-      "sha256": "087a2f7d865365b0d861d9be213d61e4764345abf8e583a3727178819e4b47af",
-      "bytes": 20252
+      "sha256": "a4416cdcc79dc2f80b9ee7920580ca8bd14dee3846c1ce8ccd643e67c8b03c2a",
+      "bytes": 21164
     },
     {
       "path": "repo/docs/baseline/UACF_从早期工作台到当前流程的迭代说明.md",
-      "sha256": "68d4c39f138bf4b9798c1abe462e2b8c1e9e281a6cdb5e44e3d1f2dfcd8dfa91",
-      "bytes": 18069
+      "sha256": "b1f922e1f34893fea7330523d5585265d9bc5a7b7fa547855cd733562b32fa0b",
+      "bytes": 18886
     },
     {
       "path": "repo/docs/baseline/UACF_普通用户使用手册_中文.html",
-      "sha256": "b81e08091fa6d4bbfaf995b26ed3def7bbc996bc547f4f3044cd17ecd4ea5bc9",
-      "bytes": 16893
+      "sha256": "4e9d157372bec02bb566c83abb45cbc5a21631ac180d0f5062df3f78cf15c6f4",
+      "bytes": 21074
     },
     {
       "path": "repo/docs/baseline/UACF_普通用户使用手册_中文.md",
-      "sha256": "4349e96e55ecda439249d2a9f4f42a37901219eb7b41a0338c167cd4d2d71604",
-      "bytes": 15672
+      "sha256": "682414e4e10f7f22479d62cfb4590d2467037b9c00f06f00e0ec2fe019b27da3",
+      "bytes": 19712
     },
     {
       "path": "repo/docs/baseline/UACF_正式完整版设计总说明.html",
-      "sha256": "a429a5104d5df8af03c4132be3628dd898cf2410a25b8141a248bb1f3d1358f0",
-      "bytes": 22839
+      "sha256": "3af892ad21091867b2c1cbab2f321496dd350d1f31717f79e97565fcf5a254a6",
+      "bytes": 23923
     },
     {
       "path": "repo/docs/baseline/UACF_正式完整版设计总说明.md",
-      "sha256": "c8eb07df9a7491e6170faa47cbb48125da466c031c7ccd5e5c5fc986f86334f2",
-      "bytes": 21310
+      "sha256": "d3abf2030c58afa90c3c35d3d385b6977042a639b08ddfe6407e2c30caa7dcd1",
+      "bytes": 22299
     },
     {
       "path": "repo/docs/baseline/UACF_第二阶段整体运行与操作模式.html",
-      "sha256": "a97ebf26a0ab52706616599a96e623d2f36481bce97affa93d3da8ef7a1f9a36",
-      "bytes": 21580
+      "sha256": "1b945be8f9e61bbe6000d4478fd2e1f24a12c46bc2573af17b851fbe656c1b50",
+      "bytes": 23130
     },
     {
       "path": "repo/docs/baseline/UACF_第二阶段整体运行与操作模式.md",
-      "sha256": "6e49555ec14a20cee7694d11c42f0f1ca1eaa343e2d37649c9ed357074520aaf",
-      "bytes": 20224
+      "sha256": "091738354e0e1b9a4fb585cf2b1578a5a860e090604d3e8d7cf1fa9c9bb71c5c",
+      "bytes": 21692
+    },
+    {
+      "path": "repo/docs/baseline/UACF_阅读导航.html",
+      "sha256": "70e292808303a05fea3d27a6d93879b3197826e01a0f508ce2a9e057b03a1754",
+      "bytes": 6534
+    },
+    {
+      "path": "repo/docs/baseline/UACF_阅读导航.md",
+      "sha256": "4a212072e65e169bdb6ef482f97195feba0ed4cc902bad5009cdbb2f48bc5739",
+      "bytes": 4855
     },
     {
       "path": "repo/docs/engineering/contracts-portable-adaptive.md",
@@ -328,8 +353,8 @@
     },
     {
       "path": "repo/docs/public/OPERATIONS.md",
-      "sha256": "1034a4a5af7975b1e3a17350a935db9951a50343835f8348c128612d4d6a849d",
-      "bytes": 2768
+      "sha256": "9dc7b34389e419c5c9b3449682ecef1c19159df50c8964783a97cd86249afc9b",
+      "bytes": 2816
     },
     {
       "path": "repo/docs/public/VERIFICATION.md",
@@ -818,8 +843,8 @@
     },
     {
       "path": "repo/UPLOAD-GUIDE.md",
-      "sha256": "9e106f2ea686281112c089bc3b8ec7eb7313168cef2652f5852d934825a3558a",
-      "bytes": 1565
+      "sha256": "719afc5b961991253ddebf3f4fab0e466e52bd82af1302296afe32d5f86402b4",
+      "bytes": 2955
     },
     {
       "path": "Start-UACF.cmd",
@@ -835,10 +860,16 @@
       "path": "开始使用UACF.cmd",
       "sha256": "152c6de40cd67f2acdc19aec7c6b212ae911a2d1cff334feba491af31ab8d775",
       "bytes": 136
+    },
+    {
+      "path": "阅读说明.html",
+      "sha256": "00bb9652fc5d3f5c1729617887be8c00854387389e5fe0f83d9a44322daf2bbb",
+      "bytes": 1666
     }
   ],
   "old_git_history_included": false,
   "private_data_included": false,
   "project_license": "Apache-2.0",
-  "privacy_scan": "bounded markers plus manually reviewed public whitelist; not arbitrary semantic anonymity"
+  "privacy_scan": "bounded markers plus reviewed public whitelist; not arbitrary semantic anonymity",
+  "runtime_scope": "unchanged from tested v16; documentation revision only"
 }

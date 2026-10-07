@@ -1,5 +1,9 @@
 # UACF User Guide
 
+## Current reading scope · 8 October 2026
+
+The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed187 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 entered the shared queue;21 host classifications returned and79 await semantic classification. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
+
 7 October 2026. Phase-two release scope, for research, writing, video production and everyday projects. Programming experience is not required to understand the workflow. Installation, native delivery and publication limitations remain part of this guide.
 
 ## What this system does
@@ -64,7 +68,7 @@ A reusable module offers context and conditional guidance. Executable constraint
 
 Useful contributions include reviewed generic modules, synthetic counterexamples, accessible explanations and rebuildable code changes. Describe conditions, expectations, observations, limitations and review scope. Do not upload private conversations or runtime logs. Unverified advice is not accepted domain truth.
 
-Before publication, review the exact file list, hashes, license, references and exclusions. This candidate has not been uploaded to GitHub; the owner still needs to choose the project license. Private provenance links do not accompany community modules. Preserve module revisions and local mappings during updates.
+Before publication, review the exact file list, hashes, license, references and exclusions. The owner selected Apache-2.0 and the reviewed first-party release is published at Ayanamissouri/UACF. Future contributions still require their own privacy and permission review. Private provenance links do not accompany community modules. Preserve module revisions and local mappings during updates.
 
 ## Stop, uninstall and recover
 
@@ -79,6 +83,32 @@ Official installation references: [Python on Windows](https://docs.python.org/3.
 
 For general use, double-click Start-UACF.cmd. To connect an already installed host, choose Install-for-Codex.cmd, Install-for-Pi.cmd or Install-for-DSH.cmd. They call the preserving setup helper. DSH requires a real existing web profile and pnpm; missing components produce a clear refusal. A configured host is not proof of loading, native completion delivery or permission for paid calls. Keep errors and backups; do not delete original assets. Actual host loading remains subject to field receipts.
 
+
+## Screen-by-screen: five common workflows
+
+### Start research, writing or media work
+
+Tell the current AI the goal, deliverable files, mandatory steps and readable material. Ask it to create and read back the authenticated Task. Enter that Task in the project stage section, read the stage, generate default steps when needed, inspect them and save the plan. Keep the current-host route for ordinary work. Saving a route does not start another GPT. Check the exact Task revision; missing permission or mapping requires a real repair, never a invented identity. The UI includes Chinese labels: 读取项目阶段 means read project stage; 保存项目步骤与路由 means save steps/routes.
+
+### Check where earlier lessons apply
+
+Use 查看资产使用与审查 (inspect asset use/review), select issues/boundaries or knowledge, search relevant terms and open 查看条件、依据与来源 (conditions, basis and source). Check applicability/exclusions before asking which observable decision uses the lesson. Without result evidence, preparation stays prepared/unknown. Pair review compares actual conditions; a retrieval score cannot justify an equivalence verdict.
+
+### Capture an important correction
+
+In capture timing, enter the current Task or use the workspace Task, mark only actual request/correction/requirement-change signals, provide a short basis and run the node check. prepare_incremental prepares capture; aggregate/defer coalesces or postpones it. Preserve earlier Task revisions. Do not re-extract the entire history for every short supplement, or label an unobserved end as automatic completion.
+
+### Sanitize an existing asset or import guidance
+
+Refresh shareable lessons and expand the existing-asset projection section. Retrieve the relevant candidate and write bilingual principles, conditions, synthetic positive/negative examples and limitations. Save a draft, then review that exact revision. Existing extracted assets reuse their candidates; no paid re-extraction is needed. Imported JSON is initially a pending draft. Local-source output is private; candidate download contains only the abstract projection. Do not distribute both together.
+
+### Process personal history, share and stop safely
+
+Preserve originals and ask the current AI to use the authorized source-registration and structural-archive entry. A new user's library does not inherit the private100/900 batch manifests. Freeze uncovered sources/routes and verify the loop and budget before executing a chosen batch, checking coverage, reviewing text and publishing candidates. The generic chain is public; private trial orchestration scripts are excluded, and missing adapters must not be reported as successful processing. UPLOAD-GUIDE explains sharing: export reviewed modules and submit sanitized proposals through Issues, or ask your AI to prepare a reviewed code contribution. Closing a browser does not stop the service. Ask the setup assistant to stop only your UACF service, remove only registered components with matching receipts, preserve all data/originals/backups and refuse to overwrite drifted host configuration. OPERATIONS contains exact maintenance/recovery commands. This guide is bilingual documentation; it does not claim every UI label has been translated.
+
+## Historical appendix / 历史补记（不是当前状态）
+
+以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.
 
 ## Latest observed continuation, 7 October 2026
 

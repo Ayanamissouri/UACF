@@ -1,5 +1,9 @@
 # UACF 正式完整版设计总说明
 
+## 当前阅读说明 · 2026-10-08
+
+本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。
+
 2026-10-07｜文档修订2｜设计与已观察实现分列。这里的“完整版”指覆盖完整系统职责，不表示所有能力已经验收完成。本说明对应第二阶段冻结版；当前验证范围见末尾，公开发布状态以所在GitHub Release记录为准；用户已选择Apache-2.0。完整英文对应说明见UACF_Complete_System_Design_English；具体操作见《第二阶段整体运行与操作模式》。
 
 ## 1. 产品目的与系统边界
@@ -88,13 +92,13 @@ English: distinguish generated, installed, loaded and called identities. Keep de
 | 语义审查 | 151对涉及115实例，1865实例尚无同类审查；727相关/274条件扩展不是确认合并 |
 | 当前用户投诉 | 已另行记录工作遗漏候选；不混算新增历史覆盖 |
 | 正常宿主自动闭环 | 当前桌面真实自动结束回填partial；任意工具/私有思考不保证控制 |
-| 公开候选 | 旧123文件与后续152文件版都保留；本轮须以新增功能、英文总说明及Apache-2.0重新冻结，不继承旧包验收 |
+| 公开发布 | 已向Ayanamissouri/UACF发布干净源码、完整双语说明、安装入口及3抽象模块；旧123/152文件包保留，本版以Release清单/hash为准 |
 | 新adaptive/portable功能 | 服务/context/UI已经接线并测试；真实公开工作回读及候选比较已调用；原生实时自动结束仍partial |
-| 新150/新100 | 150实际新检测交接未产生；100已获独立20元授权，实际数量以最新批次回执及交接为准；不把准备计成处理 |
+| 新150/新100 | 新150仅冻结准备、未执行；新100实际候选发布完成，完整正文2417919字符、21来源复核，费用上界4.406337元；全量语义/领域验收另列 |
 
 generated表示产出文件；installed表示安装到指定位置；loaded表示运行进程实际加载；called表示真实调用；verified必须绑定具体性质、冻结修订和证据；partial保留缺口。这些词不是按阶段自动递进。
 
-English: capability states are property-specific. Structural coverage, candidate extraction and semantic review are different counts. Native automatic capture, unrestricted host control and domain truth remain partial. The old public candidate is local only; new features require a new tested freeze.
+English: capability states are property-specific. Structural coverage, candidate extraction and semantic review are different counts. Native automatic capture, unrestricted host control and domain truth remain partial. The reviewed clean release is public at Ayanamissouri/UACF; earlier candidate archives remain preserved. Documentation-only revisions retain the tested runtime identity and receive a new package hash.
 
 ## 10. 引用、合规与社区更新
 
@@ -118,6 +122,11 @@ English: document conceptual references, actual dependencies and copied code acc
 
 普通人的能力说明见《900之后架构到底改变了什么》；完整英文见《Complete System Design》。可分享模块的导入先成为待审草稿；本地来源入口可定点读取原条件。旧修订保留在私有交付历史，不能把其中的待办状态当当前状态。
 
+
+
+## Historical appendix / 历史补记（不是当前状态）
+
+以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.
 
 ## 2026-10-07 本次继续执行的最新现场范围
 

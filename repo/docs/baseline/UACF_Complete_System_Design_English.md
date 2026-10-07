@@ -1,5 +1,9 @@
 # UACF complete system design and operating model
 
+## Current reading scope · 8 October 2026
+
+The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed187 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 entered the shared queue;21 host classifications returned and79 await semantic classification. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
+
 Revision 2, 7 October 2026. This is a full English description, rather than an English abstract. Implementation, installation, invocation and acceptance are separate claims. A complete specification does not imply that every deployment has passed every acceptance check.
 
 ## Purpose and intended users
@@ -106,8 +110,13 @@ Build a clean whitelist export without the old .git directory. Exclude databases
 
 Document actual dependencies and licenses, conceptual references and withdrawn approaches separately. MRS/MPH and other excluded old packages are not redistributed. Do not turn an early abandoned proposal into a claim that its code is present. Preserve the lawful remediation account. NOTICE, third-party records, the SBOM, exclusions and the upload manual accompany the candidate.
 
-Contributions should use sanitized general principles, preserved conditions, synthetic tests and reproducible changes. They should not upload private originals in an attempt to improve coverage. More instances are not evidence of unlimited rule growth or complete factual acceptance. A final release still requires the project owner's license choice and a verified authorized publishing account.
+Contributions should use sanitized general principles, preserved conditions, synthetic tests and reproducible changes. They should not upload private originals in an attempt to improve coverage. More instances are not evidence of unlimited rule growth or complete factual acceptance. The reviewed release was published through the verified owner account Ayanamissouri under the owner-selected Apache-2.0 license. Future releases require the same scoped review.
 
+
+
+## Historical appendix / 历史补记（不是当前状态）
+
+以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.
 
 ## Latest observed continuation, 7 October 2026
 

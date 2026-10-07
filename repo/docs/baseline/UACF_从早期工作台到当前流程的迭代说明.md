@@ -1,5 +1,9 @@
 # UACF：从早期工作台到当前流程的迭代说明
 
+## 当前阅读说明 · 2026-10-08
+
+本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。
+
 记录日期：2026-10-07。日期时间默认采用 Europe/Berlin；2026年9月及本记录日为 UTC+02:00。本文是历史解释，不能代替当前部署与验收。原设计、旧包和历史交接均保留。
 
 ## 这两个目录以前整理过吗？
@@ -69,6 +73,11 @@
 
 English reading note: both early directories were partially registered in the existing MigrationMap, not fully semantically reviewed. This chronology distinguishes filesystem timestamps, version labels and dated evidence receipts. It explains the move from a DSH workbench to an independent, revisioned UACF State Service and source-bound learning workflow. No private chat bodies, credentials or excluded third-party implementations are redistributed. Historical success does not establish current installation, native automatic capture or semantic completion.
 
+
+
+## Historical appendix / 历史补记（不是当前状态）
+
+以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.
 
 ## 2026-10-07 继续执行后的状态修订
 

@@ -1,4 +1,6 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DSH_第一阶段设计补充04</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}</style><main><h1>第一阶段设计补充04：从原计划到当前实现与新增交付要求</h1>
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DSH_第一阶段设计补充04</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}details{margin:2em 0;border:1px solid #ccd6e4;padding:15px}summary{cursor:pointer;font-weight:bold}</style><main><p><a href="UACF_阅读导航.html">阅读导航 / Reading hub</a></p><h1>第一阶段设计补充04：从原计划到当前实现与新增交付要求</h1>
+<h2>当前阅读说明 · 2026-10-08</h2>
+<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
 <p>UACF-DB2.0-S04｜2026-10-07｜Europe/Berlin。原总览和补充01—03保持原字节。本补充说明实际增量及仍未完成的要求，不使历史partial自动成为verified。</p>
 <h2>1. 原计划怎样进入当前工程</h2>
 <p>原计划确立自有State、三层结构、跨宿主对象与来源、合同与证据、稀疏检索、旧数据迁移及E0—E7验收。第二阶段在此基础上落实了认证/幂等/CAS、数据迁移、预算回执、交换与lease、部署/加载身份、备份及隔离恢复、结构归档和常设前台。具体日期见《从早期工作台到当前流程的迭代说明》，按证据时间排列，不按文件名伪造完成先后。</p>
@@ -16,21 +18,20 @@
 </table></div>
 <h2>3. 本次必须修正的学习方式</h2>
 <p>重点是用户要求是否得到满足，不能漏掉最重要工序后靠其他产出抵消。工作中每个实质节点检查上一节点的满足程度与纠正；不等待整个工程永久结束。多个中途补充合并处理，短小日常请求轻量，长期闲置的已连接任务作到期元数据检查。情绪强度不是事实错误证据，文本数量不是整理触发依据。</p>
-<p>既有系统具有检查点和部分宿主事件链，但综合节流与时间判断尚未完整运行。本次adaptive代码仅generated；部署、UI、真实事件及低成本验证待完成。普通工作默认当前宿主，不能为每次检查再开一次GPT。</p>
+<p>adaptive已接入服务、上下文与常设前台。结构信号最多1024字节，检测不另开GPT；按15分钟普通间隔、3次聚合及7天闲置/每日元数据检查节流。真实映射聊天的既往结束与工作中增量回读、候选和同链回填已有回执；原生live hook、全账户扫描和任意宿主全面自动接入仍partial。普通工作默认当前宿主，不能为每次检查再开一次GPT。</p>
 <h2>4. 私有资产与通用模块分离</h2>
 <p>新增双层合同：私有层保留来源/修订/权限/原条件，公开层提供抽象原则、适用/排除条件、合成正反例和限制。链接留本机，公开包不含私有身份和原文。已有候选回填复用已结算结果，新来源走同一链；无需重提取900。</p>
-<p>公开投影需机械检查、当前宿主语义脱敏审查和最终用户发布审批。规则仍需限定执行入口和注册验收，不能由投影自动升格。本次portable代码仅generated，尚未完成接线、真实回填或公开模块验收，旧ZIP不因此变更。</p>
+<p>公开投影需机械检查、当前宿主语义脱敏审查和最终用户发布审批。规则仍需限定执行入口和注册验收，不能由投影自动升格。portable已完成限定范围的接线、前台真实导入/复核/来源回读与三个公开模块导出；私人映射未上传。旧ZIP和历史版本保留，通用原则不是自动执行规则。</p>
 <h2>5. 面向普通使用者的交付要求</h2>
-<p>新增要求是解压后明确双击入口、环境准备、中文/英文书面手册，以及Codex、Pi（用户称“Pipe”）、DSH安装辅助。自动安装不得覆盖旧配置或隐含可信hook采纳；声明与实际加载/调用分别验收。旧公开候选的技术安装说明不足以满足零基础使用需求，后续须实现并在隔离新机器路径测试。</p>
+<p>新增要求是解压后明确双击入口、环境准备、中文/英文书面手册，以及Codex、Pi（用户称“Pipe”）、DSH安装辅助。自动安装不得覆盖旧配置或隐含可信hook采纳；声明与实际加载/调用分别验收。本版已提供双击启动、三个宿主配置入口和完整双语手册，并测试已有Python的干净空库路径；没有Python的机器及全部实际宿主环境仍需分别现场验证。</p>
 <p>正式总说明与运行模式现已新增文档；这不等于完整产品发布完成。手册须与最终冻结版同步，前台、学习模块、宿主适配器、合同和相关测试共同审查。</p>
 <h2>6. 新历史处理只用于验架构</h2>
 <p>本次允许最多100新来源，拟10/30/60/100检查点。先修复并验收必要链路，依据最新覆盖清单冻结来源，核算费用后一次确认新金额；未授权不派发。出现自动结束/回填、语义条件、旧资产实际使用、UI/规范/费用一致性或原件保护失败时停止新增。</p>
-<p>当前新增历史来源0，新150检测交接未产生。900冻结Task与费用历史保留；不扩旧batch4上限、不挪其他预算、不重跑已完成请求。未读附件、独立验证和领域真值未知照实保留。</p>
+<p>随后独立20元授权下，新100来源已处理并发布为候选；新150实际检测未执行，保留其早期冻结准备。900冻结Task与费用历史保留；不扩旧batch4上限、不挪其他预算、不重跑已完成请求。未读附件、独立验证和领域真值未知照实保留。</p>
 <h2>7. 本补充的证据状态</h2>
-<p>本次文档及两个新模块文件为generated；没有声称installed/loaded/called/verified。可审查文件范围和hash须在新代码测试、UI实操、许可及恢复检查后重新冻结。第二窗口发布准备不得把本补充当作这些待验收项通过证据。</p>
+<p>当前公开版有generated文件、实际installed/loaded身份与called回执；源码/干净187测试各通过，真实前台和隔离恢复按有限范围verified。仍有原生hook、全量语义和领域真值partial；本说明不替代对应验收证据。公开范围按新清单/hash冻结，历史成功不自动继承。</p>
 <p>本次合成回归156项通过，其中新增10项覆盖私有/公开分层、修订拒绝、触发节流与原生事件缺失拒绝。测试发现并修正“没有实际捕获时间时误进入冷却聚合”的初始判断问题。此处只确认合成合同性质；尚不证明新模块已经接入服务、当前宿主采用或自动回填成功。英文目前为说明摘要，完整独立英文用户手册仍待补齐。</p>
-<p>English: Supplement 04 connects the original design to observed engineering additions, preserves earlier baselines and records remaining gaps. It adds requirements for coalesced, low-cost ongoing learning, private provenance with reusable sanitized modules, accessible bilingual installation and staged checks of at most 100 new sources. Generated files are not deployment or acceptance evidence; no new paid dispatch or GitHub upload has occurred.</p>
-<h2>2026-10-07 继续执行后的状态修订</h2>
+<p>English: Supplement 04 connects the original design to observed engineering additions, preserves earlier baselines and records remaining gaps. It adds requirements for coalesced, low-cost ongoing learning, private provenance with reusable sanitized modules, accessible bilingual installation and staged checks of at most 100 new sources. Generated files are not deployment or acceptance evidence; no new paid dispatch or GitHub upload has occurred.</p><details><summary>Historical appendix / 历史补记（非当前状态，点击展开）</summary><h2>2026-10-07 继续执行后的状态修订</h2>
 <p>前一检查点仅生成代码与文档，不能算五项要求完成；本节保留并修正其验收边界。现已接通认证State Service、Task context、现有前台与周期元数据检查；实际部署身份前缀32be59b945e4，安装与加载需分别回读。前台实际审查三个旧病例派生的双语指导模块，保留本地私有来源映射，公开导出仅含抽象原则、条件和合成正反例。没有重提取已结算900来源，没有合并原病例，没有新增执行硬规则。</p>
 <p>当前宿主context实际返回两条脱敏指导，私有来源链接未送达；这证明本次准备与送达，不证明每次工作实际采用。触发策略默认零额外模型请求，以结构信号、冷却、合并与过期元数据检查控制频率。真实正常结束的自动回填仍缺当前Task原生事件映射/送达验收，不能将手工注记或测试事件当正常工作。</p>
 <p>完整回归160项通过；新增宿主配置助手5项独立测试通过。新增中英文完整用户手册及解压后双击入口；已有Python环境的安装路径与缺Python的官方安装分支分别验收，后者尚未现场执行。Codex/Pi/DSH助手配置成功不等于宿主已加载；DSH离线依赖失败时新建配置仍保留供检查，不能声称所有状态已撤销。</p>
@@ -49,4 +50,4 @@
 <p>边工作边整理现已在这个明确映射的真实聊天验证：读取已有正常结束与公开事件，当前工作节点生成来源、候选、语义比较和同链回填；后续节点按前一真实来源边界增量捕获68条新公开记录，未重复最初用户要求，检测与当前宿主回填不另启动GPT。未知观察已认证对账，复用原来源，不重放原工作。低成本结构信号识别明确请求、纠正、实质需求变化、满意、结束与长时间闲置，短日常工作和只有上下文数量增长不会自动扩大整理。元数据检查轮转，不通读全账户聊天。公开只读回读不是原生live hook；未映射的任意宿主、当前尚未发生的最终结束、账户全量扫描仍不宣称verified。</p>
 <p>新100与旧900无覆盖重叠，全部公开正文2,417,919字符已处理并规范发布为候选；当前宿主复核21个完整来源，正文占比9.9936%，按10/30/60/100检查点保留回执。旧900未重新提取，旧2531结构归档与详细候选覆盖分别记数。旧900的1980问题/边界实例并未完成全量语义重复审查；新100发布也不等于领域真值或所有附件理解。语义比较待审、已审、同原则链接、条件分支、独立和证据不足分别记录，检索分数或机制族不能批准合并。</p>
 <p>旧资产指导在后续外部请求中实际送达并有prompt身份回执，宿主复核按原条件应用：德语已满足时排除误报、英文注释与正文语言分开、跨函数返回合同与变量时间语义分别核对。模型自称采用不作为验收。首10旧指导送达缺口保留，不倒写成功；已结算格式错误复用原输出修正，未重新付费。检测没有生成新增硬规则，共同原则仍一份定义、实例独立链接。现有五类注册门控只限制其实际接入的执行/交付边界，不控制私有思考或任意Codex工具；普遍“失败三次强制回读结构”尚无对应全宿主执行门控。</p>
-<p>三条已复核脱敏原则支持新草稿与旧资产回填，本机来源映射单独保留；公开模块仅包含抽象条件及合成例子，不含私人900/100正文、原附件、真实来源ID、凭证或本机绑定。费用按现有回执高峰价上界4.406337元核算，独立授权20元未突破，供应商账单金额仍未知，不记0。</p></main></html>
+<p>三条已复核脱敏原则支持新草稿与旧资产回填，本机来源映射单独保留；公开模块仅包含抽象条件及合成例子，不含私人900/100正文、原附件、真实来源ID、凭证或本机绑定。费用按现有回执高峰价上界4.406337元核算，独立授权20元未突破，供应商账单金额仍未知，不记0。</p></details></main></html>
