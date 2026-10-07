@@ -1,0 +1,118 @@
+{
+  "cards": [
+    {
+      "applicable": {
+        "en": "Required steps, deliverables and verification are explicit; supplementary instructions steer the same objective.",
+        "zh": "用户明确了工序、交付形式与验证要求；新补充继续同一目标。"
+      },
+      "confidence": "host_reviewed",
+      "excluded": {
+        "en": "Preserve authorization, budget and host-connection blockers. Describe actual resource limits instead of treating an account-wide percentage as task completion.",
+        "zh": "真实授权、预算或宿主连接缺口需保留阻塞；资源限制必须以实际范围说明，不能凭共享百分比假定本任务已结束。"
+      },
+      "kind": "principle",
+      "limitations": {
+        "en": "Task-related guidance, not private-reasoning control or registered enforcement for arbitrary tools.",
+        "zh": "这是任务相关指导；不控制私有思考，不等于已注册任意工具门控。"
+      },
+      "negative_example": {
+        "en": "Synthetic: stop after docs and unit tests when deployment and field checks are required.",
+        "zh": "合成例：仅写说明、跑单元测试就结束包含部署与现场检测的任务。"
+      },
+      "positive_example": {
+        "en": "Synthetic: documentation exists but a button is untested; test it and read back the result.",
+        "zh": "合成例：说明已写，但按钮没验证，继续测按钮并回读结果。"
+      },
+      "principle": {
+        "en": "Check the current objective and every required step. Continue incomplete work or record a concrete blocker; unrelated output does not replace required work.",
+        "zh": "先核对当前目标及全部必需工序；未完成时继续执行或明确真实阻塞，不能用其他产出替代。"
+      },
+      "slug": "respect-required-work",
+      "title": {
+        "en": "Required steps and continued execution",
+        "zh": "必需工序与持续执行"
+      },
+      "topics": [
+        "work-guidance"
+      ]
+    },
+    {
+      "applicable": {
+        "en": "The user specifies the deliverable language and has not superseded that instruction.",
+        "zh": "用户指定了目标文本的语言，且没有随后撤销。"
+      },
+      "confidence": "host_reviewed",
+      "excluded": {
+        "en": "Follow explicit bilingual or superseding language instructions; language checks do not verify attachments or domain truth.",
+        "zh": "用户明确要求双语或随后改变目标语言时按新要求；语言检查不能验证附件或译文领域真值。"
+      },
+      "kind": "principle",
+      "limitations": {
+        "en": "Covers the language contract and observed rework, not guaranteed translation accuracy or automatic merging of all language issues.",
+        "zh": "仅指语言合同与已观察返工，不能据此保证翻译准确或自动合并所有语言问题。"
+      },
+      "negative_example": {
+        "en": "Synthetic: French is requested but Spanish is delivered, requiring another correction.",
+        "zh": "合成例：用户要求法语，助手先给西班牙语，要求用户再次纠正。"
+      },
+      "positive_example": {
+        "en": "Synthetic: a French summary is requested and the first answer is in French.",
+        "zh": "合成例：用户要求法语摘要，首答用法语。"
+      },
+      "principle": {
+        "en": "Before delivering, check the explicitly requested output language; another language in the surrounding context does not cancel it.",
+        "zh": "输出前核对用户明确指定的语言；上下文使用其他语言不取消该条件。"
+      },
+      "slug": "honor-requested-language",
+      "title": {
+        "en": "Output language is a delivery condition",
+        "zh": "输出语言是交付条件"
+      },
+      "topics": [
+        "work-guidance"
+      ]
+    },
+    {
+      "applicable": {
+        "en": "Branch one: reuse a healthy owned instance. Branch two: stop only the exact authorized instance confirmed unhealthy. Branch three: preserve an unknown or unrelated listener and use another port.",
+        "zh": "分支一：健康且属于自己的实例则复用。分支二：属于授权范围且确认失效，才停止精确进程。分支三：未知或别人的实例则保留并选择其他端口。"
+      },
+      "confidence": "host_reviewed",
+      "excluded": {
+        "en": "Not applicable to a free port. Never stop without ownership evidence or kill processes by a broad name match.",
+        "zh": "端口空闲时不适用；没有进程归属证据不自动停止；不能用进程名批量结束。"
+      },
+      "kind": "principle",
+      "limitations": {
+        "en": "Conditional guidance; a host stop operation still needs actual authorization and checks. The two old cases are not merged merely because the error text matches.",
+        "zh": "这是条件化操作指导，具体宿主停止入口仍需真实授权和检查；两个旧病例不因同报错自动合并。"
+      },
+      "negative_example": {
+        "en": "Synthetic: kill every process sharing a name because a port is occupied.",
+        "zh": "合成例：看见占用就终止所有同名进程。"
+      },
+      "positive_example": {
+        "en": "Synthetic: the listener belongs to another workspace; preserve it and use a free port.",
+        "zh": "合成例：确认监听者是另一工作区，保留它并用空闲端口。"
+      },
+      "principle": {
+        "en": "For an occupied port, verify listener identity and health, then reuse it, stop the exact authorized process or choose another port; retain conditional branches.",
+        "zh": "端口被占用时先核对监听者身份和健康，选择复用、经授权停止或另选端口，保留不同条件分支。"
+      },
+      "slug": "resolve-port-conflict-by-identity",
+      "title": {
+        "en": "Check service identity before resolving port conflicts",
+        "zh": "端口冲突先核对服务身份"
+      },
+      "topics": [
+        "work-guidance"
+      ]
+    }
+  ],
+  "hard_rule_adoption": false,
+  "license": "Apache-2.0",
+  "privacy_review": "Concrete abstract projection reviewed by current host; originals excluded; no universal privacy guarantee",
+  "purpose": "reusable advisory lessons with synthetic examples",
+  "schema": "uacf-portable-lessons-1",
+  "source_links": "local private registry only; absent in distribution"
+}

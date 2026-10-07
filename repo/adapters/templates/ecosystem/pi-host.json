@@ -1,0 +1,5 @@
+{
+  "root": "<UACF_ROOT>",
+  "url": "http://127.0.0.1:<UACF_PORT>",
+  "token": "<PRIVATE_PI_SCOPED_TOKEN_FROM_LOCAL_AUTHORITY>"
+}

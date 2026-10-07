@@ -1,0 +1,7 @@
+[mcp_servers.uacf]
+command = "<UACF_PYTHON>"
+cwd = "<UACF_REPO>"
+args = ["-m", "uacf", "--root", "<UACF_ROOT>", "mcp", "--host", "codex"]
+
+# Merge the single named entry after checking existing config.
+# Trust and hooks are separately controlled by the native Host.

@@ -1,0 +1,196 @@
+{
+  "version": "batch4-1",
+  "actions": {
+    "archive_inventory": {
+      "type": "object",
+      "required": [
+        "path",
+        "authorization_basis"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authorization_basis": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "archive_plan": {
+      "type": "object",
+      "required": [
+        "source_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "archive_run": {
+      "type": "object",
+      "required": [
+        "plan_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "type": "string"
+        },
+        "max_conversations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "interrupt_after": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "member": {
+          "type": "string"
+        }
+      }
+    },
+    "archive_coverage": {
+      "type": "object",
+      "required": [
+        "plan_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "type": "string"
+        }
+      }
+    },
+    "archive_read": {
+      "type": "object",
+      "required": [
+        "plan_id",
+        "member"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "type": "string"
+        },
+        "member": {
+          "type": "string"
+        }
+      }
+    },
+    "archive_materialize": {
+      "type": "object",
+      "required": [
+        "plan_id",
+        "member",
+        "ordinal",
+        "node"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "type": "string"
+        },
+        "member": {
+          "type": "string"
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "node": {
+          "type": "string"
+        }
+      }
+    },
+    "archive_reindex": {
+      "type": "object",
+      "required": [
+        "plan_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "plan_id": {
+          "type": "string"
+        }
+      }
+    },
+    "reading_plan": {
+      "type": "object",
+      "required": [
+        "message_id",
+        "scope",
+        "max_chars"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "message_id": {
+          "type": "string"
+        },
+        "scope": {
+          "enum": [
+            "whole",
+            "local"
+          ]
+        },
+        "max_chars": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 64000
+        },
+        "unit_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "ambiguities": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "required": [
+              "literal",
+              "interpretations",
+              "status"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "literal": {
+                "type": "string"
+              },
+              "interpretations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "status": {
+                "enum": [
+                  "unresolved"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "authority": "existing State database; immutable archive records plus canonical selected Message/Artifact objects",
+  "mutation_envelope": "existing authenticated command CAS/operation identity; pending never replayed",
+  "schema": "additive extension of schema3"
+}

@@ -1,0 +1,109 @@
+# UACF User Guide
+
+7 October 2026. Phase-two release scope, for research, writing, video production and everyday projects. Programming experience is not required to understand the workflow. Installation, native delivery and publication limitations remain part of this guide.
+
+## What this system does
+
+During AI-assisted work, the most useful information is often the goal, important changes, incomplete steps, observed mistakes and the conditions under which earlier lessons apply. UACF connects those items so later work can resume from an evidenced position.
+
+Ask three questions: what is required, what evidence shows progress, and which earlier lessons apply? Saving many conversations does not mean the system has understood all of them. A mistake notebook does not guarantee that an AI will never repeat a mistake.
+
+## Install and open
+
+Keep the package's repo directory intact. Extract the whole package into a location where you want to retain your work. Open Start-UACF.cmd. The launcher looks for Python3.11 and, when absent, requests official Python through Windows WinGet. Native source or installer agreement prompts may require your attention. Dependencies come from PyPI with locked hashes. Initialization applies only to a new empty store; existing data is preserved.
+
+The local browser entry exchanges a one-time pairing ticket, not an API credential. A paired browser resumes within its session validity. Never share data, authentication files, host bindings or the entire private working directory. If preparation fails, preserve existing files and inspect the specific message instead of deleting history.
+
+The missing-Python installation branch has not been triggered on this machine; a launcher contract check is not verification on every Windows version. First-time dependency installation requires network access. An offline machine needs a previously prepared environment matching the dependency lock. An occupied port must cause a clear refusal, not replacement or termination of another service.
+
+Codex, Pi and DSH setup helpers are optional. Select the actual host directory and keep the preserving backup. Codex receives an MCP entry, Pi an extension and a local Pi-scoped credential, and DSH a separate public adapter with local package resolution. Configuration, loading, calling and automatic capture are different states. A host is not required to browse a local library.
+
+## Start a project
+
+Tell the current AI what you want, the expected deliverables, mandatory steps, readable materials and authorized actions. Ask it to create the current Task through the authenticated State Service and read back the revision. You do not need to edit a database. If the host exposes only read tools, it cannot grant itself Task-writing permission; use the authorized local entry instead.
+
+Select the Task in the project/work-continuity view. Inspect its goal, execution and acceptance graph, references and unfinished steps. One material may belong to several projects without being copied into separate libraries. Domain correctness and a successful program run are different checks. A graph node or a displayed count is not acceptance evidence.
+
+You may add instructions while the AI is working. They normally steer the same work. The AI should check omissions at the preceding work node and revise the Task. Old evidence remains attached to its original revision; it does not automatically validate the revised Task.
+
+## Use earlier lessons
+
+Open the knowledge/mistake-use section, search relevant terms and expand conditions, evidence and sources. Read the principle, applicability and exclusions. Ask the current AI to read only necessary source spans. Unread attachments remain unread; they do not establish whether an earlier AI read them.
+
+Prepared candidates are not proof of actual AI use. Record preparation, delivery and demonstrated use separately. Ask which principle influenced which observable decision and whether a counterexample applies. Search scores locate candidates. The same error text may have different causes; a shared principle may require conditional branches.
+
+Pending and reviewed semantic entries show specific judgments. Uncertain relationships stay unresolved. Do not infer independent error growth from candidate counts, or create repeated rules from repeated examples.
+
+## Decide when to organize current work
+
+Short everyday exchanges do not require extraction after every sentence. Important corrections, substantial requirement changes, meaningful progress and explicit satisfaction or completion may justify an incremental capture node. Coalesce several supplements into one node. Tone does not prove a factual mistake; explicit instructions and observable omissions matter.
+
+In the capture-timing section, select the current Task, mark the signals that actually apply and provide a brief basis. A prepare_incremental result proposes capture preparation; aggregate coalesces signals; metadata_check inspects overdue metadata; defer postpones extraction. None of these means archival has completed.
+
+Periodic checks cover only local Tasks explicitly using adaptive mode. They cannot inspect all cloud conversations without a real account connection. If a native public end event has not arrived, manual annotations remain partial native delivery evidence and must not be reported as automatic capture.
+
+## Organize historical material
+
+Keep originals, register the source and freeze a scope. Structural archival, candidate extraction, semantic relationship review and domain validation are separate layers. Preserve attachments, alternative branches and unknown conditions rather than retaining only a main-path summary.
+
+Use the existing work-update chain: select uncovered sources, freeze a batch, select the route, start it, check coverage, review risky public text, fill candidates and publish the local index. Ordinary work uses the current host. External models are optional and require an explicit new budget. Reconcile unknown outcomes before retrying; changing models does not resolve an unknown receipt. Stop later additions when a checkpoint fails.
+
+Do not enqueue every existing candidate to solve a small current Task. Retrieve relevant items first. A new sanitization feature is not a reason to repeat completed extraction. Reuse known successful outputs.
+
+## Make a shareable module
+
+Open the shareable-lessons section and select an existing source. Its private identity remains local. Write the principle, applicability, exclusions, synthetic positive and negative examples, and limitations in Chinese and English. Create generic examples instead of copying private messages, names, institutions, sensitive facts or unusually identifying experiences.
+
+Save and read back the draft. Drafts cannot be exported. Reviewing an exact snapshot creates a locally reviewed candidate, not human approval to publish on GitHub. Review again after a source or module revision. A stable module slug preserves update identity; it does not prove semantic correctness.
+
+The local-source button shows private references and the derivation basis. Never distribute that response. The candidate-download button exports only the generic projection and does not upload it. Check that the file contains no private identities, quotations, model-specific private labels or local paths. Automated scanners cannot detect every identifying detail; contextual privacy and permission review remain necessary.
+
+A reusable module offers context and conditional guidance. Executable constraints require registered entry points and positive/negative acceptance cases. Sending a module does not control every tool or private thought of another user's AI.
+
+## Contribute and update
+
+Useful contributions include reviewed generic modules, synthetic counterexamples, accessible explanations and rebuildable code changes. Describe conditions, expectations, observations, limitations and review scope. Do not upload private conversations or runtime logs. Unverified advice is not accepted domain truth.
+
+Before publication, review the exact file list, hashes, license, references and exclusions. This candidate has not been uploaded to GitHub; the owner still needs to choose the project license. Private provenance links do not accompany community modules. Preserve module revisions and local mappings during updates.
+
+## Stop, uninstall and recover
+
+Remove your own startup registration before stopping your service and uninstalling registered components. Keep originals, data, history and backups. Removing program components is not deleting assets. If a host configuration changed after installation, uninstall should refuse to overwrite it and request a comparison.
+
+Test recovery in an isolated directory with external dispatch paused. Never overwrite a current database with an older copy or automatically replay paid, external or unknown actions. For UI failures, inspect authority, Task revision and loaded identity, and preserve receipts. Do not repair displayed counts by editing SQLite directly.
+
+Official installation references: [Python on Windows](https://docs.python.org/3.11/using/windows.html), [WinGet installation](https://learn.microsoft.com/en-us/windows/package-manager/winget/install), and [Codex MCP configuration](https://learn.chatgpt.com/docs/extend/mcp). These describe vendor interfaces, not verification of this machine's native automatic lifecycle.
+
+
+## Choose a host without command-line flags
+
+For general use, double-click Start-UACF.cmd. To connect an already installed host, choose Install-for-Codex.cmd, Install-for-Pi.cmd or Install-for-DSH.cmd. They call the preserving setup helper. DSH requires a real existing web profile and pnpm; missing components produce a clear refusal. A configured host is not proof of loading, native completion delivery or permission for paid calls. Keep errors and backups; do not delete original assets. Actual host loading remains subject to field receipts.
+
+
+## Latest observed continuation, 7 October 2026
+
+Apache-2.0 was explicitly selected by the owner. The complete English design and both user guides are present. Three abstract advisory modules retain private provenance locally. The UI resolves original conditions and imports public modules as drafts; unreviewed export and context use are refused. A real cold start exposed inherited Windows pipe handles; the repaired launcher now returns successfully. A browser file-picker crash remains a host limitation; pasted public JSON was tested through the real UI instead. The missing authenticated mutation fields on the import button were found and repaired.
+
+Official read-only public observations of a genuinely completed, explicitly mapped Codex turn reached the shared source/candidate/comparison/backfill chain without a new model turn or private reasoning capture. This is public back-reading, not verified live-hook delivery. The active turn has not completed yet. Metadata sweeps now rotate beyond the first sixty-four Tasks, without model calls.
+
+One hundred unread sources were frozen separately from the earlier nine hundred, under an independent twenty-yuan authorization. Ten were extracted in the first production segment, but review, backfill and publication are incomplete. A checkpoint found that external extraction checked a context without delivering its advisory lessons. Later sources were paused and future request delivery was repaired; settled requests are retained rather than replayed. No claim of one hundred accepted sources is made. Read attachments, independent semantic truth and universal host enforcement remain distinct obligations.
+
+The source suite passed 177 tests. The clean candidate installed and displayed actual zero counts. A later Windows temporary-service cleanup error was fixed and its four transport tests passed again; changed files need a fresh freeze and relevant checks. Firefox page capture failed, so account ownership/login has not been verified and nothing has been uploaded to GitHub.
+
+
+## Historical verification addendum · 2026-10-07 14:00 UTC
+
+The latest clean public candidate passed all 178 tests. Reviewed synthetic module import/export, a current-host-only ordinary task plan, and isolated backup/recovery passed. Uninstall checked data preservation; an absent deployment pointer is an idempotent no-op, not proof of restoring a native host configuration. Native host loading, live hooks and the current normal-work end remain partial. The populated live deployment validation is still in progress. Ten new historical sources were extracted, zero fully reviewed or published; further extraction is stopped at the failed architecture checkpoint. Twenty-three requests settled with a conservative peak-price usage bound of CNY 0.768499; the provider invoice remains unknown. This package is licensed Apache-2.0 and has not been uploaded.
+
+
+## Final frozen scope · 2026-10-07T22:16:14.812604+00:00
+
+This is the current scope; earlier dated addenda are historical records. Complete Chinese/English system descriptions, full user guides, phase-two operations, Supplement 04 and the dated migration account are included. Apache-2.0 covers the first-party clean public release; the private Git history is preserved locally and excluded.
+
+The source and clean official-dependency installation both passed 187 tests. A real empty-store browser displayed zero sources, candidates and issues. Current-schema initialization creates no legacy batch3/batch4 spending authorization. Ordinary work uses the current host without DSH, DeepSeek or an old local ledger. Real deployment-pointer removal preserved the database hash; isolated restoration created another authority, passed integrity checks and replayed no external actions. Synthetic isolated host configuration was parsed by native Codex and restored with drift checks; this is not universal native-host verification.
+
+This explicitly mapped real chat exercised public observation, an actual previous normal end, in-work source capture, candidates, comparison and same-queue return. Incremental capture retained 68 new public records after the previous source boundary without repeating the original request. Detection and current-host return created no extra GPT turn. A known stored observation was reconciled without replaying the original work. Small structured signals and a rotating metadata sweep bound detection cost. A public read-back transport is not a verified live hook; arbitrary hosts, account-wide access and this still-future final end are not preclaimed.
+
+All 100 new sources, disjoint from the old 900, contributed 2,417,919 public characters to canonical candidate publication. The current host read 21 complete selected sources (9.9936% of text). Evidence survives at 10/30/60/100 checkpoints. The old 900 were not re-extracted. Structural coverage, detailed candidate coverage, semantic review and domain truth remain distinct. The old 1,980 issue/boundary instances have not all received semantic duplicate review. Conditions, separate branches, independent issues and insufficient evidence survive; retrieval scores and mechanism families cannot approve merges.
+
+Guidance reached later paid requests with actual prompt receipts. Host review excluded unsupported language failures and checked cross-function output and timing contracts. Model declarations alone did not establish use. The first-ten delivery gap and original settled format failures were retained; formatting repairs reused known output. No new hard rules were generated. Five existing finite registered guards control only admitted execution/delivery boundaries, not private reasoning or arbitrary tools. Three reviewed shareable advisory principles contain abstract conditions and synthetic examples, while private provenance links remain local. The observed conservative peak-price usage bound is CNY 4.406337 within the separately authorized CNY20 budget; the provider invoice is unknown.

@@ -1,0 +1,8 @@
+- insert:
+  - id: uacf-continuity-v1
+    name: dsh-uacf
+    inject:
+    - tools
+    - webServer
+    config:
+      root: REPLACE_WITH_UACF_ROOT

@@ -1,0 +1,19 @@
+{
+  "name": "dsh-uacf",
+  "version": "0.2.0",
+  "type": "module",
+  "exports": {
+    ".": "./public.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "private": true
+}

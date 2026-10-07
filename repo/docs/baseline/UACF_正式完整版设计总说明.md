@@ -1,0 +1,152 @@
+# UACF 正式完整版设计总说明
+
+2026-10-07｜文档修订2｜设计与已观察实现分列。这里的“完整版”指覆盖完整系统职责，不表示所有能力已经验收完成。本说明对应第二阶段冻结版；当前验证范围见末尾，公开发布状态以所在GitHub Release记录为准；用户已选择Apache-2.0。完整英文对应说明见UACF_Complete_System_Design_English；具体操作见《第二阶段整体运行与操作模式》。
+
+## 1. 产品目的与系统边界
+
+UACF（Unified Agentic Continuity Fabric）是持续AI工作的任务与资产系统。它保留用户要求、来源、进展、纠正、条件化经验与验收，让跨会话、跨领域、跨宿主的工作有可追溯的接续。模型执行宿主仍负责推理和工具；UACF不取代模型，不以错题数量制造硬规则，不读取或验证私有思考。
+
+用户可从前台理解自己的项目、未完成工序、相关资产与实际证据。科研结果、写作内容、视频素材、生活任务具有不同风险和验证方法，不统一按代码测试判定完成。平台应轻量服务工作；上下文多不等于有效命令多，避免为治理消耗掉业务工作窗口。
+
+English: UACF is a source-bound continuity system for AI-assisted work. It preserves intent, revisions, conditional lessons and evidence across sessions and hosts. It complements execution hosts rather than replacing them. Semantic, domain and operational validation remain distinct.
+
+## 2. 三层结构与唯一规范权威
+
+前台提供任务、资产、来源、语义关系、待审、费用与接续的可读投影。中台连接TaskContract、ResponseContract、角色分工、执行步骤、失败义务、采纳决定和验收。后台保存版本化对象、来源定位、blob、事件与可重建索引。三层经同一认证State Service操作，前台没有第二套数据库权威。
+
+对象包含authority、身份、类型、修订、可见性、payload及依赖向量。变更携带operation_id与expected_revision，重复操作按已有回执处理，冲突不覆盖。来源或任务改动使依赖过期，旧证据保留在旧修订。索引是派生视图，可重建，不以修改索引取代规范事实。
+
+常见对象职责：TaskContract定义目标与必需工序；Artifact保存结果及定位；Evidence保存可观察事实；Validation由注册验证器按限定性质生成；SemanticCard/FailureCase/FailurePattern保存候选解释与条件；Relation/Affiliation表达关联与归属。AdoptionDecision表达采纳，不能从候选标签自动推导。
+
+English: the UI, control plane and storage layer share one authenticated State Service. Revisions, operation identities and dependency vectors preserve provenance and prevent silent overwrites. Search indexes are derived, rebuildable views. Evidence, registered validation and adoption are separate objects.
+
+## 3. 任务生命周期与执行控制
+
+启动工作先冻结当前Task、策略修订与授权范围，核对服务和加载身份、lease、在途操作与费用。准备阶段读取当前修订的ready capsule；必需内容溢出则分段或调整合同，不隐去要求。普通工作默认当前宿主；DeepSeek外部模型仅显式启用。
+
+执行中保留公开输入、结果、工具回执与原生定位，不捕获私有推理。用户中途补充纳入同一任务，先检查上一工作节点是否满足目标及存在遗漏。需要重新解释的依赖按FULL处理；只重排既有表示按REINDEX；已有效内容按REUSE。逻辑范围与实际读取量分别记录。
+
+硬门控仅对已实现入口成立：认证、对象ACL、修订检查、预算预留、租约fencing、注册验证器及受控派发。提示词或skill是指导，不能替任意宿主工具承诺强制控制。已注册有限约束的描述必须包含范围、门控位置、正反例和验证回执。
+
+English: start from an exact current Task and a ready context capsule. Preserve public receipts, incorporate corrections and separate reuse, reindexing and reinterpretation. Enforcement is limited to implemented authenticated entry points and registered checks; arbitrary host actions are not universally controlled.
+
+## 4. 信息、知识、错题与规则分层
+
+信息引用提供原文或文件定位，不代表认同内容。知识上下文是可用于任务准备的解释与候选。语义原则及条件分支表达“在这些条件下为什么相同、相关或不同”。可执行约束是已注册、具有限定入口与验收的控制，不能由前三类自动升级。
+
+从公开来源形成候选时保留跨度、引用、覆盖、附件状态和未知项；机制族仅辅助找候选。相同原则链接旧定义并保留实例，条件不同保留分支，独立问题另记，证据不足未决。不能按文本相似度、数量增长或hash替代语义判定。
+
+真实判别需先冻结正反例期望，再观察当前宿主判断、误合并、漏识别与修正。不同表述同条件、同原则不同分支、同报错不同根因、同模板不同问题、正常边界/证据不足分别覆盖。独立验证、当前宿主判断和机器检查分列，领域事实未验证继续未决。
+
+English: distinguish references, knowledge context, semantic principles with branches and registered executable constraints. Compare actual conditions and evidence. Similar wording, mechanism families and hashes do not establish equivalence. Frozen positive and negative cases test semantic judgments without implying independent domain truth.
+
+## 5. 资产准备、送达与实际使用
+
+按任务条件稀疏检索，先提供原则与适用/排除条件；必要时读成对条件和原文定位。模型版本作检索提示，跨模型通用约束继续有效。准备集合和字节预算可机械记录；送达需当前宿主真实调用回执；使用需结果或工具证据与旧原则对应；采用效果需当前任务验收。
+
+没有真实回执时UI显示prepared或unknown，不显示used/verified。当前桌面普通工作自动结束回填和全量原生消息接入仍partial，显式MCP、原生canary与真实一般模型回合不混记。
+
+English: retrieval prepares bounded candidates. Delivery needs an actual host receipt; demonstrated use needs observable output or tool evidence; benefit needs task acceptance. These states must not collapse into a single success label.
+
+## 6. 连续学习与低成本触发
+
+设计要求在实质工作节点增量整理：明确请求、重要纠正、要求变化、阶段成果、用户明确满意或结束。多个短补充合并；日常小任务降低处理强度；长期闲置的已连接任务先强制检查元数据，不自动收费全文解析。最后工作时间、最后实际捕获时间、最近检查、未决信号和来源水位可用于节流。
+
+结构化提示只提取当前公开节点的有限信号，不重读所有上下文，不额外开启模型调用，不把情绪视为错误证据。需要真实映射事件才能声明自动源到达。没有连接的云账号不能被宣称已监控。
+
+adaptive及portable已经接入服务、上下文和常设前台。上一真实回合的公开记录与结束状态已通过官方只读接口回读，形成来源、2条知识和1条遗漏候选，再完成同队列比较与索引回填。回读观察不是实时hook；本轮结束后的自动送达仍需观察。
+
+English: use bounded metadata and meaningful work signals to coalesce capture, avoiding both excessive and missing archival. Tone alone does not prove an error. Adaptive capture is integrated; actual public back-reading and candidate fillback were observed. Live hook delivery and account-wide monitoring remain separate, unverified capabilities.
+
+## 7. 私有来源与可公开模块
+
+私有层保存原件、来源身份/修订、确切条件、判断依据和本机链接。公开层保存脱敏、抽象的通用原则、适用/排除条件、合成例子、限制、版本与许可声明。公开层不得包含私人聊天引文、路径、UUID、凭证或宿主绑定。本机注册表让通用模块回溯真实资产；公开接收者只得到通用层。
+
+新来源和既有候选使用同一投影/审查链。既有候选回填复用已结算结果，不重新抽取900。来源或公开模块改动使旧审查过期，保留历史修订；公共slug冲突必须显式修订而非自动合并。秘密扫描只作机械检查，还需语义脱敏审查和用户对具体发布范围的审批。
+
+公开资产可以给别人作为上下文与有界约束说明，不能自称已在对方宿主安装强制门控。本项目采用用户选择的Apache-2.0；第三方权限仍逐项核对，项目许可不会授权重新分发被排除代码。
+
+English: separate reusable public projections from a private provenance registry. Backfill settled candidates without re-extraction. Preserve revisions, invalidate stale reviews and require semantic privacy review. Public guidance is not a claim of enforcement on another user's host.
+
+## 8. 安装、运行、升级、卸载和恢复
+
+源码/构建、installed、loaded与called分别核对；旧hash或历史成功不证明当前运行。选择一个受支持启动方式，避免重复服务。依赖锁定并从官方来源安装；未知第三方代码/轮子不打包。升级先保存可恢复快照，测试失败重新冻结并复测相关范围。
+
+用户数据、原件、历史、凭证和绑定不进入源码公开包。卸载移除自己的启动/适配器范围，保留数据；隔离恢复建立新authority并暂停派发，不回滚实时库、不重放付费或未知外部动作。新机器通用安装还须验证真实空库0来源、无900上限/旧账/本机路径假设。
+
+双击入口、中英完整手册和Codex/Pi/DSH保留配置的安装助手已经生成，并有已有Python环境的干净安装及隔离配置恢复检查。新机器缺Python分支和真实宿主加载仍分别保留现场缺口。
+
+English: distinguish generated, installed, loaded and called identities. Keep dependencies pinned and private data outside public exports. Upgrades and uninstall preserve data; recovery is isolated with dispatch paused. Beginner launchers and preserving host helpers exist; missing-Python execution and actual native loading retain separate acceptance gaps.
+
+## 9. 当前基线与能力声明
+
+| 范围 | 现有证据及状态 |
+|---|---|
+| 原设计与E0—E7 | 有设计、实施合同、部署与分阶段回执；逐性质查看partial，不合并成全系统通过 |
+| 结构归档 | 冻结2531对话范围；不等于全库语义审查 |
+| 900详细候选 | 3793知识候选、1980问题/边界实例；候选不是已确认事实或独立硬规则 |
+| 语义审查 | 151对涉及115实例，1865实例尚无同类审查；727相关/274条件扩展不是确认合并 |
+| 当前用户投诉 | 已另行记录工作遗漏候选；不混算新增历史覆盖 |
+| 正常宿主自动闭环 | 当前桌面真实自动结束回填partial；任意工具/私有思考不保证控制 |
+| 公开候选 | 旧123文件与后续152文件版都保留；本轮须以新增功能、英文总说明及Apache-2.0重新冻结，不继承旧包验收 |
+| 新adaptive/portable功能 | 服务/context/UI已经接线并测试；真实公开工作回读及候选比较已调用；原生实时自动结束仍partial |
+| 新150/新100 | 150实际新检测交接未产生；100已获独立20元授权，实际数量以最新批次回执及交接为准；不把准备计成处理 |
+
+generated表示产出文件；installed表示安装到指定位置；loaded表示运行进程实际加载；called表示真实调用；verified必须绑定具体性质、冻结修订和证据；partial保留缺口。这些词不是按阶段自动递进。
+
+English: capability states are property-specific. Structural coverage, candidate extraction and semantic review are different counts. Native automatic capture, unrestricted host control and domain truth remain partial. The old public candidate is local only; new features require a new tested freeze.
+
+## 10. 引用、合规与社区更新
+
+以最终冻结结果判断引用：概念参考单列参考范围与公开来源；实际依赖列锁定版本/许可；真正复制或修改的代码按实际来源履行NOTICE与许可。早期提出而撤销的方案保留整改说明，不为美化历史遗漏，也不把未采用代码写成嵌入实现。
+
+最初MRS/MPK默认后端方案已撤销；被排除的MRS/MPH及旧包不分发。V74B解析只按工程NOTICE记定点结构参考。Wing、Strata为有界研究候选，不是已合入运行依赖。作者姓名未核实就不编造。
+
+社区提交只分享经审查的通用模块、合成反例和可复建改动。不要上传私人原件、聊天、数据库、运行日志或密钥。共享原则需保留适用范围和排除条件，不以更多案例数宣称规则无限增长或错误已经饱和。
+
+English: document conceptual references, actual dependencies and copied code accurately against the final implementation. Withdrawn backend ideas remain documented but excluded. Community contributions should contain reviewed generic modules and synthetic examples, never private source assets.
+
+## 11. 文档和证据索引
+
+原计划见第一阶段总览及补充01—03；新增/变化见补充04；日常流程见第二阶段整体运行与操作模式；早期两个目录的来源与日期见迭代说明。engineering中的contracts、operations、MigrationMap和第三方声明解释限定范围；deliverables中的最新交接与冻结文件提供现场证据。
+
+当前文档新增不改变旧冻结ZIP，也不自动扩大部署或发布许可。后续须将所有实际改动、前台和相关测试纳入新白名单与包hash，再对用户呈现具体可审查范围。
+
+
+
+## 本轮阅读入口
+
+普通人的能力说明见《900之后架构到底改变了什么》；完整英文见《Complete System Design》。可分享模块的导入先成为待审草稿；本地来源入口可定点读取原条件。旧修订保留在私有交付历史，不能把其中的待办状态当当前状态。
+
+
+## 2026-10-07 本次继续执行的最新现场范围
+
+本页较早章节保留当时状态，最新事实以本节及最新冻结回执为准。Apache-2.0已由所有者明确选择，完整英文总设计及完整中英文用户手册均已产生。新增普通人说明“900之后架构到底改变了什么”，分别说明五类有限注册门控、原则与条件分支、上下文候选与实际采用；系统没有普遍的“三次失败便强制阅读架构”门控，不把建议冒充已实现能力。
+
+三个可分享原则保留本地私有来源映射。前台已实际读取核心工序遗漏投诉的原条件；新增导入入口保存为草稿，未经复核禁止导出和进入任务上下文，复核后才作为有条件指导。公开模块不包含旧900私人正文，也不自动安装硬规则。Windows冷启动实测发现后台服务继承管道导致入口等待，修复后冷启动成功返回；内嵌浏览器文件选择器崩溃仍记录为宿主限制，另提供粘贴公开JSON方式并完成真实前台导入回读。导入按钮遗漏规范操作字段的问题已经实际发现、修复和回读。
+
+当前明确映射的Codex聊天已通过官方只读公开接口读取真实前轮结束状态，公开输入、输出及工具记录进入同一来源→候选→语义比较→回填链，没有另开GPT推理，没有伪造结束事件。此为公开回读传输，不能称原生live hook已通过；正在执行的本轮正常结束仍等待真实事件，账户全部聊天和任意宿主自动捕获未验证。周期元数据扫描已经修复超过64任务时后续任务永远得不到检查的问题，按有界游标轮转，检测不额外调用模型。
+
+新100精确冻结，与既有900覆盖不重叠；所有者授权独立人民币20元账户，旧账未扩大。正式第一段10个来源已完成完整公开正文提取，尚未全部完成复核、回填与发布，因此新增已发布覆盖仍为0。检查发现外部提取只检查上下文却未送出旧资产指导，已经暂停后续来源并修复后续请求送达代码，旧已结算输出保留复用。不能把这10个提取成功写成100验收完成，也不能把模型自称采用当实际使用证据。附件未读、历史领域真值和独立语义验收仍有边界。
+
+源码回归177项曾完整通过。更新的干净候选安装和空库前台已实际运行，空库真实显示0来源和0历史候选；随后同177项测试的一个Windows临时服务清理失败已修复，相关4项重新通过。后续代码修订仍需新冻结和相关复测，不能继承旧包hash。未知费用、许可缺口、原生宿主加载与自动结束状态按最新回执分别保留。GitHub条件授权已收到，但实际Firefox页面捕获失败，不能确认账号登录，当前没有上传。
+
+
+## 历史验收补记 · 2026-10-07 14:00 UTC
+
+最新公开候选干净安装的178项测试全部通过；已复核合成模块的导入导出、全部当前宿主的普通任务计划、隔离备份恢复通过。卸载核对保留数据；没有部署指针时是幂等空操作，不能据此宣称已恢复真实宿主配置。真实宿主加载、live hook和当前正常工作结束仍为partial。现场大库部署校验仍在途。新历史来源提取10个，完整复核和发布均为0；架构检查点失败后停止新增。23个请求已结算，按高峰价核算的用量费用上界0.768499元，供应商账单仍未知。项目许可证Apache-2.0；尚未上传GitHub。
+
+
+## 本次最终冻结范围 · 2026-10-07T22:16:14.812604+00:00
+
+本节是本版当前验收范围。前面按日期保留的补记是历史状态，不能当当前结果；旧版文件另有保留。本阶段完成正式中文总说明、完整英文总设计、双语用户手册、第二阶段运行模式、补充04和早期迭代说明。发布采用Apache-2.0与干净初始公开历史，保留私有工程的全部原历史。
+
+源码187项测试通过，干净官方依赖安装后187项也通过。空库初始化当前schema，真实前台显示0来源、0候选、0问题，不生成旧batch3/batch4授权账户；没有DSH、DeepSeek或本机旧账仍可运行普通当前宿主任务。真实代码部署指针的卸载保留数据库hash，隔离恢复生成另一authority、完整性通过且不重放外部动作。合成隔离宿主配置经真实Codex配置解析和比较后卸载恢复；这不代表在所有真实宿主环境卸载都已验证。
+
+边工作边整理现已在这个明确映射的真实聊天验证：读取已有正常结束与公开事件，当前工作节点生成来源、候选、语义比较和同链回填；后续节点按前一真实来源边界增量捕获68条新公开记录，未重复最初用户要求，检测与当前宿主回填不另启动GPT。未知观察已认证对账，复用原来源，不重放原工作。低成本结构信号识别明确请求、纠正、实质需求变化、满意、结束与长时间闲置，短日常工作和只有上下文数量增长不会自动扩大整理。元数据检查轮转，不通读全账户聊天。公开只读回读不是原生live hook；未映射的任意宿主、当前尚未发生的最终结束、账户全量扫描仍不宣称verified。
+
+新100与旧900无覆盖重叠，全部公开正文2,417,919字符已处理并规范发布为候选；当前宿主复核21个完整来源，正文占比9.9936%，按10/30/60/100检查点保留回执。旧900未重新提取，旧2531结构归档与详细候选覆盖分别记数。旧900的1980问题/边界实例并未完成全量语义重复审查；新100发布也不等于领域真值或所有附件理解。语义比较待审、已审、同原则链接、条件分支、独立和证据不足分别记录，检索分数或机制族不能批准合并。
+
+旧资产指导在后续外部请求中实际送达并有prompt身份回执，宿主复核按原条件应用：德语已满足时排除误报、英文注释与正文语言分开、跨函数返回合同与变量时间语义分别核对。模型自称采用不作为验收。首10旧指导送达缺口保留，不倒写成功；已结算格式错误复用原输出修正，未重新付费。检测没有生成新增硬规则，共同原则仍一份定义、实例独立链接。现有五类注册门控只限制其实际接入的执行/交付边界，不控制私有思考或任意Codex工具；普遍“失败三次强制回读结构”尚无对应全宿主执行门控。
+
+三条已复核脱敏原则支持新草稿与旧资产回填，本机来源映射单独保留；公开模块仅包含抽象条件及合成例子，不含私人900/100正文、原附件、真实来源ID、凭证或本机绑定。费用按现有回执高峰价上界4.406337元核算，独立授权20元未突破，供应商账单金额仍未知，不记0。

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "uacf": {
+      "command": "<UACF_PYTHON>",
+      "cwd": "<UACF_REPO>",
+      "args": ["-m", "uacf", "--root", "<UACF_ROOT>", "mcp", "--host", "pi"]
+    }
+  }
+}

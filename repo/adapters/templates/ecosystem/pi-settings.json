@@ -1,0 +1,5 @@
+{
+  "extensions": ["<UACF_REPO>/adapters/pi/installed.mjs"],
+  "retry": {"enabled": false, "provider": {"maxRetries": 0}},
+  "cacheWarming": "off"
+}

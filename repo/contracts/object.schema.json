@@ -1,0 +1,1154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:uacf:object:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "object_id",
+    "object_type",
+    "schema_version",
+    "revision",
+    "authority_id",
+    "created_by",
+    "recorded_at",
+    "status",
+    "visibility",
+    "provenance_refs",
+    "supersedes",
+    "payload"
+  ],
+  "properties": {
+    "object_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "object_type": {
+      "enum": [
+        "Project",
+        "Subgoal",
+        "TaskContract",
+        "ExecutionPlan",
+        "Session",
+        "Message",
+        "WorkUnit",
+        "Evidence",
+        "Decision",
+        "Attempt",
+        "FailureCase",
+        "FailurePattern",
+        "Validation",
+        "Artifact",
+        "Provenance",
+        "SourceRef",
+        "SemanticCard",
+        "Capsule",
+        "RetrievalReceipt",
+        "HostContextProfile",
+        "HostRun",
+        "Contribution",
+        "IntegrationDecision",
+        "LearningAttempt",
+        "SourceSet",
+        "Locator",
+        "Asset",
+        "Affiliation",
+        "Relation",
+        "Dossier",
+        "Obligation",
+        "ProviderProfile",
+        "RoleAssignment",
+        "DiscourseState",
+        "Claim",
+        "AdoptionDecision",
+        "ResponseContract",
+        "View",
+        "Run",
+        "Budget"
+      ]
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "authority_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "enum": [
+        "proposed",
+        "active",
+        "failed",
+        "disputed",
+        "accepted",
+        "rejected",
+        "superseded",
+        "retracted",
+        "inconclusive",
+        "outcome_unknown"
+      ]
+    },
+    "visibility": {
+      "enum": [
+        "private",
+        "shared"
+      ]
+    },
+    "provenance_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "supersedes": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "input_vector": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "object_id",
+              "revision"
+            ],
+            "properties": {
+              "object_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        "contract_version": {
+          "const": "batch2-1"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "TaskContract"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "goal",
+              "required_properties"
+            ],
+            "properties": {
+              "goal": {
+                "type": "string",
+                "minLength": 1
+              },
+              "required_properties": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "asset_refs": {
+                "type": "array", "maxItems": 32, "uniqueItems": true,
+                "items": { "type": "object", "additionalProperties": false,
+                  "required": ["object_id", "revision"],
+                  "properties": {"object_id": {"type": "string", "format": "uuid"}, "revision": {"type": "integer", "minimum": 1}}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "FailureCase"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "properties",
+              "lesson",
+              "source"
+            ],
+            "properties": {
+              "properties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "lesson": {
+                "type": "string"
+              },
+              "source": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Validation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "task_id",
+              "task_revision",
+              "property",
+              "result",
+              "environment_hash",
+              "method",
+              "evidence_id"
+            ],
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "task_revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "property": {
+                "type": "string"
+              },
+              "result": {
+                "enum": [
+                  "pass",
+                  "fail",
+                  "inconclusive"
+                ]
+              },
+              "environment_hash": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "method": {
+                "type": "string"
+              },
+              "evidence_id": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Project"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "name",
+              "contracts"
+            ],
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "contracts": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Evidence"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "observation"
+            ],
+            "properties": {
+              "observation": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Artifact"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "locator",
+              "sha256"
+            ],
+            "properties": {
+              "locator": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "SourceSet"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "roots",
+              "authorization",
+              "limits"
+            ],
+            "properties": {
+              "roots": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "authorization": {
+                "type": "object"
+              },
+              "limits": {
+                "type": "object",
+                "required": [
+                  "max_bytes",
+                  "max_records"
+                ],
+                "properties": {
+                  "max_bytes": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 2097152
+                  },
+                  "max_records": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 64
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Locator"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "source_id",
+              "member",
+              "kind"
+            ],
+            "properties": {
+              "source_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "member": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Asset"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "locator_id",
+              "identity"
+            ],
+            "properties": {
+              "locator_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "identity": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Affiliation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "asset_id",
+              "target_id",
+              "basis",
+              "lifecycle"
+            ],
+            "properties": {
+              "asset_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "target_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "basis": {
+                "type": "string"
+              },
+              "lifecycle": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Relation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "source_id",
+              "target_id",
+              "kind",
+              "basis"
+            ],
+            "properties": {
+              "source_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "target_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "basis": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Dossier"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "subject_id",
+              "cards",
+              "facets"
+            ],
+            "properties": {
+              "subject_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "cards": {
+                "type": "array"
+              },
+              "facets": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Obligation"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "failure_id",
+              "task_id",
+              "conditions",
+              "assessment"
+            ],
+            "properties": {
+              "failure_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "task_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "conditions": {
+                "type": "array"
+              },
+              "assessment": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "ProviderProfile"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "host",
+              "provider",
+              "model",
+              "capabilities",
+              "pricing"
+            ],
+            "properties": {
+              "host": {
+                "type": "string"
+              },
+              "provider": {
+                "type": "string"
+              },
+              "model": {
+                "type": "string"
+              },
+              "capabilities": {
+                "type": "object"
+              },
+              "pricing": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "RoleAssignment"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "mode",
+              "roles",
+              "fallback"
+            ],
+            "properties": {
+              "mode": {
+                "enum": [
+                  "manual",
+                  "semi_auto",
+                  "auto"
+                ]
+              },
+              "roles": {
+                "type": "object"
+              },
+              "fallback": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "DiscourseState"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "message_refs",
+              "branch",
+              "claims",
+              "relations",
+              "coverage",
+              "policy_version"
+            ],
+            "properties": {
+              "message_refs": {
+                "type": "array"
+              },
+              "branch": {
+                "type": "string"
+              },
+              "claims": {
+                "type": "array"
+              },
+              "relations": {
+                "type": "array"
+              },
+              "coverage": {
+                "type": "object"
+              },
+              "policy_version": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Claim"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "literal_content",
+              "speech_act",
+              "source_kind",
+              "branch",
+              "interpretation_basis",
+              "lifecycle"
+            ],
+            "properties": {
+              "literal_content": {
+                "type": "string"
+              },
+              "speech_act": {
+                "type": "string"
+              },
+              "source_kind": {
+                "enum": [
+                  "direct_user",
+                  "tool",
+                  "subagent",
+                  "assistant",
+                  "model_inference",
+                  "quoted",
+                  "unknown"
+                ]
+              },
+              "branch": {
+                "type": "string"
+              },
+              "interpretation_basis": {},
+              "lifecycle": {
+                "enum": [
+                  "candidate",
+                  "unresolved",
+                  "rejected",
+                  "adopted",
+                  "superseded",
+                  "retracted",
+                  "expired"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "AdoptionDecision"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "claim_id",
+              "claim_revision",
+              "basis",
+              "scope",
+              "lifecycle"
+            ],
+            "properties": {
+              "claim_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "claim_revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "basis": {
+                "type": "object"
+              },
+              "scope": {
+                "type": "object"
+              },
+              "lifecycle": {
+                "enum": [
+                  "candidate",
+                  "unresolved",
+                  "rejected",
+                  "adopted",
+                  "superseded",
+                  "retracted",
+                  "expired"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "ResponseContract"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "task_id",
+              "request_ref",
+              "questions",
+              "evidence_refs",
+              "format",
+              "uncertainty"
+            ],
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "request_ref": {
+                "type": "object"
+              },
+              "questions": {
+                "type": "array",
+                "minItems": 1
+              },
+              "evidence_refs": {
+                "type": "array"
+              },
+              "format": {
+                "enum": [
+                  "paragraphs",
+                  "short",
+                  "steps",
+                  "code",
+                  "user_specified"
+                ]
+              },
+              "uncertainty": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "View"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "name",
+              "layout",
+              "input_vector"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "layout": {
+                "type": "object"
+              },
+              "input_vector": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Run"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "task_id",
+              "route",
+              "state"
+            ],
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "route": {
+                "type": "object"
+              },
+              "state": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Budget"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "currency",
+              "limit_micro"
+            ],
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "limit_micro": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "WorkUnit"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "purpose",
+              "message_refs",
+              "branch",
+              "basis"
+            ],
+            "properties": {
+              "purpose": {
+                "type": "string"
+              },
+              "message_refs": {
+                "type": "array"
+              },
+              "branch": {
+                "type": "string"
+              },
+              "basis": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "SemanticCard"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "summary",
+              "evidence_map",
+              "facets",
+              "input_vector"
+            ],
+            "properties": {
+              "summary": {
+                "type": "string"
+              },
+              "evidence_map": {
+                "type": "array"
+              },
+              "facets": {
+                "type": "object"
+              },
+              "input_vector": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "Contribution"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "target_id",
+              "base_revision",
+              "write_set"
+            ],
+            "properties": {
+              "target_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "base_revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "write_set": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "IntegrationDecision"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "target_id",
+              "contribution_ids",
+              "conflicts",
+              "outcome"
+            ],
+            "properties": {
+              "target_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "contribution_ids": {
+                "type": "array"
+              },
+              "conflicts": {
+                "type": "array"
+              },
+              "outcome": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "object_type": {
+            "const": "LearningAttempt"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "learner_actor",
+              "prompt_ref",
+              "answer",
+              "assessment",
+              "error_owner"
+            ],
+            "properties": {
+              "learner_actor": {},
+              "prompt_ref": {},
+              "answer": {},
+              "assessment": {
+                "type": "object"
+              },
+              "error_owner": {}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

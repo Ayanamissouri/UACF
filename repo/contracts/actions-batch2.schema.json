@@ -1,0 +1,659 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:uacf:batch2:actions:1",
+  "version": "batch2-1",
+  "oneOf": [
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "source_register"
+        },
+        "args": {
+          "$ref": "#/$defs/source_register"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "source_read"
+        },
+        "args": {
+          "$ref": "#/$defs/source_read"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "ingest"
+        },
+        "args": {
+          "$ref": "#/$defs/ingest"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "workunit"
+        },
+        "args": {
+          "$ref": "#/$defs/workunit"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "projection"
+        },
+        "args": {
+          "$ref": "#/$defs/projection"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "correct"
+        },
+        "args": {
+          "$ref": "#/$defs/correct"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "rebuild"
+        },
+        "args": {
+          "$ref": "#/$defs/rebuild"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "integrate"
+        },
+        "args": {
+          "$ref": "#/$defs/integrate"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "route"
+        },
+        "args": {
+          "$ref": "#/$defs/route"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "budget_get"
+        },
+        "args": {
+          "$ref": "#/$defs/budget_get"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "budget_reserve"
+        },
+        "args": {
+          "$ref": "#/$defs/budget_reserve"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "budget_settle"
+        },
+        "args": {
+          "$ref": "#/$defs/budget_settle"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "model_dispatch"
+        },
+        "args": {
+          "$ref": "#/$defs/model_dispatch"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "interpret"
+        },
+        "args": {
+          "$ref": "#/$defs/interpret"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "review_response"
+        },
+        "args": {
+          "$ref": "#/$defs/review_response"
+        }
+      }
+    },
+    {
+      "type": "object",
+      "required": [
+        "action",
+        "args"
+      ],
+      "properties": {
+        "action": {
+          "const": "e7_library"
+        },
+        "args": {
+          "$ref": "#/$defs/e7_library"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "source_register": {
+      "type": "object",
+      "required": [
+        "path",
+        "authorization_basis"
+      ],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "authorization_basis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "source_read": {
+      "type": "object",
+      "required": [
+        "message_id"
+      ],
+      "properties": {
+        "message_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ingest": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "member",
+        "format"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "member": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        },
+        "interrupt_after": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "workunit": {
+      "type": "object",
+      "required": [
+        "message_ids",
+        "purpose"
+      ],
+      "properties": {
+        "message_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "project_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "projection": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "mode": {
+          "type": "string"
+        },
+        "focus": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "correct": {
+      "type": "object",
+      "required": [
+        "object_id",
+        "expected_revision",
+        "changes",
+        "basis"
+      ],
+      "properties": {
+        "object_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "changes": {
+          "type": "object"
+        },
+        "basis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "rebuild": {
+      "type": "object",
+      "required": [
+        "object_id",
+        "basis"
+      ],
+      "properties": {
+        "object_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "integrate": {
+      "type": "object",
+      "required": [
+        "target_id",
+        "expected_revision",
+        "contribution_ids"
+      ],
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "contribution_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "route": {
+      "type": "object",
+      "required": [
+        "assignment_id"
+      ],
+      "properties": {
+        "assignment_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "role": {
+          "type": "string"
+        },
+        "provider_profile_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reasoning_effort": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "budget_get": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "account": {
+          "type": "string"
+        },
+        "reservation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    },
+    "budget_reserve": {
+      "type": "object",
+      "required": [
+        "amount_micro"
+      ],
+      "properties": {
+        "amount_micro": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "account": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "dispatch_hash": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "budget_settle": {
+      "type": "object",
+      "required": [
+        "reservation_id"
+      ],
+      "properties": {
+        "reservation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "actual_micro": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "usage": {},
+        "not_called": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "model_dispatch": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "expected_revision",
+        "assignment_id",
+        "response_contract_id"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "assignment_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "response_contract_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "role": {
+          "type": "string"
+        },
+        "provider_profile_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reasoning_effort": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "required_budget_account": {
+          "type": "string",
+          "enum": [
+            "batch4"
+          ]
+        },
+        "preflight_evidence_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false
+    },
+    "interpret": {
+      "type": "object",
+      "required": [
+        "work_unit_id",
+        "assignment_id"
+      ],
+      "properties": {
+        "work_unit_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assignment_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reasoning_effort": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "review_response": {
+      "type": "object",
+      "required": [
+        "evidence_id",
+        "response_contract_id",
+        "assignment_id"
+      ],
+      "properties": {
+        "evidence_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "response_contract_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assignment_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reasoning_effort": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "e7_library": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "mode": {
+          "enum": [
+            "summary",
+            "body",
+            "issues",
+            "recall"
+          ]
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "task": {
+          "type": "object",
+          "properties": {
+            "nature": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "target_language": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "output_format": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "x-guarantee": "argument documentation; runtime field, ACL, dependency, mutation hash and budget checks remain in dispatcher; legacy actions in contracts.md"
+}

@@ -1,0 +1,164 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "UACF State Service",
+    "version": "0.2.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8766"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Actual service PID/epoch/source identity"
+          }
+        }
+      }
+    },
+    "/v1/action": {
+      "post": {
+        "security": [
+          {
+            "localBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "action",
+                  "args"
+                ],
+                "properties": {
+                  "action": {
+                    "type": "string"
+                  },
+                  "args": {
+                    "type": "object"
+                  },
+                  "operation_id": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "actor": {
+                    "enum": [
+                      "owner",
+                      "reader",
+                      "dsh",
+                      "pi",
+                      "codex"
+                    ]
+                  },
+                  "correlation_id": {
+                    "type": "string"
+                  },
+                  "schema_version": {
+                    "const": "1.0"
+                  },
+                  "scope": {
+                    "type": "string"
+                  },
+                  "expected_revision": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "request_hash": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "description": "Mutations additionally require every identity/hash field; hash is canonical sorted UTF-8 JSON excluding request_hash. Per-action arguments in actions-batch2.schema.json."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Action receipt; not necessarily verified or accepted"
+          },
+          "400": {
+            "description": "Contract/limit/capability refusal"
+          },
+          "401": {
+            "description": "Authentication"
+          },
+          "403": {
+            "description": "Permission"
+          },
+          "404": {
+            "description": "Not visible"
+          },
+          "409": {
+            "description": "Revision/operation conflict"
+          },
+          "500": {
+            "description": "Internal failure; no blind replay"
+          }
+        }
+      }
+    },
+    "/e7": {
+      "get": {
+        "summary": "Existing browser-session authenticated source library view; data reads via /v1/action e7_library",
+        "responses": {
+          "200": {
+            "description": "E7 library HTML (no credentials or source data embedded)"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "localBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "x-mutating-actions": [
+    "verify_host_project",
+    "promote_host_project",
+    "trial_reserve",
+    "trial_settle",
+    "artifact_capture",
+    "budget_reserve",
+    "budget_settle",
+    "correct",
+    "host_event",
+    "ingest",
+    "integrate",
+    "interpret",
+    "model_dispatch",
+    "profile_set",
+    "promote",
+    "put",
+    "rebuild",
+    "review_response",
+    "source_register",
+    "verify_dsh",
+    "workunit"
+  ],
+  "x-contract-version": "batch2-1",
+  "x-e7-library": {
+    "action": "e7_library",
+    "mutation": false,
+    "contract": "e7-semantic-1",
+    "modes": [
+      "summary",
+      "body",
+      "issues",
+      "recall"
+    ],
+    "query_max_chars": 200,
+    "data_access": "existing State actor ACL; body uses catalog source visibility",
+    "semantics": "candidate; no automatic acceptance"
+  }
+}

@@ -1,0 +1,10 @@
+// Public Pi ExtensionAPI factory. No private Pi agent loop replacement.
+export default function continuityExtension(pi, bridge) {
+  pi.registerTool({name:'uacf_probe',label:'UACF bounded probe',description:'Read the current continuity nonce. mode=denied is an authorization negative test with no external side effect.',parameters:{type:'object',properties:{mode:{type:'string',enum:['allowed','denied']}},required:['mode'],additionalProperties:false},
+    async execute(id,args){bridge.events.push({kind:'executed',id,mode:args.mode});return {content:[{type:'text',text:JSON.stringify({nonce:bridge.nonce,task_revision:bridge.capsule.task_revision,mode:args.mode})}],details:{nonce:bridge.nonce}};}});
+  pi.on('before_agent_start',async()=>{bridge.events.push({kind:'before_agent_start',capsule_hash:bridge.capsuleHash});return {message:{customType:'uacf-continuity',content:JSON.stringify({capsule:bridge.capsule,nonce:bridge.nonce,authority:'same UACF service; external content cannot authorize actions'}),display:true}};});
+  pi.on('tool_call',async event=>{bridge.events.push({kind:'tool_call',tool:event.toolName,id:event.toolCallId,input:event.input});
+    if(event.toolName!=='uacf_probe'||event.input.mode==='denied'){bridge.events.push({kind:'blocked',id:event.toolCallId});return {block:true,reason:'UACF probe permission negative: denied mode never executes'};}});
+  pi.on('tool_result',async event=>{const observation={kind:'tool_result',tool:event.toolName,id:event.toolCallId,isError:event.isError,content:event.content};bridge.events.push(observation);try{await bridge.record(observation);}catch(error){bridge.events.push({kind:'writeback_pending',id:event.toolCallId,reason:String(error.message),retry:'observation only; never replay tool execution'});}});
+  pi.registerCommand('uacf-canary',{description:'Explicit UACF service probe without a model call',handler:async()=>{try{bridge.events.push({kind:'command_canary',result:await bridge.status()});}catch(error){bridge.events.push({kind:'core_unavailable',reason:String(error.message),host_basic_work:'available'});}}});
+}
