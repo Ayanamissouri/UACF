@@ -2,7 +2,7 @@
 
 ## Current reading scope · 8 October 2026
 
-The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed197 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 entered the shared queue;21 host classifications returned and79 await semantic classification. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
+The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed198 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 have returned candidate classifications to shared retrieval; pairwise review and domain truth remain separate. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
 
 7 October 2026. Phase-two release scope, for research, writing, video production and everyday projects. Programming experience is not required to understand the workflow. Installation, native delivery and publication limitations remain part of this guide.
 
@@ -114,6 +114,9 @@ Registered delivery rejects incomplete directives. A finite file-read gateway pe
 
 The frontend now has a readable principle/opinion section: one explicitly reviewed principle links several original instances, each retaining conditions, exclusions and comparison evidence. Independent/unresolved pairs are not merged. Knowledge candidates lacking semantic review remain individual candidates. Full project history now covers early workbench versions through the current release rather than listing only recent receipt timestamps.
 
+
+
+Final8 October freeze: all100 source candidate classifications returned to shared retrieval (21 previous,79 now);1004 indexed sources,4250 knowledge and2228 issue candidates. Source and clean suites each passed198 tests. Candidate classification is not pairwise equivalence or domain truth; see the [correction and completion report](UACF_七项问题修正与验收说明.md).
 ## Historical appendix / 历史补记（不是当前状态）
 
 以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.

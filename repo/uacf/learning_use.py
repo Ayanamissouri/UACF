@@ -62,11 +62,12 @@ def issue_recall(state,actor,task):
   case=state.get(item['case_ref']['object_id'],'owner')
   if {k:v for k,v in case['payload'].get('case_details',{}).items() if k!='refs'}!=item['candidate']:continue
   attempt=state.get(item['attempt_ref']['object_id'],'owner')
-  if not any(x['case_id']==case['object_id'] for x in attempt['payload']['assessment']['issues']):continue
+  classification=next((x for x in attempt['payload']['assessment']['issues'] if x['case_id']==case['object_id']),None)
+  if classification is None:continue
   reviewed=semantic.get(item['case_ref']['object_id'],[])
   principle=reviewed[0]['principle'] if reviewed else None
   if principle and principle in selected_principles:continue
-  row=dict(item,acceptance='candidate conditions and correction only; not mandatory rule or confirmed root cause',score=score,semantic_reviews=reviewed[:2])
+  row=dict(item,acceptance='candidate conditions and correction only; not mandatory rule or confirmed root cause',score=score,semantic_reviews=reviewed[:2],classification=classification)
   amount=len(canonical(row).encode())
   if size+amount>4000:continue
   selected.append(row);size+=amount

@@ -1,6 +1,6 @@
 <!doctype html><html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UACF_第二阶段整体运行与操作模式</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}</style><main><p><a href="UACF_阅读导航.html">阅读导航 / Reading hub</a></p><h1>UACF 第二阶段整体运行与操作模式</h1>
 <h2>当前阅读说明 · 2026-10-08</h2>
-<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各197测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
+<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各198测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份已完成共享候选分类回填，成对语义审查及领域真值另列。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
 <p>2026-10-08｜第二阶段公开版操作说明｜中文 / English。本文说明实际操作、当前结果及仍需独立验收的范围；文件身份以Release清单为准。旧设计及历史报告保留。</p>
 <h2>1. 对使用者来说，它做什么</h2>
 <p>UACF帮助你在AI协作中保存“我要做什么、做到了哪里、哪些要求还没有满足、旧经验在什么条件下能用”。你可以做科研、写作、视频或日常项目，不必先把工作改写成编程任务。前台让你查看项目与任务、来源、知识/错题候选及验收；中台连接任务、执行、复核和费用；后台保存原件定位、规范修订和证据。</p>
@@ -48,7 +48,8 @@
 <h2>2026-10-08 命令连续性与人可读意见修正</h2>
 <p>当前Task增加独立命令通道。每条保存原话引用、当前宿主解释、来源修订、行动/讨论/引用/重复/未决类别和完成证据；补充默认追加，变更旧要求必须明确订正，保留旧修订。语音订正、修辞及AI拟文由当前宿主定点判断；词法检查与hash不能完成这些语义解释。准备上下文时有效命令全部进入mandatory lane，超过上限明确overflow，不让可选知识挤掉旧要求。宿主压缩后须再次调用当前Task上下文；没有真实hook回执不声称已强制所有桌面回合自动调用。</p>
 <p>注册交付先检查尚未完成的有效命令，再检查原注册Validation。有限read-probe入口持久记录同实验次数，达到约定上限停止，guard_reprepare实际回读声明结构与当前命令并要求新的修正依据后恢复；不以hash证明读懂内容，不拦截任意私有思考/宿主工具。旧v7.4治理有自己的真实DSH工具拦截，本次保留历史并另验当前接线。</p>
-<p>前台“历史经验给当前工作什么建议”直接显示一份已审原则及其多个实例链接，展开可看条件差异、依据与原实例。独立和证据不足不并入该原则，未经审查的知识/问题继续逐项查询，不按粗机制族或文字相似度自动去重。原候选与全部历史保留。完整项目历史已重新依据早期工程包和阶段实现按日/阶段重写。</p><details><summary>历史补记 / Historical appendix</summary><p>以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.</p>
+<p>前台“历史经验给当前工作什么建议”直接显示一份已审原则及其多个实例链接，展开可看条件差异、依据与原实例。独立和证据不足不并入该原则，未经审查的知识/问题继续逐项查询，不按粗机制族或文字相似度自动去重。原候选与全部历史保留。完整项目历史已重新依据早期工程包和阶段实现按日/阶段重写。</p>
+<p>截至本次最终冻结：100来源的共享候选分类已补齐（原21加本轮79）；公共检索1004来源、4250知识、2228问题/边界。源码和干净环境各198项通过。分类不等于成对等价或领域真值，详见<a href="UACF_七项问题修正与验收说明.md">七项修正与补齐说明</a>。</p><details><summary>历史补记 / Historical appendix</summary><p>以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.</p>
 <h2>2026-10-07 继续执行后的状态修订</h2>
 <p>前一检查点仅生成代码与文档，不能算五项要求完成；本节保留并修正其验收边界。现已接通认证State Service、Task context、现有前台与周期元数据检查；实际部署身份前缀32be59b945e4，安装与加载需分别回读。前台实际审查三个旧病例派生的双语指导模块，保留本地私有来源映射，公开导出仅含抽象原则、条件和合成正反例。没有重提取已结算900来源，没有合并原病例，没有新增执行硬规则。</p>
 <p>当前宿主context实际返回两条脱敏指导，私有来源链接未送达；这证明本次准备与送达，不证明每次工作实际采用。触发策略默认零额外模型请求，以结构信号、冷却、合并与过期元数据检查控制频率。真实正常结束的自动回填仍缺当前Task原生事件映射/送达验收，不能将手工注记或测试事件当正常工作。</p>

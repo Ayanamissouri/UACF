@@ -16,3 +16,6 @@ The current host interprets direct human speech, including explicit corrections,
 `learning_opinions` is an owner-authorized bounded read projection of explicit reviewed principle links and actual conditions. Independent and insufficient pairs are not folded into principles. `learning_opinion_source` checks exact case/card identity and returns local source locators/quotes and conditions. It does not read raw attachments or certify domain truth. Empty stores have zero sources. UI and synthetic positive/negative tests accompany the module.
 
 Mutations use the authenticated State Service, operation_id and expected_revision. Public source never includes private input cases or host binding IDs. No new executable FailurePattern is inferred from candidate counts.
+
+
+Task-scoped issue recall returns the exact current LearningAttempt classification (mechanism, relation and basis) beside the immutable candidate. A normal-boundary or unresolved assessment must not be dropped while retaining an older AI-error label. Fresh case/card/attempt revisions and existing host authorization still apply; classification is advisory, not factual acceptance.

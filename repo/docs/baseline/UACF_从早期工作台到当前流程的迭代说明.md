@@ -66,10 +66,13 @@ E3/E4增加有界来源、分支/引用/修辞解释、Claim与AdoptionDecision�
 
 ## 10月7—8日：首批新100、公开版与本次纠正
 
-后续独立20元授权下，100公开来源完整提取、21完整来源风险复核约9.9936%正文、候选发布完成，回执费用上界4.406337元。全部100进入共享队列，21来源已回填，79待共享语义分类；没有把候选当领域真值，没有重提取900。
+后续独立20元授权下，100公开来源完整提取、21完整来源风险复核约9.9936%正文、候选发布完成，回执费用上界4.406337元。全部100进入共享队列；原21来源已回填，10月8日其余79来源也按5个一组完成候选分类回填；没有把候选当领域真值，没有重提取900。
 
 Apache-2.0干净公开版发布，排除私人Git历史/资料/本机绑定和未获许可实现，增加完整说明、操作手册、补充04与阅读入口。随后用户指出：命令保留不足、历史正文遗漏早期内容、合规章节像要求转述、资产意见缺少人可读交付。本次据旧代码与实际来源修正：独立命令记录、追加/订正/重复/未决生命周期、注册入口的重复停止与真实重准备、人可读原则与条件对比前台。现场通过范围以本次验收报告为准，不由这段历史自称完成。
 
 ## English chronology
 
 September15–16: an installable DSH research workbench and PowerShell compatibility fixes. September17: Codex delegation, egress checks, plugin audit and foundation hotfixes. September18: deterministic recovery and v7–v7.4 governance with real repeat denial, checkpoint/path controls and corrected experiment identity. September19: v8 orchestration, then v9 configuration/UI control-plane work, with generated versus installed explicitly separated. BySeptember30: the PORTUS/UACF cross-host continuity kernel. October1–3: authenticated canonical state, evidence/revisions, discourse/adoption and controlled routing/budgets. October4–5: Supplement03, compatibility and real-host/UI contracts. October6:2531 structural sources and900 detailed candidate extractions. October7: learning, pair review, bounded capture and public/private lesson separation. October7–8: staged100 candidate publication, clean Apache release, then correction of instruction retention, chronology and human-readable opinions. Package self-reports and file times are evidence categories, not universally verified runtime facts.
+
+
+截至本次最终冻结：100来源的共享候选分类已补齐（原21加本轮79）；公共检索1004来源、4250知识、2228问题/边界。源码和干净环境各198项通过。分类不等于成对等价或领域真值，详见[七项修正与补齐说明](UACF_七项问题修正与验收说明.md)。

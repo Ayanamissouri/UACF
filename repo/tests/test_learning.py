@@ -29,6 +29,19 @@ class LearningTests(unittest.TestCase):
   attempt=self.s.list('owner','LearningAttempt')[0]
   self.assertFalse(attempt['payload']['assessment']['semantic_acceptance'])
   self.assertEqual(self.s.get(f['object_id'],'owner')['revision'],1)
+ def test_recall_delivers_boundary_judgment_without_rewriting_source(self):
+  from uacf.learning_use import issue_recall
+  c,f=self.source();f['payload']['case_details'].update(category='ai_execution',trigger='fixture user draft compile problem')
+  f=self.s.put(request(f,1),'owner')['object']
+  ident=enqueue_card(self.s,c,'work');job=json.loads((folder(self.s)/'jobs'/(ident+'.json')).read_text())
+  judgment=dict(case_id=f['object_id'],mechanism='normal_boundary',relation='normal_boundary',basis='User draft problem is not evidence of an AI-caused defect')
+  receive(self.s,job,dict(issues=[judgment],knowledge=[dict(index=0,topics=['fixture'])]))
+  task=self.put('TaskContract',dict(goal='fixture draft compile',required_properties=[]))
+  result=issue_recall(self.s,'owner',task)
+  self.assertEqual(len(result['candidates']),1)
+  self.assertEqual(result['candidates'][0]['classification'],judgment)
+  self.assertEqual(result['candidates'][0]['candidate']['category'],'ai_execution')
+  self.assertEqual(self.s.get(f['object_id'],'owner'),f)
  def test_final_registered_verifier_writes_private_evidence_without_acl_expansion(self):
   dispatch(self.s,'owner','learning_register_guards',{})
   result=dispatch(self.s,'owner','learning_verify',{'expected':900})

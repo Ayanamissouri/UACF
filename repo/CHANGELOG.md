@@ -43,3 +43,8 @@ After the first actual release (2026-10-07 22:31:23 UTC / 2026-10-08 00:31:23 Eu
 ## 2026-10-08 — substantive continuity and chronology correction
 
 The owner rejected file-existence-only acceptance. Added a mandatory revisioned instruction lane with quoted provenance, explicit corrections and lifecycle checks; registered delivery rejects pending actionable instructions. Added a bounded registered read-probe repeat stop and actual declared-structure/current-command reprepare, with no claim to intercept arbitrary host tools. Added human-readable reviewed principles with conditional comparisons and local source locators. Rewrote history from September15 through October8 using old workbench/governance/orchestration/control-plane packages and stage evidence. Corrected the incomplete claim that earlier governance had no repeat denial, and normalized the references chapter. Existing100 receipts are replayed in groups without new extraction or provider calls; machine replay is separate from semantic and domain validation.
+
+
+## 2026-10-08 — shared100 completion / 共享候选回填补齐
+
+All100 existing source cards now participate in shared candidate retrieval;79 were completed in batches of5 without another provider request. The host receives classification basis together with source conditions.198 source and198 clean tests passed; actual UI and mapped-host read-back verified. Pairwise review, attachments/domain truth and universal native hooks remain separate partial scopes. See [readable correction](docs/baseline/UACF_七项问题修正与验收说明.md).

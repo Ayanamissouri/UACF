@@ -16,3 +16,8 @@ For contribution and publication use CONTRIBUTING.md, SECURITY.md and UPLOAD-GUI
 
 
 8 October substantive repair: [七项问题与验收 / Seven corrections](docs/baseline/UACF_七项问题修正与验收说明.html). The actual chronology includes the original workbench and v7.4 governance. Current instructions have a mandatory lane; the UI presents reviewed principles with individual conditions. The183-file distribution excludes test-generated logs/cache and private sources. Source/clean197 tests each passed; full-library semantics and universal hooks remain partial.
+
+
+## 2026-10-08 — shared100 completion / 共享候选回填补齐
+
+All100 existing source cards now participate in shared candidate retrieval;79 were completed in batches of5 without another provider request. The host receives classification basis together with source conditions.198 source and198 clean tests passed; actual UI and mapped-host read-back verified. Pairwise review, attachments/domain truth and universal native hooks remain separate partial scopes. See [readable correction](docs/baseline/UACF_七项问题修正与验收说明.md).

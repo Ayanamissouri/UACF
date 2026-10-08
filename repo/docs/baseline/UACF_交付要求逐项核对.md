@@ -13,19 +13,22 @@
 |给既有资产补做脱敏|已提取候选定点生成/修订投影，来源修订与复核绑定|复用结算结果，不重新提取900；没审内容继续待审|
 |边工作边整理、避免过频/遗漏|结构cue最多1024字节，检测0额外模型调用；15分钟普通间隔、3次聚合、7天闲置/每日元数据检查|只扫描明确opt-in本地Task；公开回读不是live hook或全账户读取|
 |真实宿主闭环和旧资产使用|已观察真实既往结束、工作中增量来源、候选、当前宿主比较/回填；后续请求有指导prompt回执|准备、送达、使用与效益分列；未观察的未来结束不预造回调|
-|新增检测100、边做边查|100完整公开来源处理并候选发布；21完整来源宿主复核，约9.9936%正文；10/30/60/100检查点|79来源待共享语义分类；附件与领域真值未知；不扩大数量替代验架构|
+|新增检测100、边做边查|100完整公开来源处理并候选发布；21完整来源宿主复核，约9.9936%正文；10/30/60/100检查点|100来源共享候选分类已回填；成对语义审查、附件与领域真值仍未知；不扩大数量替代验架构|
 |外部预算与费用|独立20元授权，155请求settled，费用上界4.406337元，未知付费0|供应商账单未知；不挪其他预算、不重跑已结算输出|
 |双语、非程序员安装与操作|中英完整手册、屏幕场景说明、双击启动和3宿主配置入口；干净空库真实0|已有Python路径测试；缺Python和所有实际宿主环境未普遍verified|
 |合规引用与最终撤销决定|REFERENCES、NOTICE、THIRD_PARTY、SBOM、许可缺口和排除清单|概念参考与实际依赖/复制代码分开；排除MRS/MPH等实现不重新分发|
 |完整公开发布|Ayanamissouri/UACF，Apache-2.0；干净公开历史、完整Release附件、逐文件清单与下载hash核对|私有Git历史、正文、数据库、日志、凭证、本机配置不上传|
-|保留、备份、卸载与隔离恢复|旧原件与受保护对象保留；197源码及197干净测试；卸载数据保留，隔离恢复另authority/paused|不回滚实时库，不自动重放外部动作|
+|保留、备份、卸载与隔离恢复|旧原件与受保护对象保留；198源码及198干净测试；卸载数据保留，隔离恢复另authority/paused|不回滚实时库，不自动重放外部动作|
 |阅读入口与当前状态一致|统一阅读导航、当前正文更新、历史附录明确折叠；发布修订版并检查链接和远端范围|前一发布和本地旧文档都保留|
 
 ## English scope
 
-The delivery includes full Chinese/English design and user guides, phase-two operations, Supplement04, a dated migration account, an accessible900 capability explanation, reviewed advisory modules with local private provenance, bounded capture triggers and actual source-bound trial evidence. The staged100 trial published all frozen public-source candidates with21 full-source host reviews and a CNY4.406337 observed upper bound within CNY20. Source and clean tests passed197 each. The public release uses a clean history under Apache-2.0; private history/assets and excluded implementations are absent.
+The delivery includes full Chinese/English design and user guides, phase-two operations, Supplement04, a dated migration account, an accessible900 capability explanation, reviewed advisory modules with local private provenance, bounded capture triggers and actual source-bound trial evidence. The staged100 trial published all frozen public-source candidates with21 full-source host reviews and a CNY4.406337 observed upper bound within CNY20. Source and clean tests passed198 each. The public release uses a clean history under Apache-2.0; private history/assets and excluded implementations are absent.
 
-This audit separates document delivery, machine checks, current-host semantic judgments and independent unknowns. Full900 semantic review,79 new-source semantic classifications, unread attachments, domain truth, account-wide access and arbitrary-tool enforcement are not silently promoted to verified. Missing-Python installation and every actual host environment remain scoped limits. The revision corrects stale publication language and provides a human reading hub; it changes documentation, not tested runtime code.
+This audit separates document delivery, machine checks, current-host semantic judgments and independent unknowns. Full900 semantic review, pairwise review of new-source candidates, unread attachments, domain truth, account-wide access and arbitrary-tool enforcement are not silently promoted to verified. Missing-Python installation and every actual host environment remain scoped limits. The revision corrects stale publication language and provides a human reading hub; the final revision also fixes delivery of current classification basis alongside source conditions in tested runtime code.
 
 
 最新七项修正、100分组回归和4候选纠正见[本次修正说明](UACF_七项问题修正与验收说明.md)。
+
+
+截至本次最终冻结：100来源的共享候选分类已补齐（原21加本轮79）；公共检索1004来源、4250知识、2228问题/边界。源码和干净环境各198项通过。分类不等于成对等价或领域真值，详见[七项修正与补齐说明](UACF_七项问题修正与验收说明.md)。

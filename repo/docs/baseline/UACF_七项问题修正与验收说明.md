@@ -30,7 +30,7 @@
 
 打开本机资料库，找到“历史经验给当前工作什么建议”，按“读取人可读意见”。当前形成12个已审候选原则入口；一个原则只显示一份定义，再链接多个实例。展开后看适用/排除条件、实际与预期、成对比较依据，再按“读取此实例的本地来源”读取本地来源定位与原条件。此按钮不宣称重新理解原图。
 
-实际点击并回读过德语首答的两个不同表述实例。另一个“当前任务的独立命令记录”入口可读七项当前命令及来源。3793知识、1980问题是原900候选；当前索引还含其他已回填来源，所以显示3845知识、2004问题/边界。151对审查涉及115实例，当前1889实例尚无此类审查，其中原900的1865仍不能写完成。未审知识保留逐项查询，没有按字面相似或粗机制族自动合并。
+实际点击并回读过德语首答的两个不同表述实例。另一个“当前任务的独立命令记录”入口可读七项当前命令及来源。3793知识、1980问题是原900候选；当前索引还含其他已回填来源，所以显示4250知识、2228问题/边界。151对审查涉及115实例，当前2113实例尚无此类审查，其中原900的1865仍不能写完成。未审知识保留逐项查询，没有按字面相似或粗机制族自动合并。
 
 ## 6. 为什么此前五种遗漏会发生
 
@@ -50,11 +50,11 @@
 
 发现并通过认证CAS纠正4个旧候选解释：后来非连续列需求不追溯否定先前连续列输出；本轮未读椰子图像不能证明历史AI未读，且原文已有“应该/可能”；生成Excel有当时用户指令依据；本轮未读标准附件不能证明历史提取声明没有读取。原修订保留，索引重建，相关组复测通过。100个旧结果均复用，新增来源0、新增外部调用0、新外部费用0。此前费用上界4.406337元保持不变，未出具账单不当作发票金额。
 
-79个来源的完整共享语义分类仍待审；本次分组回归不将它改称完成，也没有将450/246候选全部升级为可信事实。附件、医学/法律/工程参数和具体领域真值须另有证据。
+随后继续按5个一组，当前宿主实际读取其余79来源的全部405知识候选和224问题条件，逐项记录分类依据并通过同一认证链回填。连同原已回填21来源，100来源的450知识及246问题/边界候选均进入共享检索；没有漏项，也没有将它们全部升级为可信事实。提取正文风险复核、候选分类、成对语义等价判断与领域真值仍是四层不同验收。附件、医学/法律/工程参数和具体领域真值须另有证据。
 
 ## 实际验证与交付范围
 
-源码197项测试通过；干净官方依赖环境197项通过。第一次干净测试暴露旧测试依赖本机backups目录和固定venv路径，已改为独立临时目录及当前解释器；保留失败记录。运行代码53个加载文件逐项与源码、安装副本一致；前台原则、条件、来源与命令实际回读；注册重复停止/真实重准备/恢复实际调用。数据未回滚，900提取和旧费用未重跑，Git私有历史不上传。
+新增检索送达修复后，源码198项测试通过；干净官方依赖环境198项通过。第一次干净测试暴露旧测试依赖本机backups目录和固定venv路径，已改为独立临时目录及当前解释器；保留失败记录。运行代码53个加载文件逐项与源码、安装副本一致；前台原则、条件、来源与命令实际回读；注册重复停止/真实重准备/恢复实际调用。数据未回滚，900提取和旧费用未重跑，Git私有历史不上传。
 
 公开完整包继续包含中英文总说明、普通用户手册、补充04、安装入口与许可文件。本说明的“通过”只指上述有限实测；不承诺所有宿主自动回调、任意工具硬约束、全部领域真值或全部900语义审查。
 
@@ -66,6 +66,17 @@ The observed effective Codex context window was258400 tokens, not an assumed1M. 
 
 The chronology now covers15 September–8 October, after examining19 engineering ZIPs and248 selected engineering files. v7.4 really did enforce repeat limits in its DSH gateway; the prior account omitted it. Current bounded read probes were actually stopped on the third identical target and resumed only after real declared structure read-back and a correction basis. Hashes lock identity rather than semantic understanding.
 
-The UI now shows12 reviewed candidate principles once each, with individual conditions and source links. The151 reviewed pairs cover115 instances, not all900 sources. All100 already extracted sources were checked in10 groups; bounded host views do not equal full-text semantic acceptance. Four candidate interpretations were corrected with revision-preserving authenticated writes, and the affected groups were checked again. No new extraction or external charge occurred.79 complete shared classifications remain pending, attachments/domain facts remain unverified, and no new executable rules were generated from counts.
+The UI now shows12 reviewed candidate principles once each, with individual conditions and source links. The151 reviewed pairs cover115 instances, not all900 sources. All100 already extracted sources were checked in10 groups; bounded host views do not equal full-text semantic acceptance. Four candidate interpretations were corrected with revision-preserving authenticated writes, and the affected groups were checked again. The remaining79 were subsequently classified in batches of5 by the current host, inspecting all405 knowledge and224 issue candidates. All100 sources (450 knowledge and246 issues) are now returned to shared retrieval. This is complete candidate classification, not pairwise equivalence or factual acceptance. No new extraction or external charge occurred. Attachments/domain facts remain unverified, and no new executable rules were generated from counts.
 
-Both source and clean environments passed197 tests.53 loaded runtime files matched source and installation. The package keeps complete Chinese and English manuals/designs, Supplement04, installation entries and actual source/license declarations. Private history, chats, candidate content, databases, logs, credentials, local bindings and excluded implementations are absent. These finite verified capabilities must not be advertised as universal enforcement or completed whole-library semantics.
+The final source and clean environments each passed198 tests.53 loaded runtime files matched source and installation. The package keeps complete Chinese and English manuals/designs, Supplement04, installation entries and actual source/license declarations. Private history, chats, candidate content, databases, logs, credentials, local bindings and excluded implementations are absent. These finite verified capabilities must not be advertised as universal enforcement or completed whole-library semantics.
+
+
+## 本轮后续补齐：回填结果必须真的送到工作中
+
+仅在后台改分类不够。发现普通宿主检索原来只给旧候选、没有附后来分类，已修正为同时送达当前LearningAttempt的机制、关系与依据；原来源、条件、修订不改写。新增合成正反边界测试验证：原标签可以保留为AI执行候选，同时实际检索必须给出“用户草稿问题不是AI造成缺陷”的当前判断，且不修改原件。源码及无私人数据的干净副本各198项通过，重新部署后53个加载文件与源码和安装副本逐项一致。
+
+真实前台重新读取1004/4250/2228总数，并查询GUI旧来源，详情显示current_host和“重定向优化不说明原刷新方法违约”的未决依据。真实当前Codex任务读取到三个带classification的旧病例，其中包括已修正的图像历史判断边界。本轮依此保留图像/领域未核验而没有把旧草稿标签变成硬约束，准备、送达和这里实际采用的有限范围分别有证据。
+
+共享队列尚有其他真实工作来源3条extracted、1条needs_review（公开工作快照超过1MB，需按真实边界拆分）；它们不是这100来源，不伪造完成回调或把它们清零。本轮自身结束事件在最终回答前尚未发生，不能提前写verified。100来源队列已全部compared，原900全量成对语义审查仍未完成；当前总计2113实例无此类审查。没有新增硬规则，没有新增外部费用。
+
+Shared retrieval now includes the current classification alongside immutable candidate conditions. A synthetic regression checks that a user-draft boundary is delivered without rewriting the original AI-labelled candidate. Source and clean suites each passed198 tests, and all53 runtime files matched after a controlled restart. The actual UI and mapped Codex Task read back these judgments. Four unrelated native-work jobs retain their real partial states; this running turn's final event cannot yet be certified. No paid requests, extra extraction or new executable rules were introduced.
