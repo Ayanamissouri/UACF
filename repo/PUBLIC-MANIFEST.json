@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-08T05:24:48.096040+00:00",
+  "date": "2026-10-08T06:55:49.643673+00:00",
   "files": [
     {
       "path": ".gitignore",
@@ -33,8 +33,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "26e18cf4e1babfde51a89378c2fc7a782428b52eb93918f9589e00c8bb298ff1",
-      "bytes": 3204
+      "sha256": "f37ce456a610e04f0cdc999e9b5e98a15380b323b5b1cfb4ff53b91cc2a619bc",
+      "bytes": 24305
     },
     {
       "path": "Read-UACF.html",
@@ -88,8 +88,8 @@
     },
     {
       "path": "repo/README.md",
-      "sha256": "db074fd60b3d8b1028ca2762df89b02b8d46d9bdfb1997130980895853ce94b2",
-      "bytes": 3185
+      "sha256": "1293566ecc1ed4bb595305f478e9d12dc05c6ea7f03d20c96d12bf8191d8f581",
+      "bytes": 24050
     },
     {
       "path": "repo/REFERENCES.md",
@@ -917,5 +917,6 @@
   "project_license": "Apache-2.0",
   "runtime_scope": "instruction lane, finite registered retry gateway and human opinions; source/clean198 each passed",
   "privacy_scan": "reviewed whitelist plus bounded markers; no universal anonymity guarantee",
-  "excluded_generated_file_count": 79
+  "excluded_generated_file_count": 79,
+  "readme_revision": "Owner-authored bilingual overview; Chinese first; existing links retained and additional source/license navigation restored. Documentation-only revision; prior tagged runtime verification scope unchanged."
 }
