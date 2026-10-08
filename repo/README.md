@@ -13,3 +13,6 @@ The project uses Apache-2.0. Dependencies and hosts are installed from official 
 Capability limits: full900 semantic review is incomplete; account-wide cloud monitoring, arbitrary host-tool enforcement and private-reasoning validation are not provided. Public API back-reading is distinct from live hook delivery. Missing-Python execution and actual loading in every native host remain separately testable. Counts and evidence do not imply domain truth.
 
 For contribution and publication use CONTRIBUTING.md, SECURITY.md and UPLOAD-GUIDE.md. Share abstract conditions and synthetic examples; do not upload personal originals.
+
+
+8 October substantive repair: [七项问题与验收 / Seven corrections](docs/baseline/UACF_七项问题修正与验收说明.html). The actual chronology includes the original workbench and v7.4 governance. Current instructions have a mandatory lane; the UI presents reviewed principles with individual conditions. The183-file distribution excludes test-generated logs/cache and private sources. Source/clean197 tests each passed; full-library semantics and universal hooks remain partial.

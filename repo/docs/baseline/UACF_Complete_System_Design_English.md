@@ -2,7 +2,7 @@
 
 ## Current reading scope · 8 October 2026
 
-The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed187 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 entered the shared queue;21 host classifications returned and79 await semantic classification. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
+The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed197 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 entered the shared queue;21 host classifications returned and79 await semantic classification. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
 
 Revision 2, 7 October 2026. This is a full English description, rather than an English abstract. Implementation, installation, invocation and acceptance are separate claims. A complete specification does not imply that every deployment has passed every acceptance check.
 
@@ -113,6 +113,14 @@ Document actual dependencies and licenses, conceptual references and withdrawn a
 Contributions should use sanitized general principles, preserved conditions, synthetic tests and reproducible changes. They should not upload private originals in an attempt to improve coverage. More instances are not evidence of unlimited rule growth or complete factual acceptance. The reviewed release was published through the verified owner account Ayanamissouri under the owner-selected Apache-2.0 license. Future releases require the same scoped review.
 
 
+
+## Instruction continuity and human-readable opinions,8 October
+
+Task instructions now have a separate mandatory lane with original quotes, host interpretations, exact source revisions and pending/corrected/duplicate/unresolved lifecycles. A supplement appends; replacing/cancelling a prior directive requires an explicit current correction. Historical/AI-quoted text cannot authorize live actions. Rhetoric and voice corrections require host semantic judgment, not lexical/hash inference. Current context preparation rehydrates all active instructions; mandatory overflow is explicit and optional recall yields first. Compaction requires re-preparation; universal native hook delivery is not implied.
+
+Registered delivery rejects incomplete directives. A finite file-read gateway persists repeat counts and denies further attempts until actual declared structure/current-command readback with a correction basis. It does not intercept arbitrary host tools or prove private understanding. The oldv7.4DSH governor already provided real repeat denial and remains separately documented in the corrected project chronology.
+
+The frontend now has a readable principle/opinion section: one explicitly reviewed principle links several original instances, each retaining conditions, exclusions and comparison evidence. Independent/unresolved pairs are not merged. Knowledge candidates lacking semantic review remain individual candidates. Full project history now covers early workbench versions through the current release rather than listing only recent receipt timestamps.
 
 ## Historical appendix / 历史补记（不是当前状态）
 

@@ -1,6 +1,6 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UACF_正式完整版设计总说明</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}details{margin:2em 0;border:1px solid #ccd6e4;padding:15px}summary{cursor:pointer;font-weight:bold}</style><main><p><a href="UACF_阅读导航.html">阅读导航 / Reading hub</a></p><h1>UACF 正式完整版设计总说明</h1>
+<!doctype html><html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UACF_正式完整版设计总说明</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}</style><main><p><a href="UACF_阅读导航.html">阅读导航 / Reading hub</a></p><h1>UACF 正式完整版设计总说明</h1>
 <h2>当前阅读说明 · 2026-10-08</h2>
-<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
+<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各197测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
 <p>2026-10-07｜文档修订2｜设计与已观察实现分列。这里的“完整版”指覆盖完整系统职责，不表示所有能力已经验收完成。本说明对应第二阶段冻结版；当前验证范围见末尾，公开发布状态以所在GitHub Release记录为准；用户已选择Apache-2.0。完整英文对应说明见UACF_Complete_System_Design_English；具体操作见《第二阶段整体运行与操作模式》。</p>
 <h2>1. 产品目的与系统边界</h2>
 <p>UACF（Unified Agentic Continuity Fabric）是持续AI工作的任务与资产系统。它保留用户要求、来源、进展、纠正、条件化经验与验收，让跨会话、跨领域、跨宿主的工作有可追溯的接续。模型执行宿主仍负责推理和工具；UACF不取代模型，不以错题数量制造硬规则，不读取或验证私有思考。</p>
@@ -55,16 +55,18 @@
 </table></div>
 <p>generated表示产出文件；installed表示安装到指定位置；loaded表示运行进程实际加载；called表示真实调用；verified必须绑定具体性质、冻结修订和证据；partial保留缺口。这些词不是按阶段自动递进。</p>
 <p>English: capability states are property-specific. Structural coverage, candidate extraction and semantic review are different counts. Native automatic capture, unrestricted host control and domain truth remain partial. The reviewed clean release is public at Ayanamissouri/UACF; earlier candidate archives remain preserved. Documentation-only revisions retain the tested runtime identity and receive a new package hash.</p>
-<h2>10. 引用、合规与社区更新</h2>
-<p>以最终冻结结果判断引用：概念参考单列参考范围与公开来源；实际依赖列锁定版本/许可；真正复制或修改的代码按实际来源履行NOTICE与许可。早期提出而撤销的方案保留整改说明，不为美化历史遗漏，也不把未采用代码写成嵌入实现。</p>
-<p>最初MRS/MPK默认后端方案已撤销；被排除的MRS/MPH及旧包不分发。V74B解析只按工程NOTICE记定点结构参考。Wing、Strata为有界研究候选，不是已合入运行依赖。作者姓名未核实就不编造。</p>
-<p>社区提交只分享经审查的通用模块、合成反例和可复建改动。不要上传私人原件、聊天、数据库、运行日志或密钥。共享原则需保留适用范围和排除条件，不以更多案例数宣称规则无限增长或错误已经饱和。</p>
-<p>English: document conceptual references, actual dependencies and copied code accurately against the final implementation. Withdrawn backend ideas remain documented but excluded. Community contributions should contain reviewed generic modules and synthetic examples, never private source assets.</p>
+<h2>10. 来源与再分发声明</h2>
+<p>第一方公开源码采用Apache-2.0。实际依赖的版本、来源与许可见THIRD_PARTY和SBOM；概念参考与最终采用范围见REFERENCES；再分发声明见NOTICE，未解决许可边界见LICENSE-GAPS和EXCLUSIONS。被撤销或未获再分发许可的实现不在公开包中。社区提交流程见CONTRIBUTING与UPLOAD-GUIDE，维护者复核后才采纳。此处只列本项目实际声明，不以用户提出的合规要求代替合规工作。</p>
 <h2>11. 文档和证据索引</h2>
 <p>原计划见第一阶段总览及补充01—03；新增/变化见补充04；日常流程见第二阶段整体运行与操作模式；早期两个目录的来源与日期见迭代说明。engineering中的contracts、operations、MigrationMap和第三方声明解释限定范围；deliverables中的最新交接与冻结文件提供现场证据。</p>
 <p>当前文档新增不改变旧冻结ZIP，也不自动扩大部署或发布许可。后续须将所有实际改动、前台和相关测试纳入新白名单与包hash，再对用户呈现具体可审查范围。</p>
 <h2>本轮阅读入口</h2>
-<p>普通人的能力说明见《900之后架构到底改变了什么》；完整英文见《Complete System Design》。可分享模块的导入先成为待审草稿；本地来源入口可定点读取原条件。旧修订保留在私有交付历史，不能把其中的待办状态当当前状态。</p><details><summary>Historical appendix / 历史补记（非当前状态，点击展开）</summary><h2>2026-10-07 本次继续执行的最新现场范围</h2>
+<p>普通人的能力说明见《900之后架构到底改变了什么》；完整英文见《Complete System Design》。可分享模块的导入先成为待审草稿；本地来源入口可定点读取原条件。旧修订保留在私有交付历史，不能把其中的待办状态当当前状态。</p>
+<h2>2026-10-08 命令连续性与人可读意见修正</h2>
+<p>当前Task增加独立命令通道。每条保存原话引用、当前宿主解释、来源修订、行动/讨论/引用/重复/未决类别和完成证据；补充默认追加，变更旧要求必须明确订正，保留旧修订。语音订正、修辞及AI拟文由当前宿主定点判断；词法检查与hash不能完成这些语义解释。准备上下文时有效命令全部进入mandatory lane，超过上限明确overflow，不让可选知识挤掉旧要求。宿主压缩后须再次调用当前Task上下文；没有真实hook回执不声称已强制所有桌面回合自动调用。</p>
+<p>注册交付先检查尚未完成的有效命令，再检查原注册Validation。有限read-probe入口持久记录同实验次数，达到约定上限停止，guard_reprepare实际回读声明结构与当前命令并要求新的修正依据后恢复；不以hash证明读懂内容，不拦截任意私有思考/宿主工具。旧v7.4治理有自己的真实DSH工具拦截，本次保留历史并另验当前接线。</p>
+<p>前台“历史经验给当前工作什么建议”直接显示一份已审原则及其多个实例链接，展开可看条件差异、依据与原实例。独立和证据不足不并入该原则，未经审查的知识/问题继续逐项查询，不按粗机制族或文字相似度自动去重。原候选与全部历史保留。完整项目历史已重新依据早期工程包和阶段实现按日/阶段重写。</p><details><summary>历史补记 / Historical appendix</summary><p>以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.</p>
+<h2>2026-10-07 本次继续执行的最新现场范围</h2>
 <p>本页较早章节保留当时状态，最新事实以本节及最新冻结回执为准。Apache-2.0已由所有者明确选择，完整英文总设计及完整中英文用户手册均已产生。新增普通人说明“900之后架构到底改变了什么”，分别说明五类有限注册门控、原则与条件分支、上下文候选与实际采用；系统没有普遍的“三次失败便强制阅读架构”门控，不把建议冒充已实现能力。</p>
 <p>三个可分享原则保留本地私有来源映射。前台已实际读取核心工序遗漏投诉的原条件；新增导入入口保存为草稿，未经复核禁止导出和进入任务上下文，复核后才作为有条件指导。公开模块不包含旧900私人正文，也不自动安装硬规则。Windows冷启动实测发现后台服务继承管道导致入口等待，修复后冷启动成功返回；内嵌浏览器文件选择器崩溃仍记录为宿主限制，另提供粘贴公开JSON方式并完成真实前台导入回读。导入按钮遗漏规范操作字段的问题已经实际发现、修复和回读。</p>
 <p>当前明确映射的Codex聊天已通过官方只读公开接口读取真实前轮结束状态，公开输入、输出及工具记录进入同一来源→候选→语义比较→回填链，没有另开GPT推理，没有伪造结束事件。此为公开回读传输，不能称原生live hook已通过；正在执行的本轮正常结束仍等待真实事件，账户全部聊天和任意宿主自动捕获未验证。周期元数据扫描已经修复超过64任务时后续任务永远得不到检查的问题，按有界游标轮转，检测不额外调用模型。</p>

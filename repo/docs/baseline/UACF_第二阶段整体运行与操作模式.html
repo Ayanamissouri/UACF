@@ -1,6 +1,6 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UACF_第二阶段整体运行与操作模式</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}details{margin:2em 0;border:1px solid #ccd6e4;padding:15px}summary{cursor:pointer;font-weight:bold}</style><main><p><a href="UACF_阅读导航.html">阅读导航 / Reading hub</a></p><h1>UACF 第二阶段整体运行与操作模式</h1>
+<!doctype html><html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UACF_第二阶段整体运行与操作模式</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}</style><main><p><a href="UACF_阅读导航.html">阅读导航 / Reading hub</a></p><h1>UACF 第二阶段整体运行与操作模式</h1>
 <h2>当前阅读说明 · 2026-10-08</h2>
-<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
+<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各197测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
 <p>2026-10-08｜第二阶段公开版操作说明｜中文 / English。本文说明实际操作、当前结果及仍需独立验收的范围；文件身份以Release清单为准。旧设计及历史报告保留。</p>
 <h2>1. 对使用者来说，它做什么</h2>
 <p>UACF帮助你在AI协作中保存“我要做什么、做到了哪里、哪些要求还没有满足、旧经验在什么条件下能用”。你可以做科研、写作、视频或日常项目，不必先把工作改写成编程任务。前台让你查看项目与任务、来源、知识/错题候选及验收；中台连接任务、执行、复核和费用；后台保存原件定位、规范修订和证据。</p>
@@ -24,7 +24,7 @@
 <h2>5. 工作进行时何时整理</h2>
 <p>不必等一个工程永远结束才学习。适合轻量增量整理的节点包括：用户明确要求整理、确认的重要遗漏/纠正、实质需求变化、积累到可解释的工作进展、用户明确满意或结束。强烈语气可提醒关注当前指令，但单凭情绪不能判定AI错误或推断人的心理。</p>
 <p>很短的生活化问答通常只保留必要元数据；多个中途补充应合并到同一工作节点，不逐句重新提取。长时间未调用的项目要作到期检查，先看最后工作时间、最后整理时间、当前任务及未决状态，不直接全文重读或收费重跑。</p>
-<p><strong>现场边界：</strong>已有重要检查点与部分原生结束事件入口；综合时间、节流、信号聚合的新增代码目前仅生成，未接入当前运行服务、前台和完整测试。当前桌面正常结束自动回填仍partial。结构化最小提示与零额外模型的检查应经实测后才称可用。没有账户连接时，不声称能自动遍历所有云对话。</p>
+<p>**现场边界：**已有重要检查点与部分原生结束事件入口；综合时间、节流、信号聚合的新增代码目前仅生成，未接入当前运行服务、前台和完整测试。当前桌面正常结束自动回填仍partial。结构化最小提示与零额外模型的检查应经实测后才称可用。没有账户连接时，不声称能自动遍历所有云对话。</p>
 <p>English: capture meaningful work nodes, not every sentence. Explicit corrections, changes and satisfaction matter more than text volume. Stale work requires a bounded metadata check. The current installation has checkpoint and partial native-event paths; the newly generated adaptive policy is not yet deployed or verified.</p>
 <h2>6. 正常结束与同一资产链</h2>
 <p>真实授权、映射的宿主公开输入/输出/工具/结束事件才能形成正常工作来源。来源经同一链生成知识与问题候选，进行语义比较，保留关系和条件，再建立可重建索引。原生工具canary不是完整模型回合；手工记录不是自动宿主捕获；工作任务自己宣称完成不是验收。</p>
@@ -38,13 +38,18 @@
 <h2>8. 本地资产怎样变成可分享模块</h2>
 <p>本地层保存真实来源、修订、判断依据及读取权限；公开层只保存抽象原则、明确适用/排除条件、合成正反例、限制与版本。公开包没有私有UUID、聊天引文、路径、模型私人标签和凭证。两层通过本地注册表关联，公开模块更新后仍能在本机查来源，别人收到模块不因此得到私有库。</p>
 <p>已有候选的脱敏应复用其既有结果，按当前修订补做投影与来源链接，不重提取900。新增候选走相同流程。先由当前宿主审查具体投影，再由用户审批实际公开范围；机械秘密扫描不能保证彻底脱敏。模块不是自动新硬规则；真正执行约束还需注册、门控、正反例和验收。</p>
-<p><strong>实现状态：</strong>分层模块已接入服务、上下文与前台；草稿导入、精确版本复核、来源条件回读与公开投影导出经过实际调用。三个抽象原则已纳入公开包，私人来源链接保留本机。旧候选无需重提取即可补做模块投影；这不表示900全部实例均已脱敏或全部模块均已独立验证。旧包保持原样，本版按实际新清单冻结。</p>
+<p>**实现状态：**分层模块已接入服务、上下文与前台；草稿导入、精确版本复核、来源条件回读与公开投影导出经过实际调用。三个抽象原则已纳入公开包，私人来源链接保留本机。旧候选无需重提取即可补做模块投影；这不表示900全部实例均已脱敏或全部模块均已独立验证。旧包保持原样，本版按实际新清单冻结。</p>
 <p>English: maintain a private provenance registry and a separate reusable public projection. Reuse existing settled candidates for backfill. Public cards contain abstract conditions and synthetic examples, not private source identifiers. The module path is integrated and actual draft import, review, private-source read-back and public projection export were exercised. Three abstract advisory lessons are included; the entire historical library has not been sanitized or independently accepted.</p>
 <h2>9. 遇到问题与退出</h2>
 <p>页面数字异常时对照规范对象和队列；不要直接改SQLite修数字。服务报错时保留回执并检查当前authority/schema、源码/安装/加载身份。规范修订使用认证State Service、operation_id和expected_revision。未知费用保留未知，不记0。</p>
 <p>卸载先移除自动启动注册，再停止自己的服务，按对应安装范围移除组件；保留data、原件、备份和历史。新机器重建只安装锁定且明确来源的依赖，不带私人配置、轮子仓、原始ZIP或旧.git。发布前审查文件白名单、许可、引用和能力缺口，审批后再上传。</p>
 <p>English: use authenticated commands, not direct SQLite writes. Preserve unknown costs and operation receipts. Remove startup registration and stop only your own service before uninstalling components. Keep user data and history. Publication requires review of the exact clean export and licensing scope.</p>
-<p>相关阅读：正式总说明、补充04、早期迭代说明；维护合同与实际回执在engineering和本地deliverables中。公开发行时只收录经审查的说明，私人回执不随包分发。</p><details><summary>Historical appendix / 历史补记（非当前状态，点击展开）</summary><h2>2026-10-07 继续执行后的状态修订</h2>
+<p>相关阅读：正式总说明、补充04、早期迭代说明；维护合同与实际回执在engineering和本地deliverables中。公开发行时只收录经审查的说明，私人回执不随包分发。</p>
+<h2>2026-10-08 命令连续性与人可读意见修正</h2>
+<p>当前Task增加独立命令通道。每条保存原话引用、当前宿主解释、来源修订、行动/讨论/引用/重复/未决类别和完成证据；补充默认追加，变更旧要求必须明确订正，保留旧修订。语音订正、修辞及AI拟文由当前宿主定点判断；词法检查与hash不能完成这些语义解释。准备上下文时有效命令全部进入mandatory lane，超过上限明确overflow，不让可选知识挤掉旧要求。宿主压缩后须再次调用当前Task上下文；没有真实hook回执不声称已强制所有桌面回合自动调用。</p>
+<p>注册交付先检查尚未完成的有效命令，再检查原注册Validation。有限read-probe入口持久记录同实验次数，达到约定上限停止，guard_reprepare实际回读声明结构与当前命令并要求新的修正依据后恢复；不以hash证明读懂内容，不拦截任意私有思考/宿主工具。旧v7.4治理有自己的真实DSH工具拦截，本次保留历史并另验当前接线。</p>
+<p>前台“历史经验给当前工作什么建议”直接显示一份已审原则及其多个实例链接，展开可看条件差异、依据与原实例。独立和证据不足不并入该原则，未经审查的知识/问题继续逐项查询，不按粗机制族或文字相似度自动去重。原候选与全部历史保留。完整项目历史已重新依据早期工程包和阶段实现按日/阶段重写。</p><details><summary>历史补记 / Historical appendix</summary><p>以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.</p>
+<h2>2026-10-07 继续执行后的状态修订</h2>
 <p>前一检查点仅生成代码与文档，不能算五项要求完成；本节保留并修正其验收边界。现已接通认证State Service、Task context、现有前台与周期元数据检查；实际部署身份前缀32be59b945e4，安装与加载需分别回读。前台实际审查三个旧病例派生的双语指导模块，保留本地私有来源映射，公开导出仅含抽象原则、条件和合成正反例。没有重提取已结算900来源，没有合并原病例，没有新增执行硬规则。</p>
 <p>当前宿主context实际返回两条脱敏指导，私有来源链接未送达；这证明本次准备与送达，不证明每次工作实际采用。触发策略默认零额外模型请求，以结构信号、冷却、合并与过期元数据检查控制频率。真实正常结束的自动回填仍缺当前Task原生事件映射/送达验收，不能将手工注记或测试事件当正常工作。</p>
 <p>完整回归160项通过；新增宿主配置助手5项独立测试通过。新增中英文完整用户手册及解压后双击入口；已有Python环境的安装路径与缺Python的官方安装分支分别验收，后者尚未现场执行。Codex/Pi/DSH助手配置成功不等于宿主已加载；DSH离线依赖失败时新建配置仍保留供检查，不能声称所有状态已撤销。</p>

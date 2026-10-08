@@ -8,7 +8,7 @@ from uacf.util import file_hash
 
 class SessionVerifier(unittest.TestCase):
  def setUp(self):
-  self.tmp=tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[2]/'backups')
+  self.tmp=tempfile.TemporaryDirectory()
   self.root=Path(self.tmp.name);init(self.root);self.state=State(self.root)
   self.task=self.state.put(request(object_new('TaskContract',{'goal':'synthetic canary verifier counterexample','constraints':[],'required_properties':['installed_loaded_called'],'execution_state':'pending'},'active','shared')),'owner')['object']
   # Identity checks need bytes, not an excluded private adapter implementation.

@@ -38,3 +38,8 @@ Fixed current-schema empty initialization without legacy budget seeds, authentic
 ## 2026-10-08 — readable documentation and delivery audit
 
 After the first actual release (2026-10-07 22:31:23 UTC / 2026-10-08 00:31:23 Europe/Berlin), reviewed all requested documentation. Corrected obsolete unlicensed/unpublished/generated-only statements in current bodies; retained dated notes in historical appendices and previous versions locally. Added bilingual screen workflows, local reading entry, complete reading hub and a scoped requirements audit. Updated public upload instructions to the actual published state. Runtime code is unchanged from the 187-test source/clean freeze; only documentation, links and package identity change.
+
+
+## 2026-10-08 — substantive continuity and chronology correction
+
+The owner rejected file-existence-only acceptance. Added a mandatory revisioned instruction lane with quoted provenance, explicit corrections and lifecycle checks; registered delivery rejects pending actionable instructions. Added a bounded registered read-probe repeat stop and actual declared-structure/current-command reprepare, with no claim to intercept arbitrary host tools. Added human-readable reviewed principles with conditional comparisons and local source locators. Rewrote history from September15 through October8 using old workbench/governance/orchestration/control-plane packages and stage evidence. Corrected the incomplete claim that earlier governance had no repeat denial, and normalized the references chapter. Existing100 receipts are replayed in groups without new extraction or provider calls; machine replay is separate from semantic and domain validation.

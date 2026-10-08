@@ -35,3 +35,6 @@ Download the complete UACF ZIP asset from Releases, extract the whole package, r
 原始第一阶段总览及补充01—03保留在所有者私有设计目录；公开版以补充04、迭代说明和当前完整设计解释其关系。旧包、私人数据及未获许可实现不因透明说明而重新分发。三个公开经验模块含抽象原则与合成例子，私人来源链接只留本机。全部900的语义审查、全部附件和领域真值未完成，不能从候选数量推导已验证能力。
 
 The original first-stage documents and private history remain preserved locally. Supplement04 and the migration account explain the public lineage without redistributing private or excluded material. Three advisory modules contain abstract conditions and synthetic examples. Private provenance stays local; full old900 semantic review and domain truth remain separate from candidate publication.
+
+
+[10月8日七项问题修正与实测说明](UACF_七项问题修正与验收说明.html)

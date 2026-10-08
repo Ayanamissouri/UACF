@@ -2,7 +2,7 @@
 
 ## 当前阅读说明 · 2026-10-08
 
-本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。
+本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各197测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。
 
 UACF-DB2.0-S04｜2026-10-07｜Europe/Berlin。原总览和补充01—03保持原字节。本补充说明实际增量及仍未完成的要求，不使历史partial自动成为verified。
 
@@ -50,13 +50,22 @@ adaptive已接入服务、上下文与常设前台。结构信号最多1024字�
 
 ## 7. 本补充的证据状态
 
-当前公开版有generated文件、实际installed/loaded身份与called回执；源码/干净187测试各通过，真实前台和隔离恢复按有限范围verified。仍有原生hook、全量语义和领域真值partial；本说明不替代对应验收证据。公开范围按新清单/hash冻结，历史成功不自动继承。
+当前公开版有generated文件、实际installed/loaded身份与called回执；源码/干净197测试各通过，真实前台和隔离恢复按有限范围verified。仍有原生hook、全量语义和领域真值partial；本说明不替代对应验收证据。公开范围按新清单/hash冻结，历史成功不自动继承。
 
 本次合成回归156项通过，其中新增10项覆盖私有/公开分层、修订拒绝、触发节流与原生事件缺失拒绝。测试发现并修正“没有实际捕获时间时误进入冷却聚合”的初始判断问题。此处只确认合成合同性质；尚不证明新模块已经接入服务、当前宿主采用或自动回填成功。英文目前为说明摘要，完整独立英文用户手册仍待补齐。
 
 English: Supplement 04 connects the original design to observed engineering additions, preserves earlier baselines and records remaining gaps. It adds requirements for coalesced, low-cost ongoing learning, private provenance with reusable sanitized modules, accessible bilingual installation and staged checks of at most 100 new sources. Generated files are not deployment or acceptance evidence; no new paid dispatch or GitHub upload has occurred.
 
 
+
+
+## 2026-10-08 命令连续性与人可读意见修正
+
+当前Task增加独立命令通道。每条保存原话引用、当前宿主解释、来源修订、行动/讨论/引用/重复/未决类别和完成证据；补充默认追加，变更旧要求必须明确订正，保留旧修订。语音订正、修辞及AI拟文由当前宿主定点判断；词法检查与hash不能完成这些语义解释。准备上下文时有效命令全部进入mandatory lane，超过上限明确overflow，不让可选知识挤掉旧要求。宿主压缩后须再次调用当前Task上下文；没有真实hook回执不声称已强制所有桌面回合自动调用。
+
+注册交付先检查尚未完成的有效命令，再检查原注册Validation。有限read-probe入口持久记录同实验次数，达到约定上限停止，guard_reprepare实际回读声明结构与当前命令并要求新的修正依据后恢复；不以hash证明读懂内容，不拦截任意私有思考/宿主工具。旧v7.4治理有自己的真实DSH工具拦截，本次保留历史并另验当前接线。
+
+前台“历史经验给当前工作什么建议”直接显示一份已审原则及其多个实例链接，展开可看条件差异、依据与原实例。独立和证据不足不并入该原则，未经审查的知识/问题继续逐项查询，不按粗机制族或文字相似度自动去重。原候选与全部历史保留。完整项目历史已重新依据早期工程包和阶段实现按日/阶段重写。
 
 ## Historical appendix / 历史补记（不是当前状态）
 

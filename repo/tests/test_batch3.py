@@ -8,7 +8,7 @@ from uacf.util import Fault,file_hash,uid
 
 class Batch3(unittest.TestCase):
  def setUp(self):
-  self.tmp=tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[2]/'backups');self.root=Path(self.tmp.name)
+  self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
   init(self.root);self.s=State(self.root);self.s.backup(self.root/'b1');migrate(self.s,self.root/'b1');self.s.backup(self.root/'b2');restore(self.root/'b2',self.root/'recovery');migrate3(self.s,self.root/'b2')
   self.t=self.s.put(request(object_new('TaskContract',{'goal':'synthetic handoff','required_properties':[],'constraints':['preserve history'],'execution_state':'pending'},'active','shared')),'owner')['object']
  def tearDown(self):self.tmp.cleanup()

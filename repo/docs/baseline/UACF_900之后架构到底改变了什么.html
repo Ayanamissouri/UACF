@@ -1,6 +1,6 @@
-<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UACF_900之后架构到底改变了什么</title><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}details{margin:2em 0;border:1px solid #ccd6e4;padding:15px}summary{cursor:pointer;font-weight:bold}</style><main><p><a href="UACF_阅读导航.html">阅读导航 / Reading hub</a></p><h1>900 个来源之后，UACF 到底改变了什么</h1>
+<!doctype html><html><meta charset="utf-8"><style>body{font:17px/1.75 system-ui,"Microsoft YaHei",sans-serif;margin:0;background:#f4f6f9;color:#1a2535}main{max-width:1050px;margin:30px auto;padding:38px;background:white;border-radius:12px}h1{font-size:30px;line-height:1.4}h2{margin-top:2em;border-bottom:1px solid #dce3ee;padding-bottom:8px}code{font-size:.9em;background:#eef2f6;padding:2px 4px;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%;font-size:15px}td{vertical-align:top;border:1px solid #ccd6e4;padding:10px}tr:first-child{font-weight:bold;background:#edf2fa}.table-scroll{overflow-x:auto}a{color:#195aa4}footer{margin-top:30px;font-size:14px;color:#566575}@media(max-width:700px){main{margin:0;padding:20px}}@media print{body{background:white}main{margin:0;padding:0;max-width:none}}</style><main><h1>900 个来源之后，UACF 到底改变了什么</h1>
 <h2>当前阅读说明 · 2026-10-08</h2>
-<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
+<p>本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各197测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。</p>
 <p>2026-10-07｜面向普通使用者的能力说明｜来源整理、软件行为与尚未验证的效果分别说明。</p>
 <p>UACF 现在可以把过去做过的工作变成下一次工作的准备材料，也可以在它管理的交付入口检查某些明确的遗漏。它并没有因为读过 900 个来源，就变成一个不会再犯错的模型。改变发生在任务、来源、经验、执行入口和验收之间的连接上。</p>
 <h2>先回答：总说明做了没有</h2>
@@ -26,8 +26,8 @@
 <p>例如，合同规定完成说明、前台验证和真实闭环，只有说明文件和测试通过，交付门控仍应拒绝接受。这里的拒绝针对注册入口；不能声称它会拦住任意Codex工具，或看见模型的私有思考。普通聊天里未经接线的“完成”文字，也不自动等于规范验收。</p>
 <p>五个关口是已实现的有限执行合同。部分来自900整理揭示的问题，逐工序防遗漏还受到本次用户纠正推动。不能把全部历史工程成果都归因于900，也不能说1980实例变成了1980条硬规则。</p>
 <h2>4. “失败几次就强制回去读结构”现在有没有</h2>
-<p>目前没有覆盖任意工作、任意工具的自动重试计数器，也没有“失败三次便强制阅读全部结构”的通用硬门控。已有的相近控制是：来源或任务修订变化后，旧依赖和旧验收不能直接继承；已知失败或未知回执不能靠盲目重试掩盖；必需步骤缺失不能在注册入口交付。</p>
-<p>所以合理的下一步是：在明确注册的工作类型内，先定义什么算一次失败、什么结构必须读取、读取后的哪些证据允许恢复，再建立有限门控和正反例。只有聊天中重复一句“应该重读结构”，还不能算强制控制。本说明不把这一设想包装为已经安装的功能。</p>
+<p>旧v7—v7.4的DSH治理包已有同实验/同失败计数与真实工具入口停止。之前未查旧包便忽略这段实现，是历史解释错误。当前UACF本次另补有限注册read-probe的计数、停止与实际结构/命令重准备；这不代表任意宿主工具都有“失败三次便强制阅读全部结构”的通用门控。已有的相近控制是：来源或任务修订变化后，旧依赖和旧验收不能直接继承；已知失败或未知回执不能靠盲目重试掩盖；必需步骤缺失不能在注册入口交付。</p>
+<p>本次有限入口已经声明读取目标与次数上限，并实际完成停止、结构回读与恢复测试。将这种控制扩展到其他工作类型时，仍须逐类定义失败、必要结构和恢复证据，再接入真实入口；不能把本次文件读取测试称为任意宿主工具已经受控。</p>
 <h2>5. 不必等项目永远结束，才能整理</h2>
 <p>重要纠正、明确要求整理、实质需求变化、阶段成果和用户明确满意或结束，都可以形成整理节点。几句短补充合并，日常小事轻量处理，情绪本身不证明AI出错。触发判断只用当前公开节点的结构信号，提示依据上限1024字节，不另外开启模型推理。</p>
 <p>普通信号累计3次才准备增量整理；普通捕获间隔至少15分钟；明确请求或严重纠正可立即准备。周期扫描对明确启用该模式的本地任务检查元数据，7天闲置或24小时未检查时检查是否遗漏。它不代表已经连接并监控整个ChatGPT账号，也不自动收费重读闲置对话。</p>
@@ -39,7 +39,12 @@
 <h2>7. 对科研、写作、视频和普通工作有什么意义</h2>
 <p>科研工作可以保留“数据从哪里来、是否实际验证、哪些附件未读”的区别；写作可以保留语言、格式与用户本轮修改；视频工程可以链接素材和已完成步骤；简单日常工作不必每句话都启动复杂整理。</p>
 <p>它的价值是减少遗漏、把同一原则用在适当条件下、保留可核对的进展，而不是逼所有人学习Git命令。用户通过常设前台建立任务、查看经验和来源、处理待审、确认结束。压缩包提供启动入口和中英文手册，宿主安装助手只负责配置接线，宿主是否真的加载仍应另看回执。</p>
-<p>新增100用于验证这些路径是否实际工作，不用于凑更大的数字。预算上限20元已经授权；仍应先通过闭环，按10、30、60、100检查。任何来源、结束事件、回填或费用对不上，都应停止后续新增、保留回执并修复。</p><details><summary>Historical appendix / 历史补记（非当前状态，点击展开）</summary><h2>历史验收补记 · 2026-10-07 14:00 UTC</h2>
+<p>新增100用于验证这些路径是否实际工作，不用于凑更大的数字。预算上限20元已经授权；仍应先通过闭环，按10、30、60、100检查。任何来源、结束事件、回填或费用对不上，都应停止后续新增、保留回执并修复。</p>
+<h2>2026-10-08 命令连续性与人可读意见修正</h2>
+<p>当前Task增加独立命令通道。每条保存原话引用、当前宿主解释、来源修订、行动/讨论/引用/重复/未决类别和完成证据；补充默认追加，变更旧要求必须明确订正，保留旧修订。语音订正、修辞及AI拟文由当前宿主定点判断；词法检查与hash不能完成这些语义解释。准备上下文时有效命令全部进入mandatory lane，超过上限明确overflow，不让可选知识挤掉旧要求。宿主压缩后须再次调用当前Task上下文；没有真实hook回执不声称已强制所有桌面回合自动调用。</p>
+<p>注册交付先检查尚未完成的有效命令，再检查原注册Validation。有限read-probe入口持久记录同实验次数，达到约定上限停止，guard_reprepare实际回读声明结构与当前命令并要求新的修正依据后恢复；不以hash证明读懂内容，不拦截任意私有思考/宿主工具。旧v7.4治理有自己的真实DSH工具拦截，本次保留历史并另验当前接线。</p>
+<p>前台“历史经验给当前工作什么建议”直接显示一份已审原则及其多个实例链接，展开可看条件差异、依据与原实例。独立和证据不足不并入该原则，未经审查的知识/问题继续逐项查询，不按粗机制族或文字相似度自动去重。原候选与全部历史保留。完整项目历史已重新依据早期工程包和阶段实现按日/阶段重写。</p><details><summary>历史补记</summary><p>以下为原日期下的状态，保留供追溯。For current behavior, use the main text and verified release scope.</p>
+<h2>历史验收补记 · 2026-10-07 14:00 UTC</h2>
 <p>最新公开候选干净安装的178项测试全部通过；已复核合成模块的导入导出、全部当前宿主的普通任务计划、隔离备份恢复通过。卸载核对保留数据；没有部署指针时是幂等空操作，不能据此宣称已恢复真实宿主配置。真实宿主加载、live hook和当前正常工作结束仍为partial。现场大库部署校验仍在途。新历史来源提取10个，完整复核和发布均为0；架构检查点失败后停止新增。23个请求已结算，按高峰价核算的用量费用上界0.768499元，供应商账单仍未知。项目许可证Apache-2.0；尚未上传GitHub。</p>
 <h2>本次最终冻结范围 · 2026-10-07T22:16:14.812604+00:00</h2>
 <p>本节是本版当前验收范围。前面按日期保留的补记是历史状态，不能当当前结果；旧版文件另有保留。本阶段完成正式中文总说明、完整英文总设计、双语用户手册、第二阶段运行模式、补充04和早期迭代说明。发布采用Apache-2.0与干净初始公开历史，保留私有工程的全部原历史。</p>

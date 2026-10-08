@@ -2,7 +2,7 @@
 
 ## 当前阅读说明 · 2026-10-08
 
-本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各187测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。
+本项目已公开发布，Apache-2.0由所有者选择。当前正文按发布结果修订；旧现场补记移入末尾历史附录，不能当成当前待办。源码与干净安装各197测试通过。新100的完整公开正文处理、约10%正文宿主复核和候选发布完成；100份加入共享链，21份已有宿主分类回填，79份继续待共享语义分类。旧900全量语义审查、附件/领域真值、任意工具控制和所有宿主现场自动回调未宣称通过。完整阅读入口见《UACF_阅读导航》，冻结状态见Release与VERIFICATION。
 
 2026-10-07｜文档修订2｜设计与已观察实现分列。这里的“完整版”指覆盖完整系统职责，不表示所有能力已经验收完成。本说明对应第二阶段冻结版；当前验证范围见末尾，公开发布状态以所在GitHub Release记录为准；用户已选择Apache-2.0。完整英文对应说明见UACF_Complete_System_Design_English；具体操作见《第二阶段整体运行与操作模式》。
 
@@ -100,15 +100,10 @@ generated表示产出文件；installed表示安装到指定位置；loaded表�
 
 English: capability states are property-specific. Structural coverage, candidate extraction and semantic review are different counts. Native automatic capture, unrestricted host control and domain truth remain partial. The reviewed clean release is public at Ayanamissouri/UACF; earlier candidate archives remain preserved. Documentation-only revisions retain the tested runtime identity and receive a new package hash.
 
-## 10. 引用、合规与社区更新
+## 10. 来源与再分发声明
 
-以最终冻结结果判断引用：概念参考单列参考范围与公开来源；实际依赖列锁定版本/许可；真正复制或修改的代码按实际来源履行NOTICE与许可。早期提出而撤销的方案保留整改说明，不为美化历史遗漏，也不把未采用代码写成嵌入实现。
+第一方公开源码采用Apache-2.0。实际依赖的版本、来源与许可见THIRD_PARTY和SBOM；概念参考与最终采用范围见REFERENCES；再分发声明见NOTICE，未解决许可边界见LICENSE-GAPS和EXCLUSIONS。被撤销或未获再分发许可的实现不在公开包中。社区提交流程见CONTRIBUTING与UPLOAD-GUIDE，维护者复核后才采纳。此处只列本项目实际声明，不以用户提出的合规要求代替合规工作。
 
-最初MRS/MPK默认后端方案已撤销；被排除的MRS/MPH及旧包不分发。V74B解析只按工程NOTICE记定点结构参考。Wing、Strata为有界研究候选，不是已合入运行依赖。作者姓名未核实就不编造。
-
-社区提交只分享经审查的通用模块、合成反例和可复建改动。不要上传私人原件、聊天、数据库、运行日志或密钥。共享原则需保留适用范围和排除条件，不以更多案例数宣称规则无限增长或错误已经饱和。
-
-English: document conceptual references, actual dependencies and copied code accurately against the final implementation. Withdrawn backend ideas remain documented but excluded. Community contributions should contain reviewed generic modules and synthetic examples, never private source assets.
 
 ## 11. 文档和证据索引
 
@@ -123,6 +118,15 @@ English: document conceptual references, actual dependencies and copied code acc
 普通人的能力说明见《900之后架构到底改变了什么》；完整英文见《Complete System Design》。可分享模块的导入先成为待审草稿；本地来源入口可定点读取原条件。旧修订保留在私有交付历史，不能把其中的待办状态当当前状态。
 
 
+
+
+## 2026-10-08 命令连续性与人可读意见修正
+
+当前Task增加独立命令通道。每条保存原话引用、当前宿主解释、来源修订、行动/讨论/引用/重复/未决类别和完成证据；补充默认追加，变更旧要求必须明确订正，保留旧修订。语音订正、修辞及AI拟文由当前宿主定点判断；词法检查与hash不能完成这些语义解释。准备上下文时有效命令全部进入mandatory lane，超过上限明确overflow，不让可选知识挤掉旧要求。宿主压缩后须再次调用当前Task上下文；没有真实hook回执不声称已强制所有桌面回合自动调用。
+
+注册交付先检查尚未完成的有效命令，再检查原注册Validation。有限read-probe入口持久记录同实验次数，达到约定上限停止，guard_reprepare实际回读声明结构与当前命令并要求新的修正依据后恢复；不以hash证明读懂内容，不拦截任意私有思考/宿主工具。旧v7.4治理有自己的真实DSH工具拦截，本次保留历史并另验当前接线。
+
+前台“历史经验给当前工作什么建议”直接显示一份已审原则及其多个实例链接，展开可看条件差异、依据与原实例。独立和证据不足不并入该原则，未经审查的知识/问题继续逐项查询，不按粗机制族或文字相似度自动去重。原候选与全部历史保留。完整项目历史已重新依据早期工程包和阶段实现按日/阶段重写。
 
 ## Historical appendix / 历史补记（不是当前状态）
 

@@ -21,6 +21,10 @@ def protected(task):
   if not path.is_file() or file_hash(path)!=entry['sha256']:raise Fault('REGRESSION','protected baseline changed; do not deliver or auto overwrite it')
  return True
 def delivery(state,task):
+ from .retry_guard import check as retry_check
+ retry_check(task)
+ from .command_ledger import delivery as command_delivery
+ command_delivery(task)
  protected(task)
  work_steps(state,task)
  required=task['payload'].get('required_properties',[]);environment=task['payload'].get('delivery_environment_hash')

@@ -237,7 +237,14 @@ class State:
           'response_contracts':[o for o in self.list(actor,'ResponseContract') if o['payload'].get('task_id')==task_id and not stale(self,o)],
           'omissions':['uninterpreted sources remain candidates','wire usage unknown'],
           'access_domain':actor,'task_revision':task['revision']}
+        from .command_ledger import capsule as command_capsule
+        content['mandatory_command_lane']=command_capsule(task)
+        content['command_lane_instruction']='Preserve each active instruction across supplements and compaction. Read this current lane before work and delivery; amendments only through current human correction. Optional recall cannot evict mandatory commands.'
         related=[]; missing=[]
+        for entry in content['mandatory_command_lane']:
+            source=self.get(entry['source_ref']['object_id'],actor)
+            if source['revision']!=entry['source_ref']['revision']:
+                missing.append({'object_id':source['object_id'],'reason':'command source changed; preserve instruction and explicitly re-interpret'})
         policy_ref=task['payload'].get('execution_policy_ref')
         if policy_ref:
             policy=self.get(policy_ref['object_id'],actor)

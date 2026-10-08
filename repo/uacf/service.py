@@ -55,6 +55,15 @@ def PathSafe(raw,allowed):
     return allowed
 
 def dispatch(state,actor,action,args,operation_id=None):
+    if action in ['learning_opinions','learning_opinion_source']:
+        from .learning_opinions import opinions,source
+        return (opinions if action=='learning_opinions' else source)(state,actor,args)
+    if action in ['guard_probe','guard_reprepare']:
+        from .retry_guard import dispatch as retry_dispatch
+        return retry_dispatch(state,actor,action,args)
+    if action in ['command_status','command_update']:
+        from .command_ledger import dispatch as command_dispatch
+        return command_dispatch(state,actor,action,args)
     if action.startswith('portable_'):
         from .portable_assets import dispatch as portable_dispatch
         return portable_dispatch(state,actor,action,args)
@@ -149,7 +158,7 @@ def dispatch(state,actor,action,args,operation_id=None):
     raise Fault('UNSUPPORTED',f'unknown action {action}')
 
 MUTATIONS={'put','verify_dsh','promote','profile_set','host_event','artifact_capture','source_register','ingest','workunit','correct','integrate','rebuild','budget_reserve','budget_settle','model_dispatch','review_response','interpret','exchange_export','exchange_import','lease_acquire','lease_result','budget_open'}
-MUTATIONS.update(['portable_draft','portable_revise','portable_review','archive_trigger_check'])
+MUTATIONS.update(['portable_draft','portable_revise','portable_review','archive_trigger_check','command_update','guard_probe','guard_reprepare'])
 MUTATIONS.update(['trial_reserve','trial_settle','verify_host_project','promote_host_project'])
 from .archive import MUTATIONS as ARCHIVE_MUTATIONS
 MUTATIONS.update(ARCHIVE_MUTATIONS)
@@ -239,7 +248,7 @@ def serve(root,bind='127.0.0.1',port=None):
                     self.send(200,{'ok':True,'authenticated':True,'actor':actor,'authority_id':state.authority},cookie=issue(state,actor,server.server_port))
                 except Fault:self.send(200,{'ok':True,'authenticated':False})
                 return
-            if self.path in ['/observatory.js','/catalog.js','/workspace.js','/auth.js','/e7.js','/workflow.js','/learning.js','/portable.js']:
+            if self.path in ['/observatory.js','/catalog.js','/workspace.js','/auth.js','/e7.js','/workflow.js','/learning.js','/opinions.js','/portable.js']:
                 from pathlib import Path
                 b=(Path(__file__).resolve().parents[1]/'apps/control-surface'/self.path[1:]).read_bytes()
                 self.send_response(200); self.send_header('Content-Type','application/javascript; charset=utf-8'); self.send_header('Content-Length',str(len(b))); self.send_header('Cache-Control','no-store'); self.send_header('X-Content-Type-Options','nosniff'); self.end_headers(); self.wfile.write(b); return

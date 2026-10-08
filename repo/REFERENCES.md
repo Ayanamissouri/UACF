@@ -25,3 +25,10 @@ MRS/MPH及其他旧非开源包曾进入早期评估，但最终停止采用并�
 MRS/MPH and other excluded legacy packages were discontinued after initial evaluation. No excluded implementation is redistributed. Early Wing Agent/Strata references are research leads with unconfirmed attribution, not current dependencies.
 
 Apache-2.0 applies to the first-party public release. It does not relicense third-party material. Unresolved licenses remain gaps and their material is excluded.
+
+
+## Durable instruction continuity research,2026-10-08
+
+Reviewed primary project documentation for [Beads](https://github.com/gastownhall/beads) (persistent dependent tasks), [LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence) (checkpoint/resume), and [ContextSpindle](https://github.com/reacherwu/ContextSpindle) (authoritative task ledger separated from optional memory). These informed the separation of current instruction state and optional retrieval. UACF implements its scoped command lane inside its existing authenticated canonical State Service. No code, package or performance claim from these projects is redistributed or adopted as verification here. Future integration needs an exact version and its own permission review.
+
+Current Codex context settings were checked against [official configuration documentation](https://learn.chatgpt.com/docs/config-file/config-reference). A model's catalog window, effective runtime window and resolved auto-compaction threshold are distinct. Local public metadata is an observation, not a promise of universal settings.

@@ -2,7 +2,7 @@
 
 ## Current reading scope · 8 October 2026
 
-The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed187 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 entered the shared queue;21 host classifications returned and79 await semantic classification. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
+The reviewed release is public under the owner-selected Apache-2.0 license. The main text reflects current publication; older continuation notes are retained in a historical appendix. Source and clean installation passed197 tests each. The new100 full public-text extraction, approximately10% complete-text host review and candidate publication are complete. All100 entered the shared queue;21 host classifications returned and79 await semantic classification. Full old900 semantic review, attachments/domain truth, arbitrary-tool control and universal native callbacks remain unverified. Use the reading hub, release manifest and VERIFICATION for the precise scope.
 
 7 October 2026. Phase-two release scope, for research, writing, video production and everyday projects. Programming experience is not required to understand the workflow. Installation, native delivery and publication limitations remain part of this guide.
 
@@ -105,6 +105,14 @@ Refresh shareable lessons and expand the existing-asset projection section. Retr
 ### Process personal history, share and stop safely
 
 Preserve originals and ask the current AI to use the authorized source-registration and structural-archive entry. A new user's library does not inherit the private100/900 batch manifests. Freeze uncovered sources/routes and verify the loop and budget before executing a chosen batch, checking coverage, reviewing text and publishing candidates. The generic chain is public; private trial orchestration scripts are excluded, and missing adapters must not be reported as successful processing. UPLOAD-GUIDE explains sharing: export reviewed modules and submit sanitized proposals through Issues, or ask your AI to prepare a reviewed code contribution. Closing a browser does not stop the service. Ask the setup assistant to stop only your UACF service, remove only registered components with matching receipts, preserve all data/originals/backups and refuse to overwrite drifted host configuration. OPERATIONS contains exact maintenance/recovery commands. This guide is bilingual documentation; it does not claim every UI label has been translated.
+
+## Instruction continuity and human-readable opinions,8 October
+
+Task instructions now have a separate mandatory lane with original quotes, host interpretations, exact source revisions and pending/corrected/duplicate/unresolved lifecycles. A supplement appends; replacing/cancelling a prior directive requires an explicit current correction. Historical/AI-quoted text cannot authorize live actions. Rhetoric and voice corrections require host semantic judgment, not lexical/hash inference. Current context preparation rehydrates all active instructions; mandatory overflow is explicit and optional recall yields first. Compaction requires re-preparation; universal native hook delivery is not implied.
+
+Registered delivery rejects incomplete directives. A finite file-read gateway persists repeat counts and denies further attempts until actual declared structure/current-command readback with a correction basis. It does not intercept arbitrary host tools or prove private understanding. The oldv7.4DSH governor already provided real repeat denial and remains separately documented in the corrected project chronology.
+
+The frontend now has a readable principle/opinion section: one explicitly reviewed principle links several original instances, each retaining conditions, exclusions and comparison evidence. Independent/unresolved pairs are not merged. Knowledge candidates lacking semantic review remain individual candidates. Full project history now covers early workbench versions through the current release rather than listing only recent receipt timestamps.
 
 ## Historical appendix / 历史补记（不是当前状态）
 
