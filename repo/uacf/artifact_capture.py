@@ -7,7 +7,7 @@ def capture(state,actor,args):
  if set(args)-{'task_id','task_revision','native_session_id','host'} or any(not isinstance(args.get(k),str) or not args[k] or len(args[k])>256 for k in ['task_id','native_session_id']):
   raise Fault('INPUT','bounded Task/native session identifiers required')
  host=args.get('host',actor)
- if host not in ['codex','pi','dsh'] or actor not in ['owner',host]:raise Fault('PERMISSION','own Host capture only')
+ if host not in ['codex','pi','dsh','claude_code','codex_cloud'] or actor not in ['owner',host]:raise Fault('PERMISSION','own Host capture only')
  task=state.get(args['task_id'],actor)
  if task['object_type']!='TaskContract' or type(args.get('task_revision'))!=int or task['revision']!=args['task_revision']:
   raise Fault('REVISION_CONFLICT','current exact Task revision required')

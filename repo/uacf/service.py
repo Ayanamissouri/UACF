@@ -55,6 +55,12 @@ def PathSafe(raw,allowed):
     return allowed
 
 def dispatch(state,actor,action,args,operation_id=None):
+    if action in ['work_environment','work_verify']:
+        from .work_verification import dispatch as work_verify_dispatch
+        return work_verify_dispatch(state,actor,action,args,operation_id)
+    if action in ['work_policy_configure','work_enter','work_mode','work_admit','work_status']:
+        from .host_work import dispatch as work_dispatch
+        return work_dispatch(state,actor,action,args,operation_id)
     if action in ['learning_opinions','learning_opinion_source']:
         from .learning_opinions import opinions,source
         return (opinions if action=='learning_opinions' else source)(state,actor,args)
@@ -93,6 +99,12 @@ def dispatch(state,actor,action,args,operation_id=None):
     if action in ['trial_reserve','trial_settle']:
         from .trial_budget import reserve,settle
         return reserve(state,actor,args,operation_id) if action=='trial_reserve' else settle(state,actor,args)
+    if action=='native_watch_configure':
+        from .native_watch import configure as configure_native_watch
+        return configure_native_watch(state,actor,args)
+    if action in ['unified_search','unified_read','unified_refresh','unified_inventory']:
+        from .unified_assets import dispatch as unified_dispatch
+        return unified_dispatch(state,actor,action,args)
     if action=='catalog':
         from .catalog import catalog
         return catalog(state,actor,args)
@@ -158,6 +170,8 @@ def dispatch(state,actor,action,args,operation_id=None):
     raise Fault('UNSUPPORTED',f'unknown action {action}')
 
 MUTATIONS={'put','verify_dsh','promote','profile_set','host_event','artifact_capture','source_register','ingest','workunit','correct','integrate','rebuild','budget_reserve','budget_settle','model_dispatch','review_response','interpret','exchange_export','exchange_import','lease_acquire','lease_result','budget_open'}
+MUTATIONS.update(['work_policy_configure','work_enter','work_mode'])
+MUTATIONS.add('native_watch_configure')
 MUTATIONS.update(['portable_draft','portable_revise','portable_review','archive_trigger_check','command_update','guard_probe','guard_reprepare'])
 MUTATIONS.update(['trial_reserve','trial_settle','verify_host_project','promote_host_project'])
 from .archive import MUTATIONS as ARCHIVE_MUTATIONS
@@ -248,7 +262,7 @@ def serve(root,bind='127.0.0.1',port=None):
                     self.send(200,{'ok':True,'authenticated':True,'actor':actor,'authority_id':state.authority},cookie=issue(state,actor,server.server_port))
                 except Fault:self.send(200,{'ok':True,'authenticated':False})
                 return
-            if self.path in ['/observatory.js','/catalog.js','/workspace.js','/auth.js','/e7.js','/workflow.js','/learning.js','/opinions.js','/portable.js']:
+            if self.path in ['/observatory.js','/catalog.js','/workspace.js','/auth.js','/e7.js','/workflow.js','/learning.js','/opinions.js','/portable.js','/host-work.js']:
                 from pathlib import Path
                 b=(Path(__file__).resolve().parents[1]/'apps/control-surface'/self.path[1:]).read_bytes()
                 self.send_response(200); self.send_header('Content-Type','application/javascript; charset=utf-8'); self.send_header('Content-Length',str(len(b))); self.send_header('Cache-Control','no-store'); self.send_header('X-Content-Type-Options','nosniff'); self.end_headers(); self.wfile.write(b); return
@@ -305,6 +319,8 @@ def serve(root,bind='127.0.0.1',port=None):
                 import traceback
                 with (state.root/'logs/worker-errors.log').open('a',encoding='utf-8') as f: traceback.print_exc(file=f)
     thread=threading.Thread(target=worker,daemon=True); thread.start()
+    from .native_watch import start as start_native_watch
+    native_thread=start_native_watch(state,stop)
     atomic(state.data/'service-identity.json',canonical({'pid':os.getpid(),'epoch':epoch,'started_at':started,'port':server.server_port,'authority_id':state.authority,'loaded_source_identity':loaded_identity,'loaded_files':loaded_files}))
     try: server.serve_forever()
     finally: stop.set(); server.server_close(); thread.join(2)
@@ -323,7 +339,8 @@ def call(root,action,args,actor='owner',operation_id=None):
         message['request_hash']=sha(message)
     r=urllib.request.Request(f"http://{cfg['bind']}:{cfg['port']}/v1/action",data=canonical(message).encode(),headers={'Authorization':'Bearer '+auth[actor],'Content-Type':'application/json'})
     try:
-        with urllib.request.urlopen(r,timeout=110 if action in ['model_dispatch','review_response','interpret','archive_inventory','archive_run','archive_reindex'] else 30) as response: return json.load(response)
+        timeout=4 if action=='work_status' else 8 if action=='work_admit' else 10 if action=='work_enter' else 110 if action in ['work_verify','model_dispatch','review_response','interpret','archive_inventory','archive_run','archive_reindex'] else 30
+        with urllib.request.urlopen(r,timeout=timeout) as response: return json.load(response)
     except urllib.error.HTTPError as e:
         result=json.load(e); raise Fault(result['code'],result['detail'])
     except urllib.error.URLError: raise Fault('CORE_UNAVAILABLE','service unavailable; no automatic mutation retry')
@@ -335,3 +352,5 @@ MUTATIONS.update(['learning_enable_use','learning_rebuild_use'])
 MUTATIONS.add('learning_probe')
 MUTATIONS.update(['learning_semantic_build','learning_semantic_submit'])
 MUTATIONS.update(['learning_bind_host','learning_checkpoint','portable_import'])
+
+MUTATIONS.add('work_verify')

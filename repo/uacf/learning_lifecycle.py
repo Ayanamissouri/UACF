@@ -7,7 +7,7 @@ SIGNALS=['correction','requirement_change','milestone','owner_satisfied','comple
 def bind(state,actor,args):
  if actor!='owner':raise Fault('PERMISSION','Owner maps an actual native session')
  host=args.get('host');sid=args.get('native_session_id')
- if host not in ['codex','pi','dsh'] or not isinstance(sid,str) or not 1<=len(sid)<=200 or not args.get('native_locator') or not args.get('authorization'):raise Fault('INPUT','real native identity and explicit authorization required')
+ if host not in ['codex','pi','dsh','claude_code','codex_cloud'] or not isinstance(sid,str) or not 1<=len(sid)<=200 or not args.get('native_locator') or not args.get('authorization'):raise Fault('INPUT','real native identity and explicit authorization required')
  task=state.get(args['task_id'],'owner')
  if task['revision']!=args['task_revision']:raise Fault('REVISION_CONFLICT','map current Task revision')
  # Verify the host can read the whole mandatory dependency chain before mapping.
@@ -45,12 +45,13 @@ def capture_gate(task,event):
  if mode=='work_end' and event['payload'].get('native_type') in ['Stop','turn/end']:return 'capture'
  return 'defer' # keep raw public events; no length/emotion-as-verdict heuristic
 def checkpoint(state,actor,args):
- if actor!='owner':raise Fault('PERMISSION','explicit Owner checkpoint required')
+ if actor not in ['owner','codex','dsh','pi','claude_code','codex_cloud']:raise Fault('PERMISSION','mapped public-work checkpoint required')
  if args.get('signal') not in SIGNALS:raise Fault('INPUT','meaningful checkpoint signal required')
- task=state.get(args['task_id'],'owner')
+ task=state.get(args['task_id'],actor)
  if task['revision']!=args['task_revision']:raise Fault('REVISION_CONFLICT','checkpoint current Task')
  bindings=json.loads((state.data/'host-bindings.json').read_text())
  host=args['host'];sid=args['native_session_id']
+ if actor!='owner' and actor!=host:raise Fault('PERMISSION','host can annotate its own real public event only')
  if bindings.get(host,{}).get(sid)!=task['object_id']:raise Fault('MAPPING_CONFLICT','exact native Task required')
  with state.db() as c:
   row=c.execute('select payload from host_events where event_id=?',(args['native_event_id'],)).fetchone()

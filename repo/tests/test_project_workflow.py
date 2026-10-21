@@ -1,8 +1,8 @@
-import unittest,tempfile,copy
+import unittest,tempfile,copy,json
 from pathlib import Path
 from types import SimpleNamespace
 from uacf.project_workflow import dispatch,defaults
-from uacf.util import Fault
+from uacf.util import Fault,file_hash
 
 class ProjectWorkflow(unittest.TestCase):
     def setUp(self):
@@ -33,6 +33,24 @@ class ProjectWorkflow(unittest.TestCase):
         self.configure('deepseek')
         with self.assertRaises(Fault) as f:self.record('first','started')
         self.assertEqual(f.exception.code,'ADAPTER_REQUIRED')
+    def test_review_checks_declared_metric_evidence(self):
+        self.configure()
+        root=self.state.root
+        source=root/'native.json';source.write_text('{"output":200,"seconds":10}')
+        report=root/'report.html';report.write_text('<p>20/s</p>')
+        manifest=root/'metrics.json'
+        data=dict(schema='uacf-metric-evidence-1',report=dict(path=str(report),sha256=file_hash(report)),
+                  sources=[dict(id='native',path=str(source),sha256=file_hash(source))],
+                  metrics=[dict(id='rate',purpose='model_decode_comparison',numerator=200,denominator=10,value=20,
+                                denominator_kind='calendar_span_seconds',token_kind='output_tokens',source_ids=['native'],meaning='bad denominator')])
+        manifest.write_text(json.dumps(data))
+        self.objects['task']['payload']['metric_evidence_manifest']=dict(path=str(manifest),sha256=file_hash(manifest))
+        self.record('first','started')
+        with self.assertRaises(Fault) as error:self.record('first','completed',result='bad rate',actual_model='current_host',native_locator='file')
+        self.assertEqual(error.exception.code,'METRIC_DENOMINATOR')
+        data['metrics'][0]['denominator_kind']='active_turn_wall_seconds';manifest.write_text(json.dumps(data))
+        self.objects['task']['payload']['metric_evidence_manifest']['sha256']=file_hash(manifest)
+        self.record('first','completed',result='checked rate',actual_model='current_host',native_locator='file')
     def test_task_change_blocks_old_plan(self):
         self.configure();self.objects['task']['revision']=3
         with self.assertRaises(Fault) as f:dispatch(self.state,'owner','workflow_project_status',{'task_id':'task'},None)

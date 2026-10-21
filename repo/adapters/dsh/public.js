@@ -12,7 +12,7 @@ export function apply(ctx, config = {}) {
     const c = JSON.parse(fs.readFileSync(path.join(root, 'data/config.json')))
     const token = JSON.parse(fs.readFileSync(path.join(root, 'data/auth.json'))).dsh
     const command = { action, args }
-    if (['host_event', 'artifact_capture', 'learning_host_submit'].includes(action)) {
+    if (['host_event', 'artifact_capture', 'learning_host_submit','work_enter','work_mode'].includes(action)) {
       const operation_id = action === 'host_event' ? args.event_id : crypto.randomUUID()
       Object.assign(command, {operation_id, actor:'dsh', schema_version:'1.0', correlation_id:operation_id, scope:'action:'+action, expected_revision:0})
       command.request_hash = crypto.createHash('sha256').update(JSON.stringify(sorted(command))).digest('hex')

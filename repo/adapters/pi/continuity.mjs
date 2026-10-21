@@ -29,7 +29,11 @@ export default function continuity(pi, bridge) {
     catch { await record({kind:'preparation_refused',task_id:bridge.taskId}); return {action:'handled'}; }
   });
   pi.on('tool_call',async event=>{
-    if (bridge.active && !bridge.active()) return;
+    if (bridge.active && !bridge.active()) return bridge.governed?.()?{block:true,reason:'UACF default work enrollment required; silence is not opt-out'}:undefined;
+    if(bridge.admit){
+      try{const admission=await bridge.admit(event);if(!admission.allowed)return {block:true,reason:admission.reason||'UACF admission refused'};}
+      catch{return {block:true,reason:'UACF tool admission unavailable'};}
+    }
     let current;
     try { current=await bridge.prepare(); }
     catch { return {block:true,reason:'UACF State Service unavailable; mapped tool admission refused'}; }

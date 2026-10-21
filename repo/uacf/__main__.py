@@ -12,7 +12,7 @@ def main():
             i=argv.index(flag); count=1 if flag=='--json' else 2
             global_args.extend(argv[i:i+count]); del argv[i:i+count]
     p=argparse.ArgumentParser(prog='uacf',description='UACF E0-E2 canonical continuity service; no automatic external write replay')
-    p.add_argument('--root',default=str(Path(__file__).resolve().parents[2])); p.add_argument('--json',action='store_true'); p.add_argument('--actor',choices=['owner','reader','dsh','codex','pi'],default='owner')
+    p.add_argument('--root',default=str(Path(__file__).resolve().parents[2])); p.add_argument('--json',action='store_true'); p.add_argument('--actor',choices=['owner','reader','dsh','codex','pi','claude_code','codex_cloud'],default='owner')
     sub=p.add_subparsers(dest='command',required=True)
     x=sub.add_parser('init');x.add_argument('--current-schema',action='store_true');sub.add_parser('doctor')
     x=sub.add_parser('migrate');x.add_argument('--backup',required=True)
@@ -30,7 +30,7 @@ def main():
     x=sub.add_parser('operation'); x.add_argument('operation',choices=['status']); x.add_argument('--id',required=True)
     x=sub.add_parser('restore'); x.add_argument('--backup',required=True); x.add_argument('--into',required=True)
     x=sub.add_parser('host'); x.add_argument('operation',choices=['probe','install','verify','rollback','reload','context']); x.add_argument('--host',choices=['dsh','codex'],required=True); x.add_argument('--home'); x.add_argument('--task'); x.add_argument('--revision',type=int); x.add_argument('--tokens',type=int)
-    x=sub.add_parser('mcp'); x.add_argument('--host',default='codex',choices=['dsh','codex','pi'])
+    x=sub.add_parser('mcp'); x.add_argument('--host',default='codex',choices=['dsh','codex','pi','claude_code','codex_cloud'])
     x=sub.add_parser('ui')
     a=p.parse_args(global_args+argv)
     try:

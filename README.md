@@ -1,3 +1,5 @@
+> **2026-10-21 current release:** [Updates and status](repo/docs/public/UPDATE-20261021.md) · [Architecture and ownership](repo/docs/public/CURRENT-ARCHITECTURE.md) · [Security preflight](repo/docs/public/DEPLOYMENT-SECURITY.md). Historical verification counts below refer to their original releases.
+
 <a id="chinese"></a>
 
 # UACF — 让AI工作保留要求、来源和经验

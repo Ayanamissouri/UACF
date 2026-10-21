@@ -8,8 +8,30 @@ from uacf.util import now, uid, sha, Fault, atomic, canonical
 
 def run(root, event):
     host_id = event.get('session_id'); kind = event.get('hook_event_name')
-    if not host_id or kind not in ['UserPromptSubmit','Stop','PostToolUse','SessionStart','SessionEnd','Interrupt']:
+    if not host_id or kind not in ['PreToolUse','UserPromptSubmit','Stop','PostToolUse','SessionStart','SessionEnd','Interrupt']:
         raise Fault('INPUT','supported public hook and native session ID required')
+    # Owner-installed all-work policy, shared with DSH/Pi/Claude. No prompt text
+    # can opt out; that requires the explicit Owner mode action.
+    governed=(root/'data/host-work/policy.json').exists()
+    if governed and kind=='SessionStart':
+        return {'hookSpecificOutput':{'hookEventName':kind,'additionalContext':'是否继续使用 UACF 工作？默认继续；无需等待回答，只有用户明确不使用才切换。下一次用户输入通过 work_enter 建立真实任务；不要另写 API 客户端绕过。'}}
+    if governed and kind=='UserPromptSubmit':
+        prompt=event.get('prompt') or 'Current Owner work; preserve the full public request in native evidence'
+        entered=call(root,'work_enter',{'host':'codex','native_session_id':host_id,'goal':prompt[:2500],
+            'native_locator':'codex://threads/'+host_id},'codex')
+        if entered.get('mode')=='external':return {'continue':True}
+    if kind=='PreToolUse':
+        try:
+            result=call(root,'work_admit',{'host':'codex','native_session_id':host_id,'tool_name':event.get('tool_name',''),
+                'tool_input':event.get('tool_input',{}),'cwd':event.get('cwd',str(root))},'codex')
+        except Exception as error:
+            result={'allowed':False,'reason':'UACF tool admission unavailable: '+type(error).__name__}
+        if not result.get('allowed'):
+            return {'hookSpecificOutput':{'hookEventName':'PreToolUse','permissionDecision':'deny','permissionDecisionReason':result.get('reason','UACF admission refused')}}
+        return {'hookSpecificOutput':{'hookEventName':'PreToolUse','additionalContext':json.dumps({'uacf_task_ref':result.get('task_ref'),'mode':result.get('mode'),'admission':'checked by State Service; no paid dispatch'},ensure_ascii=False)}}
+    if governed and kind not in ['SessionStart','UserPromptSubmit']:
+        status=call(root,'work_status',{'host':'codex','native_session_id':host_id},'codex')
+        if (status.get('session') or {}).get('mode')=='external':return {'continue':True}
     binding_path = root/'data/host-bindings.json'
     bindings = json.loads(binding_path.read_text()) if binding_path.exists() else {}
     task = bindings.get('codex',{}).get(host_id)

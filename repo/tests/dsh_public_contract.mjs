@@ -8,7 +8,7 @@ const root = fs.mkdtempSync(path.join(os.tmpdir(), 'uacf-public-'))
 const tools = [], effects = [], handlers = {}
 apply({on:(n,h)=>handlers[n]=h,effect:f=>{const d=f();if(typeof d==='function')effects.push(d)},tools:{register:t=>tools.push(t)},workspaceRegistry:{list:()=>[]},sessions:{flush:async()=>true}}, {root})
 assert.deepEqual(tools.map(x=>x.name), ['uacf_context','uacf_status','uacf_asset_read','uacf_learning_next','uacf_learning_submit'])
-assert.equal(Object.keys(handlers).length, 2)
+assert.equal(Object.keys(handlers).length, 3)
 let continued = false
 await handlers['system-prompt/assemble']({}, {agent:{id:'unmapped'}}, async()=>{continued=true;return {contexts:[]}})
 assert.equal(continued, true)

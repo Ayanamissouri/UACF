@@ -12,6 +12,12 @@ TOOLS=[{'name':'uacf_context','description':'Get TaskContract revision, applicab
  'inputSchema':{'type':'object','properties':{'task_id':{'type':'string'},'task_revision':{'type':'integer','minimum':1},'artifact_id':{'type':'string'},'max_bytes':{'type':'integer','minimum':1,'maximum':8388608}},'required':['task_id','task_revision','artifact_id'],'additionalProperties':False}}]
 TOOLS += [{'name':'uacf_learning_next','description':'Read only this host\'s explicitly mapped public work awaiting source-bound learning. Continue in the existing host; no external model dependency.', 'inputSchema':{'type':'object','properties':{'task_id':{'type':'string'}},'required':['task_id'],'additionalProperties':False}},
  {'name':'uacf_learning_submit','description':'Return current-host source-bound knowledge/issues or candidate comparisons to the same shared queue. Literal quotes and complete indexes are enforced; no factual acceptance or generated rule execution.', 'inputSchema':{'type':'object','properties':{'task_id':{'type':'string'},'job_id':{'type':'string'},'result':{'type':'object'}},'required':['task_id','job_id','result'],'additionalProperties':False}}]
+TOOLS += [{'name':'uacf_search','description':'Search ALL indexed UACF sources: historical GPT exports, Codex/DSH/Pi public work and current source-bound assets. Requires an Owner-authorized mapped Task; returns bounded candidates with source coverage, never authority.',
+ 'inputSchema':{'type':'object','properties':{'task_id':{'type':'string'},'task_revision':{'type':'integer'},'query':{'type':'string','maxLength':200},'host':{'type':'string'},'limit':{'type':'integer','minimum':1,'maximum':20}},'required':['task_id','task_revision','query'],'additionalProperties':False}}]
+
+TOOLS += [{'name':'uacf_checkpoint','description':'Capture a meaningful current-work correction/milestone from an already observed real event in this exact mapped session. Never synthesizes a native event; use critical correction for explicit severe rejection with a concrete correction, not emotion alone.',
+ 'inputSchema':{'type':'object','properties':{'task_id':{'type':'string'},'task_revision':{'type':'integer'},'native_session_id':{'type':'string'},'native_event_id':{'type':'string'},'signal':{'enum':['correction','requirement_change','milestone','owner_satisfied','completion']},'basis':{'type':'string','maxLength':1000},'features':{'type':'object'}},'required':['task_id','task_revision','native_session_id','native_event_id','signal'],'additionalProperties':False}}]
+
 def handle(root,host,msg):
     method=msg.get('method'); params=msg.get('params',{})
     if method=='initialize': return {'protocolVersion':params.get('protocolVersion') if params.get('protocolVersion') in ['2024-11-05','2025-03-26','2025-06-18','2025-11-25'] else '2025-11-25','capabilities':{'tools':{}},'serverInfo':{'name':'uacf','version':'0.1.1'}}
@@ -24,7 +30,9 @@ def handle(root,host,msg):
             if tool is None:raise Fault('UNSUPPORTED','unknown tool')
             errors=list(Draft202012Validator(tool['inputSchema']).iter_errors(args))
             if errors:raise Fault('INPUT','MCP tool arguments do not match declared schema')
-            if name=='uacf_context': result=call(root,'context',args,host)
+            if name=='uacf_checkpoint': result=call(root,'learning_checkpoint',dict(args,host=host),host)
+            elif name=='uacf_search': result=call(root,'unified_search',args,host)
+            elif name=='uacf_context': result=call(root,'context',args,host)
             elif name=='uacf_status': result=call(root,'get',args,host) if args.get('object_id') else call(root,'doctor',{},host)
             elif name=='uacf_asset_read': result=call(root,'asset_read',args,host)
             elif name=='uacf_learning_next': result=call(root,'learning_host_next',args,host)

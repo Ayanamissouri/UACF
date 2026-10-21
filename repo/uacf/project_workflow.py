@@ -67,6 +67,9 @@ def _dispatch(state,actor,action,args,operation_id):
         if step['route']=='deepseek':raise Fault('ADAPTER_REQUIRED','generic DS completion needs a registered task-specific receipt verifier; do not claim success')
         if args.get('actual_model') not in ['current_host','gpt-6.1-sol']:raise Fault('MODEL_MISMATCH','current host receipt or explicitly observed model required')
         if not isinstance(args.get('native_locator'),str) or not args['native_locator'].strip():raise Fault('INPUT','public native call/file locator required')
+        if step['role'] in ['review','deliver'] and task['payload'].get('metric_evidence_manifest'):
+            from .metric_evidence import verify
+            verify(state.root,task['payload']['metric_evidence_manifest'])
         from .learning import config
         if getattr(state,'data',None) is not None and config(state):
             from .learning_guards import protected,delivery

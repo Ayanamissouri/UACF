@@ -10,6 +10,29 @@ export function continuity(ctx, root, core) {
   const epoch = crypto.randomUUID(); let seq = 0; let draining = false
   const directoryHashes = new Map()
   const preparedRevisions = new Map()
+  const externalSessions = new Set()
+  const admissions = new WeakMap()
+  const governed = () => fs.existsSync(path.join(root,'data/host-work/policy.json'))
+  // Public async pre-execute gate plus monotonic native guard. Another listener
+  // cannot turn a refusal (or a skipped gate) into permission later in the chain.
+  ctx.on('tools/pre-execute', async (exec,next) => {
+    if(!governed())return next()
+    let decision
+    try {
+      if(!exec.agent?.id)throw Error('UACF_NATIVE_SESSION_REQUIRED')
+      const r=await core('work_admit',{host:'dsh',native_session_id:exec.agent.id,
+        tool_name:exec.name,tool_input:exec.arguments,cwd:exec.agent.session?.meta?.cwd||root})
+      decision=r.allowed?{allowed:true}:{allowed:false,reason:r.reason||r.code||'UACF admission refused'}
+    } catch(error) {decision={allowed:false,reason:'UACF admission unavailable: '+error.name}}
+    admissions.set(exec,decision)
+    if(!decision.allowed)return {kind:'deny',reason:decision.reason}
+    return next()
+  })
+  if(ctx.tools?.guard)ctx.effect(()=>ctx.tools.guard(exec=>{
+    if(!governed())return
+    const d=admissions.get(exec)
+    if(!d?.allowed)return d?.reason||'UACF_ADMISSION_NOT_CHECKED'
+  }))
   const bindings = () => {
     const p = path.join(root, 'data', 'host-bindings.json')
     return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')).dsh || {} : {}
@@ -43,6 +66,7 @@ export function continuity(ctx, root, core) {
       return {type:b.type,id:b.id,name:b.name,...(b.arguments === undefined ? {} : {arguments:b.arguments}),...(b.content === undefined ? {} : {content:b.content}),...(b.isError === undefined ? {} : {isError:b.isError})}
     })})
   ctx.on('session/event', (session,event) => {
+    if(externalSessions.has(session.id))return
     if (!bindings()[session.id]) return // Explicit native ID mapping; no title/cwd guessed semantic affiliation.
     const base = {native_session_id:session.id,native_seq:event.seq,native_type:event.type,source_version:'DSH 0.1.5-rc.2'}
     if (['user/message','assistant/message','tool/result'].includes(event.type)) {
@@ -62,7 +86,15 @@ export function continuity(ctx, root, core) {
     }
   })
   ctx.on('system-prompt/assemble', async (assembly, context, next) => {
-    const id = context.agent?.id, task = bindings()[id]
+    const id = context.agent?.id;let task = bindings()[id]
+    let notice=''
+    if(fs.existsSync(path.join(root,'data/host-work/policy.json'))){
+      if(!id)throw new Error('UACF_NATIVE_SESSION_REQUIRED')
+      const entered=await core('work_enter',{host:'dsh',native_session_id:id,goal:'DSH native work; preserve current Owner request before implementation',native_locator:'dsh:session:'+id})
+      if(entered.mode==='external'){externalSessions.add(id);return next()}
+      externalSessions.delete(id)
+      task=entered.task_ref.object_id;notice=entered.notice
+    }
     if (!task) return next()
     const prepared = await core('context',{task_id:task})
     record({kind:'round_preparation',native_session_id:id,task_id:task,status:prepared.status || prepared.code,
@@ -70,7 +102,7 @@ export function continuity(ctx, root, core) {
     if (!prepared.ok || prepared.status !== 'ready') throw new Error('UACF_CONTEXT_' + (prepared.status || prepared.code))
     preparedRevisions.set(id,prepared.capsule.task_revision)
     const result = await next()
-    return {...result,contexts:[...result.contexts,{name:'uacf:canonical-task',text:JSON.stringify(prepared.capsule)}]}
+    return {...result,contexts:[...result.contexts,{name:'uacf:canonical-task',text:JSON.stringify({...prepared.capsule,default_work_notice:notice,notice_is_nonblocking:true})}]}
   })
   function observeDirectory() {
     const projects=ctx.workspaceRegistry.list()

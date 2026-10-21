@@ -56,7 +56,7 @@ class Reader:
   self.rpc('initialize',{'clientInfo':{'name':'uacf-public-observer','version':'1.0'},'capabilities':{'experimentalApi':True}})
   self.p.stdin.write(b'{"method":"initialized"}\n');self.p.stdin.flush()
  def rpc(self,method,args):
-  if method not in ['initialize','thread/read','thread/turns/list','thread/items/list']:raise Fault('PERMISSION','observer is read only')
+  if method not in ['initialize','thread/list','thread/read','thread/turns/list','thread/items/list']:raise Fault('PERMISSION','observer is read only')
   self.i+=1;self.p.stdin.write((canonical({'id':self.i,'method':method,'params':args})+'\n').encode());self.p.stdin.flush();end=time.monotonic()+30
   while time.monotonic()<end:
    try:r=self.q.get(timeout=.5)
@@ -91,7 +91,7 @@ def observe(root,binary,sid,task_id):
   if thread['id']!=sid or Path(thread['cwd']).resolve()!=root:raise Fault('MAPPING_CONFLICT','actual native thread workspace mismatch')
   turns=reader.rpc('thread/turns/list',{'threadId':sid,'limit':2,'itemsView':'notLoaded','sortDirection':'desc'})['data']
   for turn in reversed(turns):
-   occurred=datetime.datetime.fromtimestamp(turn['startedAt'],datetime.timezone.utc).isoformat();cursor=None;count=0;last=None;bounded=False;public_ids=[];has_work=False;has_final=False
+   occurred=datetime.datetime.fromtimestamp(turn['startedAt'],datetime.timezone.utc).isoformat();cursor=None;count=0;last=None;bounded=False;public_ids=[];has_work=False;has_final=False;pending=[]
    while count<256:
     # A long active turn can exceed the cap. Read the recent public tail so
     # the real final item is observable; earlier watcher receipts are retained.
@@ -102,6 +102,14 @@ def observe(root,binary,sid,task_id):
      item=entry.get('item',entry)
      public=public_item(item)
      if public is None:continue
+     pending.append((item,public));count+=1
+    cursor=page.get('nextCursor')
+    if not cursor:break
+   if cursor:bounded=True
+   # Native pagination is newest-first; persist the selected public tail in
+   # chronological order. Updated streaming items get new observations, not
+   # silent reuse of an earlier partial body with the same native item id.
+   for item,public in reversed(pending):
      has_work=has_work or item.get('type') in ['commandExecution','fileChange'] and item.get('status')=='completed'
      has_final=has_final or item.get('type')=='agentMessage' and item.get('phase')=='final'
      try:assert_no_secrets(State(root),public)
@@ -109,10 +117,7 @@ def observe(root,binary,sid,task_id):
       if error.code!='SECRET':raise
       public={'id':public['id'],'role':public['role'],'content':'Public item body withheld by credential filter','withheld_hash':sha(public),'coverage':'identity only; original remains in native host'}
      if len(canonical(public).encode())>24000:public['content']={'bounded_preview':canonical(public['content']).encode()[:24000].decode('utf-8',errors='ignore'),'truncated':True};public['coverage']+='; body truncated'
-     last=deliver(turn['id'],public['id'],{'kind':'native_message','native_type':'public/item','message':public},occurred);count+=1;public_ids.append(public['id'])
-    cursor=page.get('nextCursor')
-    if not cursor:break
-   if cursor:bounded=True
+     last=deliver(turn['id'],public['id']+':'+sha(public),{'kind':'native_message','native_type':'public/item','message':public},occurred);public_ids.append(public['id'])
    end=None
    if count and turn.get('status')=='completed' and turn.get('completedAt') is not None:
     features={'progress':bool(has_work and has_final)}

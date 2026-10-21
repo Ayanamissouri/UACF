@@ -4,7 +4,7 @@ from .util import Fault
 
 def observe(state,actor,args):
     host=args.get('host');session=args.get('native_session_id');after=args.get('after_rowid',0);limit=args.get('limit',50)
-    if host not in ['dsh','codex','pi'] or type(after)!=int or after<0 or type(limit)!=int or not 1<=limit<=100:
+    if host not in ['dsh','codex','pi','claude_code','codex_cloud'] or type(after)!=int or after<0 or type(limit)!=int or not 1<=limit<=100:
         raise Fault('INPUT','explicit native host and bounded cursor required')
     if actor not in ['owner',host]:raise Fault('PERMISSION','private native archive is restricted to its host and owner')
     events=[];directory={};cursor=after

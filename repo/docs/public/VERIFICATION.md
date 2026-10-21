@@ -1,40 +1,19 @@
-# Verified scope / 本版验收范围
+# Current verification — 2026-10-21
 
-The release distinguishes generated, installed, loaded, called, verified and partial. A frozen file identity is not semantic understanding. 本版说明按实际证据划界，历史报告保留，旧成功不自动继承。
-
-|范围 / Scope|实际结果 / Observed result|
+| Check | Observed scope |
 |---|---|
-|Source and isolated clean install|198 tests passed in each environment; official Python hash-locked dependencies; no private data imported|
-|Empty-store UI|Real browser pairing and zero source/candidate/issue counts; current schema; no legacy spending authorization|
-|UI operations|Actual draft/import/review/local-source read-back; authenticated workflow start, review return, formatting repair and final publication; original conditions remain readable|
-|Normal work|Actual previous completion plus in-work public source → candidates → comparison → return; incremental boundary capture, no extra GPT turn|
-|Unknown outcomes|Stored native observation reconciled with original identity and existing source; no tool/model replay|
-|Current-host use|Task context delivered conditional old guidance; host source review applied/excluded it with source citations, separate from model self-report|
-|New100|Full frozen public-source coverage, staged checkpoints and roughly10% complete-text host review; candidate publication, not domain-truth certification|
-|Source protection|Original design files and private baseline retained; no live database rollback or old900 re-extraction|
-|Actual uninstall/recovery|A registered code pointer was actually removed; database hash retained; isolated recovery integrity/foreign keys/blobs checked, external replay paused|
-|Host declaration/configuration|Tool declarations and bounded native calls tested; synthetic host config parsed/restored with drift rejection; not all real hosts/end callbacks verified|
-|Node|Relevant JS/MJS syntax, relative imports and existing host synthetic contracts checked; third-party runtime packages are not bundled|
+| Development source | 229 tests passed |
+| Reviewed public candidate | 229 tests passed |
+| Isolated install from the official hash-locked requirements | Installed successfully; fresh authority; integrity and foreign-key checks passed |
+| Isolated installed source | 229 tests passed |
+| Isolated backup/recovery | Passed; no live store overwritten |
+| JS/MJS syntax | All selected files passed Node syntax checks, without executing third-party model calls |
+| Publication | Exact file/hash manifest, bounded privacy scan, ZIP file identity; remote proof recorded only after upload/download |
 
-## Capability limits / 能力边界
+The source/candidate/clean runs are separate executions of the same finite 229-test suite. They are not 687 independent requirements and do not prove arbitrary host or remote-device behavior. Tests cover current state/contracts, transport, source permissions, queues, revisions, workflow/metric evidence and configured boundaries. Old counts in historical guides remain historical.
 
-The old900 semantic duplicate review remains incomplete. Attachments and domain facts remain unverified where evidence is absent. Public read-back is not a native live hook. A current still-running turn cannot have a verified final end yet. Account-wide idle capture, arbitrary tools, universal new-machine/native-host compatibility and repeated-failure automatic architecture rereading are not promised. Guidance modules are advisory; source counts do not create new hard rules.
+The complete package excludes user data, native histories, credentials, machine configuration, private experiment scripts, old private Git history, vendor wheels, node_modules and old Pi runtime locks. Existing first-party Apache-2.0 licensing and dependency notices remain. No new paid model requests were made for this release work.
 
-Missing Python bootstrap branches are provided with official installation guidance but were not executed on this Python-equipped machine. Configuration is not host loading; synthetic callbacks are not model turns. An observed usage-price bound is not a supplier invoice. Private experimental scripts, raw chats, databases, evidence logs, credentials, personal bindings and excluded legacy code are absent from this release.
+## Known limits
 
-
-## Shared admission after publication / 发布后的共享回填
-
-The private new-source trial published all 100 source-bound candidate cards. All 100 were then admitted to the common learning queue; 21 already completed full-source host reviews returned 22 issue and 45 knowledge dispositions with no new provider calls. The other79 source cards were subsequently fully candidate-classified by the current host in batches of5:405 knowledge and224 issue dispositions. All100 are now in shared retrieval; this does not complete pairwise semantic or domain validation. No new executable rules were adopted. Rebuilding retrieval produced no above-threshold cross-source proposals involving the 22 reviewed new issues. This is a retrieval coverage limitation, not evidence that they have no duplicates. Their original conditions and unresolved status remain available. The older 151 pair reviews and the frozen 900-source Task are retained.
-
-本次100来源的完整提取、约10%正文风险复核和候选发布已经完成；共享语义审查仍按实例与条件继续排队。提取覆盖、机制分类、成对语义判别和领域真值是四种不同结果，不能互相替代。
-
-
-## 8 October substantive correction / 七项修正
-
-Actual UI principle, condition and source read-back, all seven commands through authenticated Codex context, repeat-stop/reprepare/resume and10 groups of10 existing sources were verified. Four source candidate interpretations were corrected with historical revisions retained. This is bounded architecture regression, not full100-source semantic acceptance.53 loaded files matched source and installation. See the [readable correction](../baseline/UACF_七项问题修正与验收说明.md). Earlier187-test evidence remains historical; the current freeze passed197 in each environment.
-
-
-## Final shared retrieval freeze / 共享送达最终冻结
-
-Source and clean198 tests each passed. All53 loaded runtime files matched. The remaining79 classifications were returned, with immutable source conditions and current classification basis delivered together to the host. Actual UI counts1004/4250/2228 matched canonical index scope;151 pairs cover115 instances,2113 remain without that review. Other native jobs3 extracted/1 needs_review remain partial. No new extraction, paid request or executable rule. Earlier197 results remain historical.
+Native observer cross-workspace admission, generic default-Task verification registration and stale active-stage continuation are not repaired by this publication. Metric evidence code and its stage hook are present in this source package; existing running installations need controlled adoption. New-machine Python bootstrap without Python, every real host callback, cloud account-wide archives, semantic/domain truth and remote models/GPU performance remain separately verified. No production instance or remote computer was upgraded by publishing this release.

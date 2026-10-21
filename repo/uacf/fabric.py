@@ -71,7 +71,7 @@ def config_set(state,actor,args,operation_id):
 def failure_obligations(state,actor,task):
  required=set(task['payload'].get('required_properties',[])); candidates=[]; effective=[]; excluded=[]
  environment=task['payload'].get('environment',{}); host=task['payload'].get('host','dsh')
- for f in state.list(actor,'FailureCase')+state.list(actor,'FailurePattern'):
+ for f in state.property_candidates(actor,['FailureCase','FailurePattern'],required):
   if not(required & set(f['payload'].get('properties',[]))):continue
   candidates.append(f); reasons=[]; cond=f['payload'].get('applicability',{})
   if f['status'] in ['retracted','superseded','rejected']:reasons.append('inactive lifecycle')

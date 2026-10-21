@@ -13,8 +13,8 @@ def stamp(s):
   return d.timestamp()
  except (ValueError,AttributeError):raise Fault('INPUT','timezone-aware timestamp required')
 def decide(features,previous,timestamp):
- if set(features)-{'explicit_request','correction','requirement_change','progress','owner_satisfied','completion','dissatisfaction','severity','short_daily','cue','observed_event_id','last_work_at'}:raise Fault('INPUT','bounded trigger feature schema')
- for k in ['explicit_request','correction','requirement_change','progress','owner_satisfied','completion','dissatisfaction','short_daily']:
+ if set(features)-{'explicit_request','correction','requirement_change','progress','owner_satisfied','completion','dissatisfaction','severity','short_daily','periodic_checkpoint','cue','observed_event_id','last_work_at'}:raise Fault('INPUT','bounded trigger feature schema')
+ for k in ['explicit_request','correction','requirement_change','progress','owner_satisfied','completion','dissatisfaction','short_daily','periodic_checkpoint']:
   if k in features and type(features[k]) is not bool:raise Fault('INPUT','boolean signals required')
  if features.get('severity','ordinary') not in ['ordinary','critical']:raise Fault('INPUT','severity scope')
  cue=features.get('cue','')
@@ -27,6 +27,7 @@ def decide(features,previous,timestamp):
  pending=previous.get('pending_signal_count',0)+(1 if important else 0)
  due=timestamp-lastwork>=POLICY['idle_check_seconds'] or timestamp-previous.get('last_check_at',timestamp)>=POLICY['periodic_check_seconds']
  if urgent:action='prepare_incremental';reason='explicit request or critical correction, current node only'
+ elif features.get('periodic_checkpoint') and features.get('progress') and elapsed>=POLICY['min_interval_seconds']:action='prepare_incremental';reason='configured periodic active-work checkpoint on a real observed event'
  elif features.get('short_daily'):action='metadata_check' if due else 'defer';reason='daily work stays lightweight; overdue metadata still checked'
  elif due and not (features.get('completion') or features.get('owner_satisfied')):action='metadata_check';reason='mandatory overdue metadata inspection precedes extraction cooldown'
  elif elapsed<POLICY['min_interval_seconds']:action='aggregate';reason='debounce: retain meaningful signals without another extraction'
@@ -49,7 +50,7 @@ def previous_state(state,task,old):
   if captured>previous.get('last_capture_at',0):previous.update(last_capture_at=captured,pending_signal_count=0)
  return previous
 def check(state,actor,args):
- if actor not in ['owner','codex','dsh','pi']:raise Fault('PERMISSION','authorized trigger annotation only')
+ if actor not in ['owner','codex','dsh','pi','claude_code','codex_cloud']:raise Fault('PERMISSION','authorized trigger annotation only')
  if set(args)!={'task_id','task_revision','features'}:raise Fault('INPUT','exact Task and bounded features')
  task=state.get(args['task_id'],actor)
  if task['object_type']!='TaskContract' or task['revision']!=args['task_revision']:raise Fault('REVISION_CONFLICT','current Task revision')

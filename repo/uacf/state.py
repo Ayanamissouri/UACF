@@ -13,7 +13,7 @@ def init(root,current_schema=False):
     root=Path(root).resolve(); data=root/'data'
     if (data/'core.sqlite').exists() or (data/'auth.json').exists(): raise Fault('ALREADY_EXISTS','init never overwrites an existing authority')
     for name in ['data','logs','deliverables','backups']: (root/name).mkdir(parents=True,exist_ok=True)
-    auth={actor:os.urandom(32).hex() for actor in ['owner','reader','dsh','codex','pi']}
+    auth={actor:os.urandom(32).hex() for actor in ['owner','reader','dsh','codex','pi','claude_code','codex_cloud']}
     atomic(data/'auth.json',canonical(auth))
     config={'schema_version':'1.0','bind':'127.0.0.1','port':8766,'dsh_url':'http://127.0.0.1:3080',
        'capsule_max_bytes':32000,'context_profiles':{'dsh':{'requested_tokens':1000000,'effective_tokens':'unknown'},'codex':{'requested_tokens':'auto','effective_tokens':'unknown'}},
@@ -43,7 +43,10 @@ class State:
             version=c.execute('PRAGMA user_version').fetchone()[0]
             if version not in [0,1,2,3]: raise Fault('SCHEMA_VERSION','unsupported database version')
             if version<2: c.executescript((REPO/'contracts/migrations/001.sql').read_text())
-            c.execute("INSERT OR IGNORE INTO materializations VALUES('search',0)")
+            # Normal reads/admission must not acquire a writer lock merely to
+            # reinsert an existing materialization while another request writes.
+            if not c.execute("SELECT 1 FROM materializations WHERE name='search'").fetchone():
+                c.execute("INSERT OR IGNORE INTO materializations VALUES('search',0)")
         self.validator=Draft202012Validator(json.loads((REPO/'contracts/object.schema.json').read_text()),format_checker=FormatChecker())
     @contextlib.contextmanager
     def db(self):
@@ -94,13 +97,26 @@ class State:
                     except Fault as e:
                         if e.code!='NOT_FOUND': raise
             return result
+    def property_candidates(self,actor,kinds,properties):
+        """Exact property intersection before expensive recursive ACL reads.
+        No top-k, text ranking, ACL change, or omitted applicable obligation.
+        """
+        if not properties:return []
+        with self.db() as c:
+            rows=c.execute("SELECT o.id FROM objects o JOIN object_revisions r ON r.object_id=o.id AND r.revision=o.head JOIN json_each(r.envelope,'$.payload.properties') p WHERE o.type IN (SELECT value FROM json_each(?)) AND p.value IN (SELECT value FROM json_each(?)) GROUP BY o.id ORDER BY o.rowid",(canonical(kinds),canonical(sorted(properties)))).fetchall()
+            result=[]
+            for row in rows:
+                try:result.append(self._get(c,row[0],actor))
+                except Fault as e:
+                    if e.code!='NOT_FOUND':raise
+            return result
     def blob_publish(self,b):
         digest=sha(b); dest=self.data/'blobs'/digest[:2]/digest
         if not dest.exists(): atomic(dest,b)
         if file_hash(dest)!=digest: raise Fault('BLOB_CORRUPT','immutable content hash mismatch')
         return digest
     def put(self,req,actor,internal=False,crash=None):
-        if actor not in ['owner','dsh','codex','pi','system']: raise Fault('PERMISSION','actor is read-only')
+        if actor not in ['owner','dsh','codex','pi','claude_code','codex_cloud','system']: raise Fault('PERMISSION','actor is read-only')
         operation=req.get('operation_id'); uuid_ok(operation)
         expected=req.get('expected_revision')
         if type(expected)!=int or expected<0: raise Fault('INPUT','expected_revision required')
@@ -111,7 +127,7 @@ class State:
         obj=req.get('object',{}).copy(); uuid_ok(obj.get('object_id'))
         if not internal and obj.get('status')=='accepted': raise Fault('VALIDATION_REQUIRED','accepted requires promote')
         if not internal and obj.get('object_type')=='Validation': raise Fault('PERMISSION','validation is produced by registered verifier')
-        if actor in ['dsh','codex','pi'] and obj.get('object_type') not in ['Evidence','Attempt','Artifact','HostRun']: raise Fault('PERMISSION','host token only records host observations')
+        if actor in ['dsh','codex','pi','claude_code','codex_cloud'] and obj.get('object_type') not in ['Evidence','Attempt','Artifact','HostRun']: raise Fault('PERMISSION','host token only records host observations')
         blob=req.get('blob_base64'); blob_hash=None
         if blob is not None:
             try: b=base64.b64decode(blob,validate=True)
@@ -238,6 +254,10 @@ class State:
           'omissions':['uninterpreted sources remain candidates','wire usage unknown'],
           'access_domain':actor,'task_revision':task['revision']}
         from .command_ledger import capsule as command_capsule
+        from .host_work import policy as work_policy
+        default_policy=work_policy(self)
+        if default_policy and default_policy['config']['enabled']:
+            content['mandatory_default_work_policy']={'ref':default_policy['ref'],'notice':default_policy['config']['notice'],'rules':default_policy['config']['rules'],'wait_for_answer':False}
         content['mandatory_command_lane']=command_capsule(task)
         content['command_lane_instruction']='Preserve each active instruction across supplements and compaction. Read this current lane before work and delivery; amendments only through current human correction. Optional recall cannot evict mandatory commands.'
         related=[]; missing=[]
@@ -267,6 +287,16 @@ class State:
                 'name':p.get('name'),'media_type':p.get('media_type'),'blob_hash':p.get('blob_hash'),
                 'source_locator':p.get('source_locator'),'origin_host':p.get('origin_host'),'candidate':True})
         content['task_assets']=assets
+        if task['payload'].get('unified_asset_search_authorized'):
+            from .unified_assets import inventory as unified_inventory
+            inv=unified_inventory(self)
+            content['unified_asset_sources']={'sources':inv['sources'],'coverage':inv['coverage'],'instruction':'Search all indexed sources with uacf_search / unified_search; 2531 legacy GPT conversations are one source only. Check native inventory gaps before claiming a complete archive.'}
+            if inv['refreshed_at']:
+                from .unified_assets import search as unified_search
+                queries=task['payload'].get('asset_search_queries') or [w for w in ['Plus','Pro','UACF','DSH','Codex'] if w.lower() in task['payload'].get('goal','').lower()][:1]
+                rows=[]
+                for query in queries[:2]:rows+=unified_search(self,actor,{'task_id':task_id,'task_revision':task['revision'],'query':query,'limit':2})['items']
+                content['optional_unified_recall']={'items':rows,'scope':'bounded automatic cross-source retrieval candidates; reading/adoption not implied'}
         from .learning import config as learning_config,recall
         if learning_config(self):
             from .learning_guards import CONTRACTS
@@ -294,7 +324,7 @@ class State:
         if type(limit)!=int or limit<1: raise Fault('INPUT','positive byte budget required')
         if 'learning_use_observation' in content:
             # Optional assets yield first; mandatory Task and evidence are never cut.
-            optional=[content['optional_issue_recall']['candidates'],content['optional_knowledge_recall']['candidates']]
+            optional=[content.get('optional_unified_recall',{}).get('items',[]),content['optional_issue_recall']['candidates'],content['optional_knowledge_recall']['candidates']]
             while len(canonical(content).encode('utf-8'))>max(0,limit-512) and any(optional):
                 next(group for group in optional if group).pop()
             content['learning_use_observation']=usage(self,actor,task,content['optional_knowledge_recall']['candidates'],content['optional_issue_recall']['candidates'])
@@ -331,7 +361,7 @@ class State:
             source_locator=asset['payload'].get('source_locator'),candidate=True,adoption='not implied by asset read')
         return result
     def host_event(self,event,actor):
-        if actor not in ['owner','dsh','codex','pi']: raise Fault('PERMISSION','read-only actor')
+        if actor not in ['owner','dsh','codex','pi','claude_code','codex_cloud']: raise Fault('PERMISSION','read-only actor')
         required=['event_id','source_host','host_epoch','source_seq','type','occurred_at','observed_at','schema_version','visibility','payload']
         if any(k not in event for k in required): raise Fault('INPUT','event envelope incomplete')
         from .batch3 import assert_no_secrets

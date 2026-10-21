@@ -197,6 +197,16 @@ def after_work(state,actor,event,checkpoint=False):
     records.append(dict(event_id=value['event_id'],message={k:message[k] for k in ['id','role','content','source','toolCallId','isError'] if k in message}))
    elif q.get('kind')=='native_hook' and q.get('native_type') in ['UserPromptSubmit','Stop','PostToolUse']:
     records.append(dict(event_id=value['event_id'],**{k:q[k] for k in ['prompt','last_assistant_message','tool_name','tool_use_id','tool_input','tool_response'] if k in q}))
+ # Keep the latest observed revision of each native public item in a capture.
+ # Earlier observations remain immutable in host_events for audit.
+ positions={};deduplicated=[]
+ for record in records:
+  identity=(record.get('message') or {}).get('id')
+  if identity and identity in positions:deduplicated[positions[identity]]=record
+  else:
+   if identity:positions[identity]=len(deduplicated)
+   deduplicated.append(record)
+ records=deduplicated
  if not records:return dict(state='blocked',reason='no observed public input/output/tool body; event alone is not normal work')
  # Explicit bounded observation snapshot; source limits never masquerade as full conversation.
  body=canonical(dict(host=host,native_session_id=sid,task_ref=vector(task),native_event_id=event['event_id'],previous_source_ref=previous_source,records=records,coverage='incremental mapped observed public work since previous capture; historical attachments and unobserved turns excluded')).encode()
@@ -231,7 +241,7 @@ def receive_native(state,j,result):
 def dispatch(state,actor,action,args,operation_id=None):
  global WORKER
  if action in ['learning_host_next','learning_host_submit']:
-  if actor not in ['dsh','codex','pi']:raise Fault('PERMISSION','mapped host token required')
+  if actor not in ['dsh','codex','pi','claude_code','codex_cloud']:raise Fault('PERMISSION','mapped host token required')
   task=state.get(args['task_id'],actor);bindings=json.loads((state.data/'host-bindings.json').read_text())
   from .learning_use import authorized
   if action=='learning_host_submit' and str(args.get('job_id','')).startswith('semantic:'):

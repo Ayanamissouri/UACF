@@ -1,3 +1,7 @@
+# 2026-10-21 — governance and unified sources
+
+Adds current default-host admission, unified cross-source search, adaptive checkpoints, source-bound command/learning contracts and metric-evidence checks. Preserves public history and private exclusion. Adds pinned CI and current architecture/security/upgrade notes. Source and candidate: 229 tests each. Runtime adoption and new-machine host callbacks remain separately verified.
+
 # 按真实证据日期排列的变更
 
 日期以原合同/提交/交接回执为依据，不以本次复制的mtime推断开工日。状态只对所述范围有效。表内早期未发布或未选择许可的状态是历史记录；本版采用Apache-2.0，当前公开范围以末尾冻结记录和Release清单为准。

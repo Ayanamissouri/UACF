@@ -9,7 +9,7 @@ from .fabric import vector
 def enable(state,args):
  from .learning import folder,anchored_policy,save_once
  hosts=args.get('hosts',['dsh','codex'])
- if not isinstance(hosts,list) or not hosts or any(x not in ['dsh','codex','pi'] for x in hosts):raise Fault('INPUT','explicit native hosts')
+ if not isinstance(hosts,list) or not hosts or any(x not in ['dsh','codex','pi','claude_code','codex_cloud'] for x in hosts):raise Fault('INPUT','explicit native hosts')
  if not args.get('authorization'):raise Fault('INPUT','direct owner authorization required')
  policy=anchored_policy(state)
  cfg=dict(hosts=sorted(set(hosts)),policy_ref=policy['ref'],scope='bounded source candidate excerpts for exact explicitly mapped host Task; no raw archive access',knowledge_limit=4,issue_limit=3,total_optional_bytes=10000,automatic_hard_adoption=False)
@@ -19,7 +19,7 @@ def enable(state,args):
 
 def authorized(state,actor,task):
  if actor=='owner':return True
- if actor not in ['dsh','codex','pi']:return False
+ if actor not in ['dsh','codex','pi','claude_code','codex_cloud']:return False
  from .learning import folder
  path=folder(state)/'use-contract.json'
  if not path.exists():return False

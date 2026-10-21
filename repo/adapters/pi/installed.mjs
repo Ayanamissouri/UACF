@@ -8,17 +8,17 @@ export default function installed(pi) {
   if(!fs.existsSync(file))return;
   const config=JSON.parse(fs.readFileSync(file,'utf8'));
   if(!/^http:\/\/127\.0\.0\.1:\d+$/.test(config.url))throw Error('UACF_LOOPBACK_ONLY');
-  let binding=null;
+  let binding=null,external=false;
   const epoch=crypto.randomUUID();let seq=0,drainPromise=null;
   const queue=path.join(config.root,'data/pi-observation-queue');
   async function send(action,args) {
     const body={action,args};
-    if(['host_event','artifact_capture'].includes(action)){
+    if(['host_event','artifact_capture','work_enter','work_mode'].includes(action)){
       const operation_id=action==='host_event'?args.event_id:crypto.randomUUID();
       Object.assign(body,{actor:'pi',operation_id,correlation_id:operation_id,scope:'action:'+action,expected_revision:0,schema_version:'1.0'});
       body.request_hash=crypto.createHash('sha256').update(encode(body)).digest('hex');
     }
-    const response=await fetch(config.url+'/v1/action',{method:'POST',headers:{Authorization:'Bearer '+config.token,'Content-Type':'application/json'},body:encode(body),signal:AbortSignal.timeout(2000)});
+    const response=await fetch(config.url+'/v1/action',{method:'POST',headers:{Authorization:'Bearer '+config.token,'Content-Type':'application/json'},body:encode(body),signal:AbortSignal.timeout(action==='work_enter'?10000:8000)});
     const result=await response.json();if(!result.ok)throw Error('UACF_'+result.code);return result;
   }
   function flush(){
@@ -36,6 +36,8 @@ export default function installed(pi) {
     return drainPromise;
   }
   const bridge={get taskId(){return binding?.task;},active:()=>!!binding,
+      governed:()=>!external&&fs.existsSync(path.join(config.root,'data/host-work/policy.json')),
+      admit:event=>send('work_admit',{host:'pi',native_session_id:binding?.native,tool_name:event.toolName,tool_input:event.input||{},cwd:binding?.cwd}),
       prepare:()=>{if(!binding)throw Error('UACF_SESSION_UNMAPPED');return send('context',{task_id:binding.task});},flush,
       captureArtifacts:revision=>{if(!binding)return;return send('artifact_capture',{task_id:binding.task,task_revision:revision,native_session_id:binding.native});},
       observe:async payload=>{
@@ -57,11 +59,18 @@ export default function installed(pi) {
       }};
   continuity(pi,bridge);
   pi.on('session_start',async(_event,ctx)=>{
-    binding=null;
+    binding=null;external=false;
     const native=ctx.sessionManager.getSessionId();
     const bindings=JSON.parse(fs.readFileSync(path.join(config.root,'data/host-bindings.json'),'utf8'));
-    const task=bindings.pi?.[native];if(!task)return;
-    binding={native,task};
+    let task=bindings.pi?.[native];
+    if(bridge.governed()){
+      const entered=await send('work_enter',{host:'pi',native_session_id:native,goal:'Pi work in '+ctx.sessionManager.getCwd(),native_locator:'pi:session:'+native});
+      if(entered.mode==='external'){external=true;return;}
+      task=entered.task_ref.object_id;
+      if(ctx.hasUI&&ctx.ui?.notify)ctx.ui.notify(entered.notice,'info');
+    }
+    if(!task)return;
+    binding={native,task,cwd:ctx.sessionManager.getCwd()};
     await bridge.observe({kind:'native_organization',native_title:ctx.sessionManager.getSessionName()||null,
       native_cwd:ctx.sessionManager.getCwd(),task_id:task,semantic_affiliation_modified:false});
   });
