@@ -10,6 +10,8 @@
 | JS/MJS syntax | All selected files passed Node syntax checks, without executing third-party model calls |
 | Publication | Exact file/hash manifest, bounded privacy scan, ZIP file identity; remote proof recorded only after upload/download |
 
+Revision .1 fixes the CI invocation to enable UTF-8 and explicitly skips the native Windows Codex test when that optional CLI is absent. The first CI failure remains visible in GitHub history; it is not a passing new-machine result. Local source/candidate/clean runs include the installed native CLI. Cloud CI result is reported independently.
+
 The source/candidate/clean runs are separate executions of the same finite 229-test suite. They are not 687 independent requirements and do not prove arbitrary host or remote-device behavior. Tests cover current state/contracts, transport, source permissions, queues, revisions, workflow/metric evidence and configured boundaries. Old counts in historical guides remain historical.
 
 The complete package excludes user data, native histories, credentials, machine configuration, private experiment scripts, old private Git history, vendor wheels, node_modules and old Pi runtime locks. Existing first-party Apache-2.0 licensing and dependency notices remain. No new paid model requests were made for this release work.

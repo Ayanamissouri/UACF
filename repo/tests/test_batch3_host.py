@@ -1,9 +1,10 @@
 """Isolated registered uninstall and real native Codex configuration parser, no model turn."""
-import json,os,sys,subprocess,tempfile,unittest
+import json,os,sys,subprocess,tempfile,unittest,shutil
 from pathlib import Path
 from uacf.host import backup_config,complete
 from uacf.util import atomic,canonical
 class HostLifecycle(unittest.TestCase):
+ @unittest.skipUnless(os.name=='nt' and shutil.which('codex.cmd'), 'native Windows Codex CLI required; absent hosts are not verified')
  def test_B3_08_config_drift_uninstall(self):
   root=Path(__file__).resolve().parents[2]
   with tempfile.TemporaryDirectory() as tmp:
