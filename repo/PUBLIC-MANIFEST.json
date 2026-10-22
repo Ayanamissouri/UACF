@@ -484,12 +484,12 @@
     },
     {
       "path": "repo/docs/public/UPDATE-20261022.md",
-      "sha256": "502ceef24747042d32d962935a560fafe508f3a5f05309677b1eafdee3df2dad",
+      "sha256": "123d0d29c5b599662b0417ba3a971cd53903d9f15848cd9b5a88d52207d9cbf3",
       "bytes": 4038
     },
     {
       "path": "repo/docs/public/VERIFICATION.md",
-      "sha256": "dbdb683b67ed096d193f3bf1f601839702a5bd29629ee44f34b3d5f104d1cc9a",
+      "sha256": "15a57569fcae3afdd9919cdb50d9ad916ccc312285ca9c54ae9b370938ecf96c",
       "bytes": 3347
     },
     {
@@ -748,6 +748,11 @@
       "bytes": 1037
     },
     {
+      "path": "repo/tests/test_storage_layout.py",
+      "sha256": "3cd88bc87d7165688fe8592e42987a8113822e51beea0e2c05a0282af8496d41",
+      "bytes": 6629
+    },
+    {
       "path": "repo/tests/test_transport.py",
       "sha256": "a385052058fd949f0ebb8f11ed20b92bdecd6b92f5c871afe23efe78fab8cf6e",
       "bytes": 5375
@@ -998,6 +1003,11 @@
       "bytes": 41529
     },
     {
+      "path": "repo/uacf/storage_layout.py",
+      "sha256": "506f8de7cb1c6cf6783038b6f71b621557877e58823ad4540783834e2ad8dc65",
+      "bytes": 7813
+    },
+    {
       "path": "repo/uacf/task_views.py",
       "sha256": "b8a3028036d81d5498b2c2315c6b52ff6e77d59c9ac91fe1b900b3e5ca9ccf7b",
       "bytes": 3145
@@ -1024,8 +1034,8 @@
     },
     {
       "path": "repo/uacf/work_verification.py",
-      "sha256": "b539c6253430911c440aae5411dc473fe9e5f040b5b0edb03dcf343a2e6df1cb",
-      "bytes": 15156
+      "sha256": "bd32af386b946a2b09b03061e28f95ea84627e8eb1f0b37cbcc2e963bc94dc53",
+      "bytes": 15239
     },
     {
       "path": "repo/uacf/workflow.py",

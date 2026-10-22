@@ -139,7 +139,9 @@ def _unified(state,task,checks,details):
 
 def dispatch(state,actor,action,args,operation_id=None):
  if actor!='owner':raise Fault('PERMISSION','Owner dispatches registered work verification')
- if action=='work_environment':return environment(state)
+ if action=='work_environment':
+  task=state.get(args['task_id'],actor) if args.get('task_id') else None
+  return environment(state,task)
  task=state.get(args['task_id'],actor);prop=args.get('property')
  if task['revision']!=args.get('task_revision'):raise Fault('REVISION_CONFLICT','verify exact current Task')
  if prop not in PROPERTIES or prop not in task['payload']['required_properties']:raise Fault('INPUT','explicit registered work property required')
