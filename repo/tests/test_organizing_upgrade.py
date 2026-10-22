@@ -4,8 +4,7 @@ from uacf.state import State,init,object_new,request
 from uacf.util import Fault,uid,file_hash
 from uacf.capabilities import record,status
 from uacf.command_ledger import preparation,delivery,capsule
-from uacf.task_views import brief,refresh
-from uacf.storage_layout import configure
+from uacf.task_views import brief
 from uacf.candidate_guidance import dedupe,guidance
 from uacf.project_workflow import dispatch as workflow
 
@@ -67,22 +66,15 @@ class UpgradeTests(unittest.TestCase):
   t={'payload':{'command_ledger':[dict(key='work',actionable=True,state='satisfied',evidence_refs=[ref])]}}
   delivery(t,self.s);e['payload']['observation']['result']='changed';self.s.put(request(e,1),'owner')
   with self.assertRaises(Fault):delivery(t,self.s)
- def configured_task(self):
-  configure(self.s,'owner',dict(authorization='fixture output root',expected_layout_ref=None,projects={'fixture':{'root':str(self.root)}},bundles={}))
-  return self.put('TaskContract',dict(goal='fixture recovery',required_properties=[],command_contract={'required':True},output_contract={'project_key':'fixture','project_root':str(self.root)}))
- def test_task_view_is_canonical_derived_cas_and_archive_safe(self):
-  t=self.configured_task();args=dict(task_id=t['object_id'],task_revision=1,expected_file_hash=None)
-  self.assertFalse(brief(self.s,'owner',args)['brief']['requirements_ready']);result=refresh(self.s,'owner',args)
-  p=Path(result['path']);self.assertTrue(p.is_relative_to(self.root/'.uacf/work'/t['object_id']));self.assertEqual(self.s.get(t['object_id'],'owner')['revision'],1)
-  p.write_text('user work')
-  with self.assertRaises(Fault):refresh(self.s,'owner',args)
-  self.assertEqual(p.read_text(),'user work')
- def test_task_view_stale_task_wrong_actor_and_restore_refused(self):
-  t=self.configured_task();args=dict(task_id=t['object_id'],task_revision=2)
-  with self.assertRaises(Fault):brief(self.s,'owner',args)
-  with self.assertRaises(Fault):refresh(self.s,'pi',dict(args,task_revision=1))
-  config=self.s.config;config['restore_mapping']={"fixture":"isolated"};(self.s.data/'config.json').write_text(json.dumps(config))
-  with self.assertRaises(Fault):refresh(self.s,'owner',dict(args,task_revision=1))
+ def test_task_brief_is_canonical_derived_read_only_and_shows_output_contract(self):
+  t=self.put('TaskContract',dict(goal='fixture recovery',required_properties=[],command_contract={'required':True},output_contract={'project_key':'fixture','project_root':str(self.root)}))
+  args=dict(task_id=t['object_id'],task_revision=1)
+  result=brief(self.s,'owner',args)['brief']
+  self.assertFalse(result['requirements_ready']);self.assertEqual(result['output_contract']['project_root'],str(self.root))
+  self.assertEqual(self.s.get(t['object_id'],'owner')['revision'],1)
+ def test_task_brief_rejects_stale_revision(self):
+  t=self.put('TaskContract',dict(goal='fixture',required_properties=[],command_contract={'required':True}))
+  with self.assertRaises(Fault):brief(self.s,'owner',dict(task_id=t['object_id'],task_revision=2))
  def test_exact_optional_dedup_keeps_distinct_sources_and_corrections(self):
   row={'id':'a','candidate':{'correction':'x','applicable':'a'},'score':1}
   rows=[row,dict(row,score=2),dict(row,id='b'),dict(row,candidate={'correction':'new','applicable':'a'})]

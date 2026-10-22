@@ -484,13 +484,13 @@
     },
     {
       "path": "repo/docs/public/UPDATE-20261022.md",
-      "sha256": "123d0d29c5b599662b0417ba3a971cd53903d9f15848cd9b5a88d52207d9cbf3",
-      "bytes": 4038
+      "sha256": "f8d54e85111d52f5776552d018358fd94e5af832802dde0fb3f7b7245d026486",
+      "bytes": 3806
     },
     {
       "path": "repo/docs/public/VERIFICATION.md",
-      "sha256": "15a57569fcae3afdd9919cdb50d9ad916ccc312285ca9c54ae9b370938ecf96c",
-      "bytes": 3347
+      "sha256": "055f97cc669c43048a360f3c1cbaa8242c0a50d39244e07162aefa1c89314f66",
+      "bytes": 3177
     },
     {
       "path": "repo/modules/lessons.json",
@@ -719,8 +719,8 @@
     },
     {
       "path": "repo/tests/test_organizing_upgrade.py",
-      "sha256": "34884bdb09a4dfbf0930a3f3a0dc77815c037d0b3cc0601989f942ee7105f626",
-      "bytes": 9007
+      "sha256": "9f3559ac87d0e5e38e5c2029473fd5d89797da0306474cadde128c6be16b5b6d",
+      "bytes": 8322
     },
     {
       "path": "repo/tests/test_portable_assets.py",
@@ -746,11 +746,6 @@
       "path": "repo/tests/test_service_lifecycle.py",
       "sha256": "d517fe94a15a00c03e5bf4d1a6e9ad3a436c0d23ae7276be9fc1de8914b9d796",
       "bytes": 1037
-    },
-    {
-      "path": "repo/tests/test_storage_layout.py",
-      "sha256": "3cd88bc87d7165688fe8592e42987a8113822e51beea0e2c05a0282af8496d41",
-      "bytes": 6629
     },
     {
       "path": "repo/tests/test_transport.py",
@@ -989,8 +984,8 @@
     },
     {
       "path": "repo/uacf/service.py",
-      "sha256": "b1f6daf761a391fa43e64019180504b60e339cf38ba796683077aea0c44fb2ec",
-      "bytes": 27265
+      "sha256": "2fb068dce95cf7aefb42a49fb4ce7b295c8f16137c72842e87f36ab8807c936b",
+      "bytes": 27169
     },
     {
       "path": "repo/uacf/spool.py",
@@ -1003,14 +998,9 @@
       "bytes": 41529
     },
     {
-      "path": "repo/uacf/storage_layout.py",
-      "sha256": "506f8de7cb1c6cf6783038b6f71b621557877e58823ad4540783834e2ad8dc65",
-      "bytes": 7813
-    },
-    {
       "path": "repo/uacf/task_views.py",
-      "sha256": "b8a3028036d81d5498b2c2315c6b52ff6e77d59c9ac91fe1b900b3e5ca9ccf7b",
-      "bytes": 3145
+      "sha256": "64958dbcc5cd12fc1b4ab3801d320f8e89066169ba408a942f5597bcfa10e276",
+      "bytes": 1539
     },
     {
       "path": "repo/uacf/trial_budget.py",
