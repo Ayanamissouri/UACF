@@ -24,7 +24,7 @@ def delivery(state,task):
  from .retry_guard import check as retry_check
  retry_check(task)
  from .command_ledger import delivery as command_delivery
- command_delivery(task)
+ command_delivery(task,state)
  protected(task)
  work_steps(state,task)
  required=task['payload'].get('required_properties',[]);environment=task['payload'].get('delivery_environment_hash')

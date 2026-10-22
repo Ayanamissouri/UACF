@@ -18,6 +18,11 @@ TOOLS += [{'name':'uacf_search','description':'Search ALL indexed UACF sources: 
 TOOLS += [{'name':'uacf_checkpoint','description':'Capture a meaningful current-work correction/milestone from an already observed real event in this exact mapped session. Never synthesizes a native event; use critical correction for explicit severe rejection with a concrete correction, not emotion alone.',
  'inputSchema':{'type':'object','properties':{'task_id':{'type':'string'},'task_revision':{'type':'integer'},'native_session_id':{'type':'string'},'native_event_id':{'type':'string'},'signal':{'enum':['correction','requirement_change','milestone','owner_satisfied','completion']},'basis':{'type':'string','maxLength':1000},'features':{'type':'object'}},'required':['task_id','task_revision','native_session_id','native_event_id','signal'],'additionalProperties':False}}]
 
+TOOLS += [{'name':'uacf_work_brief','description':'Read the current Task requirements, unresolved work and Owner project output. Derived recovery view only; no completion or permission grant.',
+ 'inputSchema':{'type':'object','properties':{'task_id':{'type':'string'},'task_revision':{'type':'integer','minimum':1}},'required':['task_id'],'additionalProperties':False}},
+ {'name':'uacf_capabilities','description':'Read separate generated, installed, loaded, called and verified evidence for a host capability. Unobserved never means unavailable; records do not authorize tools.',
+ 'inputSchema':{'type':'object','properties':{k:{'type':'string'} for k in ['host','machine','host_version','profile','capability','source_identity','native_session_id']},'additionalProperties':False}}]
+
 def handle(root,host,msg):
     method=msg.get('method'); params=msg.get('params',{})
     if method=='initialize': return {'protocolVersion':params.get('protocolVersion') if params.get('protocolVersion') in ['2024-11-05','2025-03-26','2025-06-18','2025-11-25'] else '2025-11-25','capabilities':{'tools':{}},'serverInfo':{'name':'uacf','version':'0.1.1'}}
@@ -33,6 +38,8 @@ def handle(root,host,msg):
             if name=='uacf_checkpoint': result=call(root,'learning_checkpoint',dict(args,host=host),host)
             elif name=='uacf_search': result=call(root,'unified_search',args,host)
             elif name=='uacf_context': result=call(root,'context',args,host)
+            elif name=='uacf_work_brief': result=call(root,'work_brief',args,host)
+            elif name=='uacf_capabilities': result=call(root,'capability_status',args,host)
             elif name=='uacf_status': result=call(root,'get',args,host) if args.get('object_id') else call(root,'doctor',{},host)
             elif name=='uacf_asset_read': result=call(root,'asset_read',args,host)
             elif name=='uacf_learning_next': result=call(root,'learning_host_next',args,host)

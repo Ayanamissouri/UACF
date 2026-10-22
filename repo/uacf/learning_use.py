@@ -51,7 +51,7 @@ def issue_recall(state,actor,task):
  query=task['payload'].get('goal','');tokens=set(re.findall(r'[a-zA-Z][a-zA-Z0-9_-]{2,}',query.lower()));tokens.update(query[i:i+2] for i in range(len(query)-1) if all('\u4e00'<=c<='\u9fff' for c in query[i:i+2]))
  selected=[];size=0;ranked=[]
  from .learning_semantic import annotations
- semantic=annotations(state);selected_principles=set()
+ semantic=annotations(state)
  for item in issue_index(state).values():
   text=canonical(list(item['candidate'].values())).lower();score=sum(t in text for t in tokens)
   if score:ranked.append((score,item))
@@ -65,13 +65,10 @@ def issue_recall(state,actor,task):
   classification=next((x for x in attempt['payload']['assessment']['issues'] if x['case_id']==case['object_id']),None)
   if classification is None:continue
   reviewed=semantic.get(item['case_ref']['object_id'],[])
-  principle=reviewed[0]['principle'] if reviewed else None
-  if principle and principle in selected_principles:continue
   row=dict(item,acceptance='candidate conditions and correction only; not mandatory rule or confirmed root cause',score=score,semantic_reviews=reviewed[:2],classification=classification)
   amount=len(canonical(row).encode())
   if size+amount>4000:continue
   selected.append(row);size+=amount
-  if principle:selected_principles.add(principle)
   if len(selected)==3:break
  return dict(candidates=selected,selection='bounded task-goal lexical recall with source conditions; applicability must be checked')
 

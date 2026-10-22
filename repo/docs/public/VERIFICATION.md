@@ -19,3 +19,10 @@ The complete package excludes user data, native histories, credentials, machine 
 ## Known limits
 
 Native observer cross-workspace admission, generic default-Task verification registration and stale active-stage continuation are not repaired by this publication. Metric evidence code and its stage hook are present in this source package; existing running installations need controlled adoption. New-machine Python bootstrap without Python, every real host callback, cloud account-wide archives, semantic/domain truth and remote models/GPU performance remain separately verified. No production instance or remote computer was upgraded by publishing this release.
+
+
+## 2026-10-22 organizing-upgrade regression
+
+The complete public candidate passed **245 tests**. The organizing-upgrade subset passed **71 focused tests** across requirement admission/delivery, stage workflow, Host work, learning retrieval, archive-preservation guards, work verification and transport. The native Pi timeout contract verifies reconciliation through the exact original operation and no action resend. These are finite mechanical checks; they do not grade semantic understanding, domain truth, arbitrary Host callbacks or universal enforcement.
+
+The local registered preservation verifier checked the pre-existing immutable archive revisions and project-file scope before packaging. Its private machine receipts, local paths and source locators are excluded. The public package contains no user archive, database, raw chat, local runtime log, credentials, `.git`, `node_modules`, virtual environment, vendor wheel or third-party runtime binary. Publication does not deploy this source to an existing installation.

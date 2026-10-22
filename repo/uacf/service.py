@@ -55,6 +55,12 @@ def PathSafe(raw,allowed):
     return allowed
 
 def dispatch(state,actor,action,args,operation_id=None):
+    if action in ['capability_record','capability_status']:
+        from .capabilities import record,status
+        return (record if action=='capability_record' else status)(state,actor,args)
+    if action in ['work_brief','work_view_refresh']:
+        from .task_views import brief,refresh
+        return (brief if action=='work_brief' else refresh)(state,actor,args)
     if action in ['work_environment','work_verify']:
         from .work_verification import dispatch as work_verify_dispatch
         return work_verify_dispatch(state,actor,action,args,operation_id)
@@ -170,6 +176,7 @@ def dispatch(state,actor,action,args,operation_id=None):
     raise Fault('UNSUPPORTED',f'unknown action {action}')
 
 MUTATIONS={'put','verify_dsh','promote','profile_set','host_event','artifact_capture','source_register','ingest','workunit','correct','integrate','rebuild','budget_reserve','budget_settle','model_dispatch','review_response','interpret','exchange_export','exchange_import','lease_acquire','lease_result','budget_open'}
+MUTATIONS.update(['capability_record','work_view_refresh'])
 MUTATIONS.update(['work_policy_configure','work_enter','work_mode'])
 MUTATIONS.add('native_watch_configure')
 MUTATIONS.update(['portable_draft','portable_revise','portable_review','archive_trigger_check','command_update','guard_probe','guard_reprepare'])

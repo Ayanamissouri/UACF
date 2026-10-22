@@ -4,6 +4,9 @@
 
 **English version follows below — [Jump to English](#english).**
 
+**当前公开更新：** [2026-10-22 整理升级、与上一版差异及核验范围](docs/public/UPDATE-20261022.md)。
+
+
 UACF（Unified Agentic Continuity Fabric，统一智能体连续性织体）是一套用于管理历史数据资产、对话日志和长期项目状态，并帮助AI更有效利用既有上下文与经验的本地连续性基础设施。
 
 它最初来自三个非常直接、彼此独立的需求：

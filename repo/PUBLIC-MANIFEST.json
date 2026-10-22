@@ -1,11 +1,11 @@
 {
-  "date": "2026-10-21T19:14:44.042451+00:00",
+  "date": "2026-10-22",
   "project_license": "Apache-2.0",
   "files": [
     {
       "path": ".github/workflows/verify.yml",
-      "sha256": "e7c9035a833d0d9977b824fe57feca93b1d7920b12cdbb9a6be15b84fb4f62ad",
-      "bytes": 678
+      "sha256": "8430f596a046e196efdb4597f18ce686579e9e876fed76ac7b2c4cb9e6340b47",
+      "bytes": 702
     },
     {
       "path": ".gitignore",
@@ -29,8 +29,8 @@
     },
     {
       "path": "LICENSE",
-      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-      "bytes": 11358
+      "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
+      "bytes": 11560
     },
     {
       "path": "NOTICE.md",
@@ -38,14 +38,19 @@
       "bytes": 264
     },
     {
+      "path": "README.md",
+      "sha256": "a71eec4f4c56598069f58bf721e250e7445907a24effedcba6ce6b657577d5a3",
+      "bytes": 24611
+    },
+    {
       "path": "Read-UACF.html",
       "sha256": "00bb9652fc5d3f5c1729617887be8c00854387389e5fe0f83d9a44322daf2bbb",
       "bytes": 1666
     },
     {
-      "path": "README.md",
-      "sha256": "f7bdd03d3eccd2bc575430d791ba88f4ae2f0eff43fac22ec500dc82eac17bae",
-      "bytes": 24227
+      "path": "Start-UACF.cmd",
+      "sha256": "152c6de40cd67f2acdc19aec7c6b212ae911a2d1cff334feba491af31ab8d775",
+      "bytes": 136
     },
     {
       "path": "repo/.gitattributes",
@@ -56,6 +61,66 @@
       "path": "repo/.gitignore",
       "sha256": "6aae60880d3b4accf02ea00aba39f576ac8f89c7c3c684b6e3db2bed05f006d7",
       "bytes": 49
+    },
+    {
+      "path": "repo/CHANGELOG.md",
+      "sha256": "802631f0bfb87894059017de94ea08336ac572eda3f18f412f2a0fff04860bc2",
+      "bytes": 8381
+    },
+    {
+      "path": "repo/CONTRIBUTING.md",
+      "sha256": "e0b61a33b2dac6b391676177a9df2513b14cf02b08bcc11ad19a03631f5a32fd",
+      "bytes": 682
+    },
+    {
+      "path": "repo/EXCLUSIONS.json",
+      "sha256": "5a5feffde0b344a390f9403b332aa81d1eb97afded6163f00cafaf5fe4ad9757",
+      "bytes": 379
+    },
+    {
+      "path": "repo/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
+    },
+    {
+      "path": "repo/LICENSE-GAPS.md",
+      "sha256": "067b9a60511bdaeb079aad3451535e9310a51ea6606dc0d059a2c6f07f04fd5d",
+      "bytes": 832
+    },
+    {
+      "path": "repo/NOTICE.md",
+      "sha256": "dc406790b5853fd0e227917fe81571a924f0a25eed851ccf22b165abde454966",
+      "bytes": 508
+    },
+    {
+      "path": "repo/README.md",
+      "sha256": "1745a8e84d2c1149e3e081fdaeb54a85202cdde12210485f236d25af9c9101a2",
+      "bytes": 24178
+    },
+    {
+      "path": "repo/REFERENCES.md",
+      "sha256": "1b37796a9cc0049e8267ca2c101ac752e81312405bc1fd91f01007a0f635209e",
+      "bytes": 5686
+    },
+    {
+      "path": "repo/SBOM.json",
+      "sha256": "d82ad2edfc9b833af7ccef9c59f5a8b558492888c58219ab2da570d627c578f5",
+      "bytes": 1372
+    },
+    {
+      "path": "repo/SECURITY.md",
+      "sha256": "22f07465222e1ca2a92303e3ce3f9794cc9c913a5f64d17b5dd92bf9a586bd0d",
+      "bytes": 576
+    },
+    {
+      "path": "repo/THIRD_PARTY.md",
+      "sha256": "72b21eab2be641fd30422d6a18676782fb22fbcce7253c2e0112ebae8a1dff80",
+      "bytes": 1207
+    },
+    {
+      "path": "repo/UPLOAD-GUIDE.md",
+      "sha256": "719afc5b961991253ddebf3f4fab0e466e52bd82af1302296afe32d5f86402b4",
+      "bytes": 2955
     },
     {
       "path": "repo/adapters/claude_code/hook.py",
@@ -94,8 +159,8 @@
     },
     {
       "path": "repo/adapters/pi/continuity.mjs",
-      "sha256": "8fc593f4d6fe54e228aef40fdaa517eea788ac015e8c5b86df75b7ce3f31a857",
-      "bytes": 4392
+      "sha256": "2fab9eb89847c97f80132bc630c1b652f65f90d8884a4cc2fbc5b3e34046c7ec",
+      "bytes": 4909
     },
     {
       "path": "repo/adapters/pi/extension.mjs",
@@ -104,8 +169,8 @@
     },
     {
       "path": "repo/adapters/pi/installed.mjs",
-      "sha256": "95ac218eb7b1a63e3584254ba5045ed3ce36644ea96e4961a193b88e1f00f023",
-      "bytes": 5983
+      "sha256": "7a5c3bfe76f4c54d3b39f3b208b5521fb92c4ef58d15e37b6122bed0245524e3",
+      "bytes": 6553
     },
     {
       "path": "repo/adapters/pi/runtime/package-lock.json",
@@ -119,8 +184,23 @@
     },
     {
       "path": "repo/adapters/skills/uacf-continuity/SKILL.md",
-      "sha256": "be20781979f5dd4c916f97f4e8a71aa5f57837b16b08dea448819294a2664efd",
-      "bytes": 2174
+      "sha256": "fce60901b75c8f9f31a824a95a3482df38c1500fa7a87dedb6ba16c5dbd5a7bc",
+      "bytes": 4372
+    },
+    {
+      "path": "repo/adapters/skills/uacf-continuity/references/host-map.md",
+      "sha256": "5e6b7e0b7548b62333b127c1a3b4750f227bddfac10cf7dfc1487eb7e77a9f14",
+      "bytes": 1771
+    },
+    {
+      "path": "repo/adapters/skills/uacf-continuity/references/root-cause.md",
+      "sha256": "3f57a3ffe53ece934b4d66d680a431e1a5ed005704b09f6f9ce71dd0c7ad777f",
+      "bytes": 1026
+    },
+    {
+      "path": "repo/adapters/skills/uacf-continuity/references/task-closure.md",
+      "sha256": "7212a5795d68d4f3800326ee91ed79d884eee4f9fcec49c41301e934287081eb",
+      "bytes": 1974
     },
     {
       "path": "repo/adapters/templates/DEFAULT_WORK.md",
@@ -149,8 +229,8 @@
     },
     {
       "path": "repo/apps/control-surface/auth.js",
-      "sha256": "38ade3bb941f21018b7fe4364b9d542dbe08eb0d0b9c4c38da6008c99c1e09cd",
-      "bytes": 3423
+      "sha256": "a431d291c7c5eae4fe5b9d41aba0f799959907f42efb59613252b04884a69587",
+      "bytes": 3446
     },
     {
       "path": "repo/apps/control-surface/catalog.js",
@@ -169,8 +249,8 @@
     },
     {
       "path": "repo/apps/control-surface/host-work.js",
-      "sha256": "6f77f001cc404782bf7f17a260ee8fd01fdcac80f65b477b129c25290c45725b",
-      "bytes": 2442
+      "sha256": "f88fddde4958496a9a51ed0ebacb64cbe8440de170b9fe997eeae624e4e8c047",
+      "bytes": 3029
     },
     {
       "path": "repo/apps/control-surface/index.html",
@@ -206,11 +286,6 @@
       "path": "repo/apps/control-surface/workspace.js",
       "sha256": "53da4dd242377b2a2a367fde08fc794ee0c9abd5cf9d200efe9c8fc7557c15b1",
       "bytes": 12792
-    },
-    {
-      "path": "repo/CHANGELOG.md",
-      "sha256": "9d42d85218463c17b268d69d98841f0095ed43a50c8f65d6c7f281414a071fbd",
-      "bytes": 7787
     },
     {
       "path": "repo/contracts/actions-batch2.schema.json",
@@ -261,11 +336,6 @@
       "path": "repo/contracts/openapi.json",
       "sha256": "cce99bc3246f6b4fda85cbe3d948393dbb506d4baba21cd1739619170bfbfb8f",
       "bytes": 4284
-    },
-    {
-      "path": "repo/CONTRIBUTING.md",
-      "sha256": "e0b61a33b2dac6b391676177a9df2513b14cf02b08bcc11ad19a03631f5a32fd",
-      "bytes": 682
     },
     {
       "path": "repo/docs/baseline/DSH_第一阶段设计补充04.html",
@@ -413,34 +483,19 @@
       "bytes": 3132
     },
     {
+      "path": "repo/docs/public/UPDATE-20261022.md",
+      "sha256": "502ceef24747042d32d962935a560fafe508f3a5f05309677b1eafdee3df2dad",
+      "bytes": 4038
+    },
+    {
       "path": "repo/docs/public/VERIFICATION.md",
-      "sha256": "eb4cb64bcb1158aa050c964fe84b831c615e49c35a4d2d7995e4713a1e954fae",
-      "bytes": 2316
-    },
-    {
-      "path": "repo/EXCLUSIONS.json",
-      "sha256": "5a5feffde0b344a390f9403b332aa81d1eb97afded6163f00cafaf5fe4ad9757",
-      "bytes": 379
-    },
-    {
-      "path": "repo/LICENSE",
-      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
-      "bytes": 11358
-    },
-    {
-      "path": "repo/LICENSE-GAPS.md",
-      "sha256": "067b9a60511bdaeb079aad3451535e9310a51ea6606dc0d059a2c6f07f04fd5d",
-      "bytes": 832
+      "sha256": "dbdb683b67ed096d193f3bf1f601839702a5bd29629ee44f34b3d5f104d1cc9a",
+      "bytes": 3347
     },
     {
       "path": "repo/modules/lessons.json",
       "sha256": "16142ab96ca496ea4f19b6022b6b923cea943e95a8ad41d939afe9843de7e9d4",
       "bytes": 6582
-    },
-    {
-      "path": "repo/NOTICE.md",
-      "sha256": "dc406790b5853fd0e227917fe81571a924f0a25eed851ccf22b165abde454966",
-      "bytes": 508
     },
     {
       "path": "repo/ops/bootstrap.ps1",
@@ -488,16 +543,6 @@
       "bytes": 1986
     },
     {
-      "path": "repo/README.md",
-      "sha256": "1293566ecc1ed4bb595305f478e9d12dc05c6ea7f03d20c96d12bf8191d8f581",
-      "bytes": 24050
-    },
-    {
-      "path": "repo/REFERENCES.md",
-      "sha256": "1b37796a9cc0049e8267ca2c101ac752e81312405bc1fd91f01007a0f635209e",
-      "bytes": 5686
-    },
-    {
       "path": "repo/requirements.lock",
       "sha256": "a65aeee37e8cde00c305f28055bdf20b8e959e1c5db07550e33803e98910808d",
       "bytes": 707
@@ -506,16 +551,6 @@
       "path": "repo/requirements.pinned.txt",
       "sha256": "c7085876ebc79a60f7268f09fb3ad3aacc7ecb369133d8b13ef8b297b81ae4ba",
       "bytes": 154
-    },
-    {
-      "path": "repo/SBOM.json",
-      "sha256": "d82ad2edfc9b833af7ccef9c59f5a8b558492888c58219ab2da570d627c578f5",
-      "bytes": 1372
-    },
-    {
-      "path": "repo/SECURITY.md",
-      "sha256": "22f07465222e1ca2a92303e3ce3f9794cc9c913a5f64d17b5dd92bf9a586bd0d",
-      "bytes": 576
     },
     {
       "path": "repo/tests/dsh_public_contract.mjs",
@@ -531,6 +566,11 @@
       "path": "repo/tests/pi_continuity_contract.mjs",
       "sha256": "e631ae84bee751bfbc1ba0cc3087dc7f296b6cba7781fa550e6cf91749bfadcb",
       "bytes": 1631
+    },
+    {
+      "path": "repo/tests/pi_installed_contract.mjs",
+      "sha256": "ebd0201a74723f47d1772419a1243ac98758692b41ddf281b9f707a2e99194aa",
+      "bytes": 2441
     },
     {
       "path": "repo/tests/test_archive_batch4.py",
@@ -678,6 +718,11 @@
       "bytes": 1813
     },
     {
+      "path": "repo/tests/test_organizing_upgrade.py",
+      "sha256": "34884bdb09a4dfbf0930a3f3a0dc77815c037d0b3cc0601989f942ee7105f626",
+      "bytes": 9007
+    },
+    {
       "path": "repo/tests/test_portable_assets.py",
       "sha256": "a2306193306ab778f9bc4fac95ae285a9b5c4855607755ce1a50c04217237aff",
       "bytes": 6743
@@ -733,11 +778,6 @@
       "bytes": 1373
     },
     {
-      "path": "repo/THIRD_PARTY.md",
-      "sha256": "72b21eab2be641fd30422d6a18676782fb22fbcce7253c2e0112ebae8a1dff80",
-      "bytes": 1207
-    },
-    {
       "path": "repo/uacf/__init__.py",
       "sha256": "1551cf04691f85b4038bfcf7bf43e2289ad75ea5cec74bc65bfd556aa3498bb5",
       "bytes": 22
@@ -778,14 +818,24 @@
       "bytes": 3918
     },
     {
+      "path": "repo/uacf/candidate_guidance.py",
+      "sha256": "9ec082f5c2393a939c79888f81217b5ad109d566f2d18b6c3398c25b5452fa47",
+      "bytes": 1383
+    },
+    {
+      "path": "repo/uacf/capabilities.py",
+      "sha256": "13f09fea66f4d95b0c8a7afffa3d3199c39eb285ce47afd6575735c42fe3b687",
+      "bytes": 6306
+    },
+    {
       "path": "repo/uacf/catalog.py",
       "sha256": "c36f4fda0f56e9439bafc54a1e35384aab878c358e5a27534f72c75d3a83b677",
       "bytes": 16675
     },
     {
       "path": "repo/uacf/command_ledger.py",
-      "sha256": "6a4a778eb4c1c0b53652d71adc31ebd3e03f359484800ba6d4c03a6e759544b0",
-      "bytes": 5352
+      "sha256": "5d9fc956fb8313bf736c1b6d3aa0e6122fa9a5f60efc7adc5758f91c179c0ff0",
+      "bytes": 6803
     },
     {
       "path": "repo/uacf/deploy.py",
@@ -819,8 +869,8 @@
     },
     {
       "path": "repo/uacf/host_work.py",
-      "sha256": "b9dfbb28191740fd1aa595ce4843ba760026273172ab4c288f12853c96694e2b",
-      "bytes": 13012
+      "sha256": "553a0365a8eae77143a853c62152fafe50db47765a02048ad9e4e1f6c4a09d77",
+      "bytes": 13047
     },
     {
       "path": "repo/uacf/human_directory.py",
@@ -834,8 +884,8 @@
     },
     {
       "path": "repo/uacf/learning_guards.py",
-      "sha256": "a148da29f525b8ebe263c1db6b643b82b1640a4db466284cf601b11c35e49135",
-      "bytes": 5462
+      "sha256": "a7a4acf76153978a94c8d6aa447fb823df87c5ce63622e7b69fae8fc8934fd53",
+      "bytes": 5468
     },
     {
       "path": "repo/uacf/learning_inspect.py",
@@ -879,8 +929,8 @@
     },
     {
       "path": "repo/uacf/learning_use.py",
-      "sha256": "150980e345f7e6978d2434a6ad795402ba4aa5e8d9106753a0b6e67f3fe08223",
-      "bytes": 7764
+      "sha256": "cb2ac51b50f89f40de5956047ee5befac691d96434509c9d38e7d8aa520ceed2",
+      "bytes": 7565
     },
     {
       "path": "repo/uacf/learning_verify.py",
@@ -889,8 +939,8 @@
     },
     {
       "path": "repo/uacf/mcp.py",
-      "sha256": "9d194912dea7ba35e9200329443c29df0a43ebbea729e9e37a3eb302b2158422",
-      "bytes": 5902
+      "sha256": "8fffc4b4184685efb33b711469b4515b395ec88cb3184a615908bbaba145f064",
+      "bytes": 6862
     },
     {
       "path": "repo/uacf/metric_evidence.py",
@@ -919,8 +969,8 @@
     },
     {
       "path": "repo/uacf/project_workflow.py",
-      "sha256": "28f5f00888411e1c75509915ee28385ee2fd2fcdc2b9f3eeb42b159c950bdbe7",
-      "bytes": 7552
+      "sha256": "466fa66a0c0191f037f1d093e2b8179e40ebfca6de47be1ddcda9f0a44c2f11f",
+      "bytes": 8053
     },
     {
       "path": "repo/uacf/reading.py",
@@ -934,8 +984,8 @@
     },
     {
       "path": "repo/uacf/service.py",
-      "sha256": "b87a295f8066db3962154fec9f348cd2f77b7f1be8c13fa52bc4063040ad3ed8",
-      "bytes": 26828
+      "sha256": "b1f6daf761a391fa43e64019180504b60e339cf38ba796683077aea0c44fb2ec",
+      "bytes": 27265
     },
     {
       "path": "repo/uacf/spool.py",
@@ -944,8 +994,13 @@
     },
     {
       "path": "repo/uacf/state.py",
-      "sha256": "da1a08729a08467bfecd7f3e83d2c6ad71f82f08dedabdf9647b742b4f62daf1",
-      "bytes": 40641
+      "sha256": "645887720c25f0bea4c4bc585c4493f08f4e280cd27c7d1387c5d951bfcfbab4",
+      "bytes": 41529
+    },
+    {
+      "path": "repo/uacf/task_views.py",
+      "sha256": "b8a3028036d81d5498b2c2315c6b52ff6e77d59c9ac91fe1b900b3e5ca9ccf7b",
+      "bytes": 3145
     },
     {
       "path": "repo/uacf/trial_budget.py",
@@ -958,14 +1013,19 @@
       "bytes": 10492
     },
     {
+      "path": "repo/uacf/upgrade_verification.py",
+      "sha256": "1614fcee39fca5edee6396bc6339b55d4816bb345b06098870e46a305f9d7cf0",
+      "bytes": 4964
+    },
+    {
       "path": "repo/uacf/util.py",
       "sha256": "d57b2691bfed213483d5a0ff6817fb0d211eef70f0ad8609b0361bd8d1a1bdff",
       "bytes": 1080
     },
     {
       "path": "repo/uacf/work_verification.py",
-      "sha256": "b1f6f2f81382a6210abcb0bf9e92c0080b9586ad33842be86e0cc76d7c72db19",
-      "bytes": 14660
+      "sha256": "b539c6253430911c440aae5411dc473fe9e5f040b5b0edb03dcf343a2e6df1cb",
+      "bytes": 15156
     },
     {
       "path": "repo/uacf/workflow.py",
@@ -976,16 +1036,6 @@
       "path": "repo/uacf/workspace.py",
       "sha256": "5bb4f9b356381dd68c6603e07ad8a6f416d2a734d190a2e6485ea2f56e942f62",
       "bytes": 4958
-    },
-    {
-      "path": "repo/UPLOAD-GUIDE.md",
-      "sha256": "719afc5b961991253ddebf3f4fab0e466e52bd82af1302296afe32d5f86402b4",
-      "bytes": 2955
-    },
-    {
-      "path": "Start-UACF.cmd",
-      "sha256": "152c6de40cd67f2acdc19aec7c6b212ae911a2d1cff334feba491af31ab8d775",
-      "bytes": 136
     },
     {
       "path": "先读我-READ-ME.txt",
@@ -1002,12 +1052,5 @@
       "sha256": "00bb9652fc5d3f5c1729617887be8c00854387389e5fe0f83d9a44322daf2bbb",
       "bytes": 1666
     }
-  ],
-  "private_history_included": false,
-  "private_data_included": false,
-  "source_tests": 229,
-  "candidate_tests": 229,
-  "clean_tests": 229,
-  "privacy_scope": "reviewed selections, exact known-private markers, credential patterns; not universal semantic anonymity",
-  "portability": "explicit UACF_PI_AGENT_HOME replaces machine-specific optional Pi profile"
+  ]
 }

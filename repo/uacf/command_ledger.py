@@ -58,10 +58,30 @@ def update(state,actor,args):
  return dict(ok=True,task_ref=vector(state.put(request(obj,task['revision']),actor)['object']),entries=len(rows),older_commands_preserved=True)
 
 def capsule(task):
- return [dict(key=x['key'],text=x['text'],kind=x['kind'],state=x['state'],actionable=x['actionable'],source_ref=x['source_ref'],interpretation_basis=x['interpretation_basis'],duplicate_of=x.get('duplicate_of')) for x in task['payload'].get('command_ledger',[]) if x['state'] not in ['superseded','cancelled']]
+ # The complete ledger remains in capsule.task.payload and canonical history.
+ # Avoid projecting settled rows twice in new, explicitly contracted work.
+ excluded=['superseded','cancelled']+(['satisfied'] if task['payload'].get('command_contract',{}).get('required') else [])
+ return [dict(key=x['key'],text=x['text'],kind=x['kind'],state=x['state'],actionable=x['actionable'],source_ref=x['source_ref'],interpretation_basis=x['interpretation_basis'],duplicate_of=x.get('duplicate_of')) for x in task['payload'].get('command_ledger',[]) if x['state'] not in excluded]
 
-def delivery(task):
- remaining=[x['key'] for x in task['payload'].get('command_ledger',[]) if x.get('actionable') and x['state']!='satisfied']
+def preparation(task):
+ """Opt-in for new work; old archive Tasks are never rewritten or reclassified."""
+ contract=task['payload'].get('command_contract',{})
+ if not contract.get('required'):return
+ rows=[x for x in task['payload'].get('command_ledger',[]) if x.get('actionable') and x['state'] not in ['superseded','cancelled']]
+ if not rows:raise Fault('COMMAND_CONTRACT_REQUIRED','register current interpreted requirements before implementation or delivery; an empty ledger is not coverage')
+ ref=contract.get('source_ref')
+ if ref and not any(x['source_ref']==ref for x in rows):raise Fault('COMMAND_SOURCE_REQUIRED','the current Owner request has not been interpreted into the active requirement ledger')
+
+def delivery(task,state=None):
+ preparation(task)
+ active=[x for x in task['payload'].get('command_ledger',[]) if x.get('actionable') and x['state'] not in ['superseded','cancelled']]
+ remaining=[x['key'] for x in active if x['state']!='satisfied']
  if remaining:raise Fault('COMMAND_INCOMPLETE','undelivered explicit instructions: '+', '.join(remaining))
+ if state is not None:
+  for row in active:
+   if not row.get('evidence_refs'):raise Fault('COMMAND_EVIDENCE','instruction has no result evidence: '+row['key'])
+   for ref in row['evidence_refs']:
+    obj=state.get(ref['object_id'],'owner')
+    if vector(obj)!=ref or stale(state,obj):raise Fault('COMMAND_EVIDENCE','instruction result changed or became stale: '+row['key'])
 
 def dispatch(state,actor,action,args):return (summary if action=='command_status' else update)(state,actor,args)

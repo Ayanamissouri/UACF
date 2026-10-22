@@ -12,8 +12,12 @@ from .host_work import policy
 
 TESTS=['tests.test_host_work','tests.test_host_work_hooks','tests.test_ecosystem','tests.test_project_workflow','tests.test_generic_budget_authorization','tests.test_command_ledger','tests.test_service_lifecycle','tests.test_archive_trigger','tests.test_work_verification']
 PROPERTIES={'host_default_work_configured','study_bundle_source_integrity','unified_assets_source_integrity'}
+PROPERTIES.add('uacf_upgrade_integrity')
 
-def environment(state):
+def environment(state,task=None):
+ if task and task['payload'].get('upgrade_acceptance'):
+  from .upgrade_verification import environment as upgrade_environment
+  return upgrade_environment(state,task)
  repo=state.root/'repo';home=Path.home()
  paths=[repo/'uacf'/n for n in ['host_work.py','state.py','fabric.py','service.py','work_verification.py']]
  paths += [repo/'tests'/(n.split('.')[-1]+'.py') for n in TESTS]
@@ -139,16 +143,21 @@ def dispatch(state,actor,action,args,operation_id=None):
  task=state.get(args['task_id'],actor);prop=args.get('property')
  if task['revision']!=args.get('task_revision'):raise Fault('REVISION_CONFLICT','verify exact current Task')
  if prop not in PROPERTIES or prop not in task['payload']['required_properties']:raise Fault('INPUT','explicit registered work property required')
- before=environment(state)
+ before=environment(state,task)
  if task['payload'].get('delivery_environment_hash')!=before['environment_hash']:raise Fault('ENVIRONMENT_CHANGED','freeze this current environment before verification')
  checks={};details={'at':now(),'property':prop,'model_calls':0}
  try:
-  (_host(state,args,checks,details) if prop=='host_default_work_configured' else _unified(state,task,checks,details) if prop=='unified_assets_source_integrity' else _study(state,task,checks,details))
+  if prop=='uacf_upgrade_integrity':
+   from .upgrade_verification import check
+   check(state,task,checks,details)
+  else:
+   (_host(state,args,checks,details) if prop=='host_default_work_configured' else _unified(state,task,checks,details) if prop=='unified_assets_source_integrity' else _study(state,task,checks,details))
  except Exception as e:checks['completed_without_error']=False;details['error']={'type':type(e).__name__,'detail':str(e)[:1500]}
- checks['environment_unchanged']=environment(state)['environment_hash']==before['environment_hash']
+ checks['environment_unchanged']=environment(state,task)['environment_hash']==before['environment_hash']
  result='pass' if checks and all(checks.values()) else 'fail'
  ev=state.put(request(object_new('Evidence',dict(task_id=task['object_id'],task_revision=task['revision'],observation={'checks':checks,'details':details,'environment':before}),visibility=task['visibility'])),'owner')['object']
  val=object_new('Validation',dict(task_id=task['object_id'],task_revision=task['revision'],property=prop,result=result,environment_hash=before['environment_hash'],method='Registered finite UACF work verifier; code/config/native diagnostics or frozen study source integrity only',evidence_id=ev['object_id'],input_vector=[vector(task),vector(ev)],execution_status='ran',coverage=[prop],expiry='Task revision, files, source refs, code, native installation or environment changes'),visibility=task['visibility'])
  obj=state.put(request(val),'owner',internal=True)['object']
  out=dict(ok=True,result=result,checks=checks,details=details,evidence_ref=vector(ev),validation_ref=vector(obj),environment_hash=before['environment_hash'])
- atomic(state.root/'artifacts/host-governance-rewrite-20261019'/('verified-'+prop+'.json'),canonical(out));return out
+ directory=Path(task['payload']['upgrade_acceptance']['canonical_baseline']).parent if prop=='uacf_upgrade_integrity' else state.root/'artifacts/host-governance-rewrite-20261019'
+ atomic(directory/('verified-'+prop+'.json'),canonical(out));return out

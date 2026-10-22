@@ -1,3 +1,7 @@
+# 2026-10-22 — task integrity and cross-host continuity
+
+Adds explicit command-contract gates at implementation/review/delivery, current-evidence rechecks, stage-plan history preservation, canonical-derived Task briefs, scoped capability observations and source-bound optional guidance. Pi uncertain actions reconcile by original operation ID. Adds focused regression coverage. Existing archives and release history remain unchanged; no new model calls or runtime dependencies. See [the full update](docs/public/UPDATE-20261022.md) and [verification scope](docs/public/VERIFICATION.md).
+
 # 2026-10-21 — governance and unified sources
 
 Adds current default-host admission, unified cross-source search, adaptive checkpoints, source-bound command/learning contracts and metric-evidence checks. Preserves public history and private exclusion. Adds pinned CI and current architecture/security/upgrade notes. Source and candidate: 229 tests each. Runtime adoption and new-machine host callbacks remain separately verified.

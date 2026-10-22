@@ -259,6 +259,11 @@ class State:
         if default_policy and default_policy['config']['enabled']:
             content['mandatory_default_work_policy']={'ref':default_policy['ref'],'notice':default_policy['config']['notice'],'rules':default_policy['config']['rules'],'wait_for_answer':False}
         content['mandatory_command_lane']=command_capsule(task)
+        # Compact recovery view derived from the same canonical Task.
+        if task['payload'].get('command_contract',{}).get('required'):
+            from .task_views import brief
+            view=brief(self,actor,{'task_id':task_id})['brief']
+            content['mandatory_work_brief']={k:view[k] for k in ['task_ref','output_contract','requirements_ready','preparation_gap','open_requirements','required_properties','execution_state','next_action','authority']}
         content['command_lane_instruction']='Preserve each active instruction across supplements and compaction. Read this current lane before work and delivery; amendments only through current human correction. Optional recall cannot evict mandatory commands.'
         related=[]; missing=[]
         for entry in content['mandatory_command_lane']:
@@ -320,11 +325,16 @@ class State:
                 content['optional_issue_recall']=issue_recall(self,actor,task)
                 content['learning_use_observation']={'phase':'prepared capsule; actual use requires native receipt'}
         content['task_evidence']=related;content['missing_dependencies']=missing
+        from .candidate_guidance import dedupe,guidance
+        if 'optional_unified_recall' in content:
+            content['optional_unified_recall']['items']=dedupe(content['optional_unified_recall']['items'])
+        if 'optional_issue_recall' in content:
+            content['optional_guidance']=guidance(content['optional_issue_recall']['candidates'])
         limit=budget if budget is not None else self.config['capsule_max_bytes']
         if type(limit)!=int or limit<1: raise Fault('INPUT','positive byte budget required')
         if 'learning_use_observation' in content:
             # Optional assets yield first; mandatory Task and evidence are never cut.
-            optional=[content.get('optional_unified_recall',{}).get('items',[]),content['optional_issue_recall']['candidates'],content['optional_knowledge_recall']['candidates']]
+            optional=[content.get('optional_guidance',{}).get('items',[]),content.get('optional_unified_recall',{}).get('items',[]),content['optional_issue_recall']['candidates'],content['optional_knowledge_recall']['candidates']]
             while len(canonical(content).encode('utf-8'))>max(0,limit-512) and any(optional):
                 next(group for group in optional if group).pop()
             content['learning_use_observation']=usage(self,actor,task,content['optional_knowledge_recall']['candidates'],content['optional_issue_recall']['candidates'])

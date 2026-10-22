@@ -47,6 +47,9 @@ def _dispatch(state,actor,action,args,operation_id):
         task['payload']['execution_policy_ref']=vector(obj)
         task=state.put(request(task,task['revision']),actor)['object']
         plan=dict(plan_ref=vector(obj),task_ref=vector(task),config=config,events=[],previous_plan_ref=old['plan_ref'] if old else None)
+        if old:
+            history=folder/'history';history.mkdir(exist_ok=True)
+            atomic(history/(task['object_id']+'-'+str(old['task_ref']['revision'])+'-'+str(operation_id)+'.json'),canonical(old))
         atomic(path,canonical(plan))
         return {'ok':True,'plan':plan,'task_ref':vector(task)}
     if action!='workflow_project_record':raise Fault('NOT_FOUND','unknown project stage action')
@@ -55,6 +58,9 @@ def _dispatch(state,actor,action,args,operation_id):
     status=args.get('state')
     if not step or status not in ['started','completed']:raise Fault('INPUT','known stage and lifecycle required')
     if status=='started':
+        if step['role'] in ['implement','review','deliver']:
+            from .command_ledger import preparation
+            preparation(task)
         if any(e['stage_id']==step['id'] for e in old['events']):raise Fault('REVISION_CONFLICT','stage already started; no replay')
         complete={e['stage_id'] for e in old['events'] if e['state']=='completed'}
         if any(x not in complete for x in step['depends_on']):raise Fault('DEPENDENCY','finish dependencies first')
@@ -67,6 +73,9 @@ def _dispatch(state,actor,action,args,operation_id):
         if step['route']=='deepseek':raise Fault('ADAPTER_REQUIRED','generic DS completion needs a registered task-specific receipt verifier; do not claim success')
         if args.get('actual_model') not in ['current_host','gpt-6.1-sol']:raise Fault('MODEL_MISMATCH','current host receipt or explicitly observed model required')
         if not isinstance(args.get('native_locator'),str) or not args['native_locator'].strip():raise Fault('INPUT','public native call/file locator required')
+        if step['role']=='deliver':
+            from .command_ledger import delivery as command_delivery
+            command_delivery(task,state)
         if step['role'] in ['review','deliver'] and task['payload'].get('metric_evidence_manifest'):
             from .metric_evidence import verify
             verify(state.root,task['payload']['metric_evidence_manifest'])

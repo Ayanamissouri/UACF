@@ -82,7 +82,7 @@ def enter(state,actor,args,operation_id):
   else:
    goal=args.get('goal') or 'Default UACF work; refine current Owner requirements before implementation'
    if not isinstance(goal,str) or len(goal.encode())>12000:raise Fault('INPUT','bounded current work goal required')
-   task=_record(state,'TaskContract','enroll:'+host+':'+sid,dict(goal=goal,required_properties=[],host=host,execution_state='running',allow_provider=False,unified_asset_search_authorized=True,constraints=RULES,input_vector=[p['ref']],enrollment='Owner-policy-delegated fixed template; no budget authority',native_session_id=sid,learning_capture_policy={'mode':'adaptive'}))
+   task=_record(state,'TaskContract','enroll:'+host+':'+sid,dict(goal=goal,required_properties=[],command_contract={'required':True},host=host,execution_state='running',allow_provider=False,unified_asset_search_authorized=True,constraints=RULES,input_vector=[p['ref']],enrollment='Owner-policy-delegated fixed template; no budget authority',native_session_id=sid,learning_capture_policy={'mode':'adaptive'}))
    # Compose with the existing stage-plan service, rather than inventing a
    # second execution engine. No stage is marked started/completed by enrollment.
    if not task['payload'].get('execution_policy_ref'):

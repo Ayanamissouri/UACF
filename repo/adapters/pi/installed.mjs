@@ -18,7 +18,17 @@ export default function installed(pi) {
       Object.assign(body,{actor:'pi',operation_id,correlation_id:operation_id,scope:'action:'+action,expected_revision:0,schema_version:'1.0'});
       body.request_hash=crypto.createHash('sha256').update(encode(body)).digest('hex');
     }
-    const response=await fetch(config.url+'/v1/action',{method:'POST',headers:{Authorization:'Bearer '+config.token,'Content-Type':'application/json'},body:encode(body),signal:AbortSignal.timeout(action==='work_enter'?10000:8000)});
+    let response;
+    try{response=await fetch(config.url+'/v1/action',{method:'POST',headers:{Authorization:'Bearer '+config.token,'Content-Type':'application/json'},body:encode(body),signal:AbortSignal.timeout(action==='work_enter'||action==='context'?30000:8000)});}
+    catch(error){
+      if(body.operation_id){
+        // Read the exact operation; never resend an uncertain enrollment/action.
+        const prior=await send('operation_get',{operation_id:body.operation_id});
+        if(prior.operation?.state==='done'&&prior.operation.response?.ok)return prior.operation.response;
+        throw Error('UACF_OUTCOME_UNKNOWN: '+body.operation_id);
+      }
+      throw error;
+    }
     const result=await response.json();if(!result.ok)throw Error('UACF_'+result.code);return result;
   }
   function flush(){
@@ -39,6 +49,7 @@ export default function installed(pi) {
       governed:()=>!external&&fs.existsSync(path.join(config.root,'data/host-work/policy.json')),
       admit:event=>send('work_admit',{host:'pi',native_session_id:binding?.native,tool_name:event.toolName,tool_input:event.input||{},cwd:binding?.cwd}),
       prepare:()=>{if(!binding)throw Error('UACF_SESSION_UNMAPPED');return send('context',{task_id:binding.task});},flush,
+      brief:()=>{if(!binding)throw Error('UACF_SESSION_UNMAPPED');return send('work_brief',{task_id:binding.task});},
       captureArtifacts:revision=>{if(!binding)return;return send('artifact_capture',{task_id:binding.task,task_revision:revision,native_session_id:binding.native});},
       observe:async payload=>{
         if(!binding)return;const {native,task}=binding;

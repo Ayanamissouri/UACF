@@ -16,6 +16,11 @@ export default function continuity(pi, bridge) {
     return result;
   }
   pi.registerCommand('uacf-prepare',{description:'Prepare current canonical Task without a model request',handler:prepare});
+  if(bridge.brief)pi.registerCommand('uacf-brief',{description:'Read current requirements and project output without a model request',handler:async(_args,ctx)=>{
+    const result=await bridge.brief(),b=result.brief;
+    if(ctx?.hasUI&&ctx.ui?.notify)ctx.ui.notify(`UACF ${b.task_ref.object_id} r${b.task_ref.revision}\n${b.open_requirements.map(x=>x.text).join('\n')||'没有登记中的未完成要求'}\n输出：${b.output_contract?.project_root||'待指定实际项目目录'}`,'info');
+    return result;
+  }});
   pi.on('before_agent_start',async()=>{
     if (bridge.active && !bridge.active()) return;
     const result=await prepare();
