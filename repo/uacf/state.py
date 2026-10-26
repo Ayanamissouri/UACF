@@ -331,7 +331,9 @@ class State:
             content['optional_unified_recall']['items']=dedupe(content['optional_unified_recall']['items'])
         if 'optional_issue_recall' in content:
             content['optional_guidance']=guidance(content['optional_issue_recall']['candidates'])
-        limit=budget if budget is not None else self.config['capsule_max_bytes']
+        task_limit=task['payload'].get('coding_workers',{}).get('context_max_bytes')
+        if task_limit is not None and (type(task_limit)!=int or not 1<=task_limit<=1048576):raise Fault('INPUT','invalid Task-bound coding context capacity')
+        limit=budget if budget is not None else task_limit if task_limit is not None else self.config['capsule_max_bytes']
         if type(limit)!=int or limit<1: raise Fault('INPUT','positive byte budget required')
         if 'learning_use_observation' in content:
             # Optional assets yield first; mandatory Task and evidence are never cut.

@@ -74,14 +74,16 @@ def configure(state,actor,args):
     return dict(ok=True,policy_ref=vector(obj),model_calls=0)
 
 def inherit(state,task):
-    """Only the newly enrolled fixed template, never rewrite old/archived work."""
+    """Bind missing workers on active new/resumed work, never frozen archives."""
+    if task['payload'].get('execution_state')!='running':return task
     config=settings(state,task)
     if not config.get('configured') or not config.get('profile_ref') or task['payload'].get('coding_workers') is not None:return task
+    account='coding-'+task['object_id']
+    if task['payload'].get('budget_account') not in [None,account]:raise Fault('WORKER_BUDGET_CONFLICT','existing task account is preserved; Owner must bind a compatible coding assignment explicitly')
     policy=state.get(config['policy_ref']['object_id'],'owner')
     if vector(policy)!=config['policy_ref'] or policy['payload']['config']!={k:v for k,v in config.items() if k!='policy_ref'}:raise Fault('WORKER_SETUP','canonical default policy changed')
-    account='coding-'+task['object_id']
     assignment=save(state,'RoleAssignment',dict(mode='manual',roles={'coding_worker':[config['profile_ref']['object_id']]},fallback=None,budget_account=account))
-    task['payload'].update(allow_provider=True,budget_account=account,budget_authorization=dict(account=account,limit_micro=config['budget_limit_micro'],basis='Owner adopted default coding worker policy '+str(config['policy_ref'])),coding_workers_required=True,coding_workers=dict(configured=True,luna_usable=config.get('luna_usable',False),assignment_ref=vector(assignment),budget_account=account,max_calls=config['max_calls'],max_output_tokens=config['max_output_tokens'],host_dispatch_authorized=True,policy_ref=config['policy_ref']))
+    task['payload'].update(allow_provider=True,budget_account=account,budget_authorization=dict(account=account,limit_micro=config['budget_limit_micro'],basis='Owner adopted default coding worker policy '+str(config['policy_ref'])),coding_workers_required=True,coding_workers=dict(configured=True,luna_usable=config.get('luna_usable',False),assignment_ref=vector(assignment),budget_account=account,max_calls=config['max_calls'],max_output_tokens=config['max_output_tokens'],context_max_bytes=262144,host_dispatch_authorized=True,policy_ref=config['policy_ref']))
     task=state.put(request(task,task['revision']),'owner')['object']
     from .batch3 import dispatch_batch3
     dispatch_batch3(state,'owner','budget_open',dict(account=account,limit_micro=config['budget_limit_micro'],currency='CNY',task_ref=vector(task)),None)
@@ -114,6 +116,12 @@ def audit_guard(state,task):
         if not a.exists():raise Fault('WORKER_AUDIT_REQUIRED','main diff/boundary/test audit missing: '+f.stem)
         review=json.loads(a.read_text('utf8'));ev=state.get(review['evidence_ref']['object_id'],'owner')
         if vector(ev)!=review['evidence_ref'] or ev['payload'].get('result_ref')!=r['result_ref']:raise Fault('WORKER_AUDIT_REQUIRED','audit/result binding changed')
+        ticket_ref=r.get('ticket_ref')
+        old_ticket=state.get(ticket_ref['object_id'],'owner') if ticket_ref else None
+        if old_ticket and vector(old_ticket)==ticket_ref and old_ticket['payload'].get('requirements_hash')!=fingerprint(task) and r.get('outcome') in ['unverified','failed','incomplete']:
+            # Historical settled audits stay immutable evidence of their old
+            # source revision; they do not pin future work to old file hashes.
+            continue
         for row in ev['payload']['review'].get('files',[]):
             path=Path(row['path']).resolve();root=Path(task['payload']['output_contract']['project_root']).resolve()
             if not path.is_relative_to(root) or not path.is_file() or file_hash(path)!=row['sha256']:raise Fault('WORKER_AUDIT_REQUIRED','audited implementation changed')
@@ -124,7 +132,17 @@ def dispatch(state,actor,action,args,oid):
     if action=='coding_worker_configure':return configure(state,actor,args)
     if action=='coding_worker_status':
         task=state.get(args['task_id'],actor);return dict(ok=True,settings=settings(state,task),notice=notice(state,task),model_calls=0)
-    task=current(state,args);config=settings(state,task)
+    task=current(state,args)
+    if action=='coding_worker_bind':
+        if actor!='owner':raise Fault('PERMISSION','Owner binds existing Task coding roles and independent budget')
+        task=inherit(state,task)
+        return dict(ok=True,task_ref=vector(task),settings=settings(state,task),model_calls=0)
+    if action=='coding_worker_prepare' and task['payload'].get('coding_workers') is None:
+        if actor!='owner':
+            bindings=json.loads((state.data/'host-bindings.json').read_text('utf8'))
+            if actor!=task['payload'].get('host') or bindings.get(actor,{}).get(task['payload'].get('native_session_id'))!=task['object_id']:raise Fault('PERMISSION','exact current native Task mapping required for missing-worker enrollment')
+        task=inherit(state,task)
+    config=settings(state,task)
     if actor!='owner' and (actor!=task['payload'].get('host') or not config.get('host_dispatch_authorized')):raise Fault('PERMISSION','Owner-bound native host required')
     directory=folder(state,task)
     if action=='coding_worker_prepare':
@@ -155,7 +173,7 @@ def dispatch(state,actor,action,args,oid):
         stable=PREFIX+'\nFROZEN CONTRACT\n'+canonical(spec)+'\nCURRENT UNIT\n'
         p=dict(kind='coding_worker_ticket',task_id=task['object_id'],requirements_hash=fingerprint(task),spec=spec,unit=unit,route=route,prompt=stable+unit,prefix_sha256=sha(stable),prepared_at=time.time(),max_output_tokens=config.get('max_output_tokens',768),locator='coding-worker:'+str(oid),sha256=sha(stable+unit))
         obj=save(state,'Artifact',p)
-        return dict(ok=True,ticket_ref=vector(obj),route=route,prompt=p['prompt'],model_calls=0)
+        return dict(ok=True,task_ref=vector(task),ticket_ref=vector(obj),route=route,prompt=p['prompt'],model_calls=0)
     obj=ticket(state,task,args);p=obj['payload'];job=obj['object_id'];start=directory/(job+'.started.json');resultpath=directory/(job+'.result.json')
     if action=='coding_worker_fallback':
         refusal=args['observation']
@@ -186,7 +204,18 @@ def dispatch(state,actor,action,args,oid):
         assignment=state.get(config['assignment_ref']['object_id'],'owner')
         if vector(assignment)!=config['assignment_ref']:raise Fault('WORKER_STALE','assignment changed')
         contract=save(state,'ResponseContract',dict(task_id=task['object_id'],request_ref=task['payload']['command_contract']['source_ref'],questions=['Complete the frozen coding unit; candidate only'],format='code',uncertainty=['main host audit pending'],evidence_refs=[],worker_prompt=p['prompt'],worker_prefix_sha256=p['prefix_sha256'],kind='coding_worker',output_schema='candidate only; main host audit required',input_vector=[]))
-        result=model_dispatch(state,'owner',dict(task_id=task['object_id'],expected_revision=task['revision'],assignment_id=assignment['object_id'],role='coding_worker',response_contract_id=contract['object_id'],max_tokens=p['max_output_tokens'],reasoning_effort='off'),oid)
+        try:
+            result=model_dispatch(state,'owner',dict(task_id=task['object_id'],expected_revision=task['revision'],assignment_id=assignment['object_id'],role='coding_worker',response_contract_id=contract['object_id'],max_tokens=p['max_output_tokens'],reasoning_effort='off'),oid)
+        except Fault as error:
+            # These errors are raised before reserve/send in model_dispatch.
+            # Do not classify transport failures or a charged/unknown request as
+            # preflight failure, and never automatically replay any request.
+            known={'CAPSULE_OVERFLOW','EGRESS_PERMISSION','BUDGET_ACCOUNT_MISMATCH','RESPONSE_CONTRACT','LIMIT','PRICE_UNKNOWN','DEPENDENCY_STALE','STOPPED','REVISION_CONFLICT'}
+            with state.db() as conn:reserved=conn.execute('SELECT 1 FROM budget_reservations WHERE id=?',(oid,)).fetchone()
+            if error.code in known and not reserved:
+                ev=save(state,'Evidence',dict(task_id=task['object_id'],ticket_ref=vector(obj),observation=dict(code=error.code,detail=error.detail,generation_started=False,operation_id=oid)))
+                atomic(resultpath,canonical(dict(result_ref=vector(ev),ticket_ref=vector(obj),outcome='failed',route=p['route'],generation_started=False)))
+            raise
         receipt=dict(result_ref=vector(result['evidence']),ticket_ref=vector(obj),outcome=result['outcome'],route=p['route'],prefix_sha256=p['prefix_sha256'])
         atomic(resultpath,canonical(receipt))
         return dict(ok=True,**receipt,observation=result['evidence']['payload']['observation'],budget=result['budget'],candidate_accepted=False)
@@ -200,13 +229,13 @@ def dispatch(state,actor,action,args,oid):
         if actor!='owner':raise Fault('PERMISSION','main host audit required')
         if not resultpath.exists():raise Fault('WORKER_RESULT','no completed result')
         result=json.loads(resultpath.read_text('utf8'));review=args['review']
-        if result['outcome'] not in ['unverified','failed','incomplete']:raise Fault('OUTCOME_UNKNOWN','unknown requests need reconciliation, never acceptance or replay')
+        if result['outcome'] not in ['unverified','failed','incomplete'] and not (review.get('disposition')=='quarantined_unknown' and p['spec']['write_scope']=='none'):raise Fault('OUTCOME_UNKNOWN','unknown requests need reconciliation; only unused read-only diagnostics can be explicitly quarantined without acceptance/replay')
         if result['outcome']!='unverified' and review.get('disposition')=='accepted_candidate':raise Fault('WORKER_AUDIT','failed/incomplete candidate cannot be accepted')
         for k in ['reviewer','diff_review','boundary_review','test_review','disposition']:
             if not review.get(k):raise Fault('WORKER_AUDIT','main audit '+k+' required')
-        if review['disposition'] not in ['accepted_candidate','rejected_candidate']:raise Fault('WORKER_AUDIT','explicit candidate disposition required')
+        if review['disposition'] not in ['accepted_candidate','rejected_candidate','quarantined_unknown']:raise Fault('WORKER_AUDIT','explicit candidate disposition required')
         if review['disposition']=='accepted_candidate' and not review.get('files'):raise Fault('WORKER_AUDIT','accepted code needs actual file hashes')
         ev=save(state,'Evidence',dict(task_id=task['object_id'],ticket_ref=vector(obj),result_ref=result['result_ref'],review=review,observation={'scope':'main-host public diff and test review; not worker self-acceptance'}))
-        atomic(directory/(job+'.audit.json'),canonical(dict(evidence_ref=vector(ev))));audit_guard(state,task)
+        atomic(directory/(job+'.audit.json'),canonical(dict(evidence_ref=vector(ev))))
         return dict(ok=True,audit_ref=vector(ev),task_accepted=False)
     raise Fault('INPUT','unknown coding worker action')

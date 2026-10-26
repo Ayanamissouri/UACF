@@ -1,3 +1,7 @@
+# 2026-10-26 — resumed Task worker bindings and context admission
+
+Repairs missing role/egress/budget inheritance for active resumed Tasks, preserving stopped archives and existing account conflicts. Worker context capacity is explicitly Task-bound; full history is not added to the model prompt. Confirmed broker preflight rejections retain their code and settle at zero; unknown outcomes remain reserved and unreplayed. Existing native generation brokers must apply the same context grant; the public callback-only DSH adapter does not claim to provide that broker.
+
 # 2026-10-26 — source consistency reviews and audited coding workers
 
 Adds source-span/discourse/number binding, independent interpretation review and current-file delivery traces. Registered phases and known edit/publish hooks enforce the documented scope; structural checks do not guarantee semantic correctness. Coding chores now have real registered DS/native-Luna tickets, quota-aware routing, no-configuration reminders, task budgets, no-replay handling and main-host audits. No new runtime dependency. Private research/storage adapters and private execution receipts remain excluded. See [implementation and limits](docs/engineering/consistency-and-coding-workers.md).

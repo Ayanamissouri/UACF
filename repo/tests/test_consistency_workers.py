@@ -7,6 +7,22 @@ from uacf.consistency import validate,fingerprint,gate,dispatch
 from uacf.coding_workers import decide,spec_check,audit_guard
 
 class WorkerRouting(unittest.TestCase):
+ def test_native_preflight_rejection_is_zero_cost_but_unknown_stays_locked(self):
+  import io,urllib.error
+  from uacf.batch2 import dispatch_http_failure
+  for code,expected,actual in [('CAPSULE_NOT_READY','failed',0),('OUTCOME_UNKNOWN','inconclusive',None),('GENERATION_FAILED','inconclusive',None)]:
+   e=urllib.error.HTTPError('http://127.0.0.1',409,'fixture',{},io.BytesIO(json.dumps({'ok':False,'code':code}).encode()))
+   observation,outcome,cost=dispatch_http_failure(e,'op');self.assertEqual((outcome,cost),(expected,actual))
+   if actual==0:self.assertIs(observation['generation_started'],False)
+ def test_worker_context_budget_is_task_bound_and_not_global(self):
+  from types import SimpleNamespace
+  from uacf.batch2 import dispatch_context
+  calls=[];state=SimpleNamespace(context=lambda *args:calls.append(args) or {'status':'ready'})
+  task={'object_id':'task','payload':{'coding_workers':{'context_max_bytes':262144}}}
+  dispatch_context(state,'owner',task,'coding_worker');dispatch_context(state,'owner',task,'responder')
+  self.assertEqual(calls,[('owner','task',262144),('owner','task')])
+  task['payload']['coding_workers']['context_max_bytes']=2000000
+  self.assertRaises(Fault,dispatch_context,state,'owner',task,'coding_worker')
  def limits(self,remaining,minutes):return {'rateLimits':{'primary':{'windowDurationMins':300,'usedPercent':100-remaining,'resetsAt':1000+minutes*60}}}
  def route(self,p,m,setup=None):return decide(self.limits(p,m),setup or {'configured':True,'luna_usable':True},1000)['route']
  def test_owner_thresholds_and_equalities(self):
@@ -68,6 +84,19 @@ class SemanticConsistency(unittest.TestCase):
   from uacf.util import file_hash
   c['publication']=dict(contract_hash=c['contract_hash'],verdict='pass',trace=[dict(command='density',path=str(f),sha256=file_hash(f),check='publication preflight',result='pass')])
   gate(self.task,None,'publish');self.assertRaises(Fault,gate,self.task,None,'deliver')
+ def test_unknown_readonly_diagnostic_can_be_quarantined_without_acceptance(self):
+  from unittest.mock import patch
+  from uacf.coding_workers import dispatch as worker_dispatch
+  self.task['payload'].update(execution_state='running',coding_workers={'configured':True})
+  self.task=self.state.put(request(self.task,self.task['revision']),'owner')['object']
+  for scope in ['none','code.py']:
+   ticket=self.put('Artifact',{'kind':'coding_worker_ticket','locator':'fixture:'+scope,'sha256':'0'*64,'task_id':self.task['object_id'],'requirements_hash':fingerprint(self.task),'spec':{'write_scope':scope}})
+   result=self.put('Evidence',{'observation':{'outcome':'unknown'}})
+   f=self.root/(ticket['object_id']+'.result.json');f.write_text(json.dumps({'result_ref':vector(result),'outcome':'inconclusive'}))
+   args=dict(task_id=self.task['object_id'],task_revision=self.task['revision'],ticket_ref=vector(ticket),review=dict(reviewer='main',diff_review='No code applied',boundary_review='Unknown charge remains reserved; no replay',test_review='No output used',disposition='quarantined_unknown'))
+   with patch('uacf.coding_workers.folder',return_value=self.root):
+    if scope=='none':self.assertTrue(worker_dispatch(self.state,'owner','coding_worker_audit',args,'fixture')['ok'])
+    else:self.assertRaises(Fault,worker_dispatch,self.state,'owner','coding_worker_audit',args,'fixture')
  def test_registered_review_requires_exact_observed_review(self):
   c=self.prepared();self.task=self.state.put(request(self.task,self.task['revision']),'owner')['object']
   unrelated=self.put('Evidence',{'observation':{'tests':'pass'}})
@@ -105,12 +134,19 @@ class WorkerDefaultEnrollment(unittest.TestCase):
    backup=Path(d)/'before';state.backup(backup);migrate(state,backup)
    def put(k,p):return state.put(request(object_new(k,p,visibility='shared')),'owner')['object']
    source=put('Message',dict(text='默认脏活使用DS，主模型审计',source_kind='direct_user',current=True))
-   task=put('TaskContract',dict(goal='new work',required_properties=[]));self.assertTrue(notice(state,task))
+   task=put('TaskContract',dict(goal='new work',required_properties=[],execution_state='running'));self.assertTrue(notice(state,task))
    profile=put('ProviderProfile',dict(host='dsh',provider='deepseek-official',model='deepseek-flash',capabilities={'generation':'callable'},pricing={'currency':'CNY'}))
    configure(state,'owner',dict(source_ref=vector(source),config=dict(configured=True,luna_usable=False,profile_ref=vector(profile),budget_limit_micro=100000,max_calls=4,max_output_tokens=1024)))
-   first=inherit(state,task);second=inherit(state,put('TaskContract',dict(goal='another work',required_properties=[])))
+   original_budget={'provider_currency':0,'route':'current host and local Python'}
+   first=inherit(state,task);legacy=put('TaskContract',dict(goal='old active work',required_properties=[],execution_state='running',allow_provider=False,budget=original_budget));second=inherit(state,legacy)
    self.assertNotEqual(first['payload']['budget_account'],second['payload']['budget_account'])
    self.assertEqual(budget_get(state,first['payload']['budget_account'])['available_micro'],100000)
    self.assertEqual(inherit(state,first)['revision'],first['revision'])
+   self.assertTrue(second['payload']['allow_provider']);self.assertEqual(second['payload']['budget'],original_budget)
+   self.assertIn('assignment_ref',second['payload']['coding_workers'])
+   archived=put('TaskContract',dict(goal='archive',required_properties=[],execution_state='stopped'))
+   self.assertEqual(inherit(state,archived),archived)
+   conflicting=put('TaskContract',dict(goal='another funded task',required_properties=[],execution_state='running',budget_account='other-account'))
+   with self.assertRaisesRegex(Fault,'existing task account'):inherit(state,conflicting)
 
 if __name__=='__main__':unittest.main()

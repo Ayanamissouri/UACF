@@ -79,6 +79,8 @@ def enter(state,actor,args,operation_id):
   tid=bindings.get(host,{}).get(sid)
   if tid:
    task=state.get(tid,'owner')
+   from .coding_workers import inherit as inherit_workers
+   task=inherit_workers(state,task)
   else:
    goal=args.get('goal') or 'Default UACF work; refine current Owner requirements before implementation'
    if not isinstance(goal,str) or len(goal.encode())>12000:raise Fault('INPUT','bounded current work goal required')

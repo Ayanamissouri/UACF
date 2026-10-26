@@ -91,6 +91,23 @@ def batch4_preflight(state,actor,args,task,profile):
  if not p.get('source_locator') or p.get('provider_checked') is not True or p.get('price_checked') is not True or p.get('capability_checked') is not True:raise Fault('PREFLIGHT_UNKNOWN','source-linked actual observations required; unknown keeps paid path closed')
  return vector(e)
 
+def dispatch_context(state,actor,task,role):
+ limit=task['payload'].get('coding_workers',{}).get('context_max_bytes') if role=='coding_worker' else None
+ if limit is not None:
+  if type(limit)!=int or not 1<=limit<=1048576:raise Fault('LIMIT','Owner-bound worker context budget must be positive and at most1MiB')
+  return state.context(actor,task['object_id'],limit)
+ return state.context(actor,task['object_id'])
+
+def dispatch_http_failure(error,oid):
+ try:observation=json.load(error)
+ except (ValueError,OSError):observation={'error':'HOST_HTTP_OUTCOME_UNKNOWN'}
+ preflight={'TASK_OR_BUDGET','DISPATCH_HASH','ROUTE_REVISION','RESPONSE_CONTRACT_REVISION','CAPSULE_NOT_READY','STOPPED','PROVIDER_UNAVAILABLE','INPUT','LIMIT','METHOD','AUTHENTICATION'}
+ if observation.get('ok') is False and observation.get('code') in preflight:
+  observation.update(generation_started=False,http_status=error.code,run_id=oid)
+  return observation,'failed',0
+ observation.update(http_status=error.code,retry='not_replayed')
+ return observation,'inconclusive',None
+
 def model_dispatch(state,actor,args,oid):
  owner(actor);task=state.get(args['task_id'],actor)
  if args['expected_revision']!=task['revision']:raise Fault('REVISION_CONFLICT','task changed before dispatch')
@@ -104,7 +121,7 @@ def model_dispatch(state,actor,args,oid):
  if p['host']!='dsh':raise Fault('HOST_CAPABILITY','host output interception unsupported; Capsule remains advisory')
  if not task['payload'].get('allow_provider'):raise Fault('EGRESS_PERMISSION','task must explicitly allow bounded content to selected Provider')
  if p.get('endpoint_kind')!='official_deepseek':raise Fault('PRICE_UNKNOWN','pricing only verified for exact official endpoint')
- capsule=state.context(actor,task['object_id'])
+ capsule=dispatch_context(state,actor,task,args.get('role'))
  if capsule['status']!='ready':raise Fault('CAPSULE_OVERFLOW','no dispatch with truncated mandatory context')
  contract=state.get(args['response_contract_id'],actor)
  if contract['object_type']!='ResponseContract' or contract['payload']['task_id']!=task['object_id'] or contract['status'] in ['failed','retracted','superseded','rejected'] or stale(state,contract):raise Fault('RESPONSE_CONTRACT','valid current ResponseContract required')
@@ -133,6 +150,8 @@ def model_dispatch(state,actor,args,oid):
   usage=observation.get('usage');finish=observation.get('finish',{});outcome='unverified' if finish.get('kind')=='stop' else 'failed' if finish.get('kind')=='error' else 'incomplete' if finish.get('kind')=='max-tokens' else 'inconclusive'
   if usage:
    actual=math.ceil((usage.get('inputTokens',0)+usage.get('cacheWriteTokens',0))*price['worst_input_micro_per_token']+usage.get('cacheReadTokens',0)*price['worst_cache_micro_per_token']+usage.get('outputTokens',0)*price['worst_output_micro_per_token'])
+ except urllib.error.HTTPError as error:
+  observation,outcome,actual=dispatch_http_failure(error,oid)
  except (OSError,urllib.error.URLError,ValueError):observation={'error':'HOST_UNAVAILABLE_OR_OUTCOME_UNKNOWN','retry':'not_replayed'}
  accounting=settle(state,actor,{'reservation_id':oid,'actual_micro':actual,'usage':observation.get('usage','unknown')})
  ev=save(state,'Evidence',{'observation':observation,'task_id':task['object_id'],'task_revision':task['revision'],'policy_version':'response-2','dispatch_hash':sha(payload),'input_vector':[vector(task),vector(contract),vector(profile),vector(r['assignment']),*([preflight] if preflight else [])],'cost':{'account':account,'upper_bound_charge_micro':actual,'actual_invoice':'unknown','currency':'CNY'}})

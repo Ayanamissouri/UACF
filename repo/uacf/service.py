@@ -182,7 +182,7 @@ def dispatch(state,actor,action,args,operation_id=None):
     raise Fault('UNSUPPORTED',f'unknown action {action}')
 
 MUTATIONS={'put','verify_dsh','promote','profile_set','host_event','artifact_capture','source_register','ingest','workunit','correct','integrate','rebuild','budget_reserve','budget_settle','model_dispatch','review_response','interpret','exchange_export','exchange_import','lease_acquire','lease_result','budget_open'}
-MUTATIONS.update({'consistency_prepare','consistency_review','consistency_publish','consistency_deliver','coding_worker_configure','coding_worker_prepare','coding_worker_run','coding_worker_fallback','coding_worker_native_result','coding_worker_audit'})
+MUTATIONS.update({'consistency_prepare','consistency_review','consistency_publish','consistency_deliver','coding_worker_configure','coding_worker_bind','coding_worker_prepare','coding_worker_run','coding_worker_fallback','coding_worker_native_result','coding_worker_audit'})
 MUTATIONS.add('capability_record')
 MUTATIONS.update(['work_policy_configure','work_enter','work_mode'])
 MUTATIONS.add('native_watch_configure')
@@ -353,7 +353,7 @@ def call(root,action,args,actor='owner',operation_id=None):
         message['request_hash']=sha(message)
     r=urllib.request.Request(f"http://{cfg['bind']}:{cfg['port']}/v1/action",data=canonical(message).encode(),headers={'Authorization':'Bearer '+auth[actor],'Content-Type':'application/json'})
     try:
-        timeout=4 if action=='work_status' else 8 if action=='work_admit' else 10 if action=='work_enter' else 110 if action in ['coding_worker_run','work_verify','model_dispatch','review_response','interpret','archive_inventory','archive_run','archive_reindex'] else 30
+        timeout=4 if action=='work_status' else 30 if action=='work_admit' else 10 if action=='work_enter' else 110 if action in ['coding_worker_run','work_verify','model_dispatch','review_response','interpret','archive_inventory','archive_run','archive_reindex'] else 30
         with urllib.request.urlopen(r,timeout=timeout) as response: return json.load(response)
     except urllib.error.HTTPError as e:
         result=json.load(e); raise Fault(result['code'],result['detail'])

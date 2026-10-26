@@ -101,3 +101,23 @@ Publication uses a separate `consistency_publish` preflight trace over the curre
 code, tests and destination. It is not the final `consistency_deliver` receipt.
 Known publish hooks check the preflight; final delivery records the actual remote
 result afterward, avoiding a requirement to upload before admitting the upload.
+
+## Resumed tasks and native broker admission
+
+Defaults apply to active resumed Tasks as well as new enrollment. Registered
+`coding_worker_bind` repairs the exact current Task; preparation returns the new
+`task_ref` when inheritance versions it. Do not silently fall back to main merely
+because a configured worker is missing a per-Task binding. Preserve existing
+budget-account conflicts and stopped archives. The worker grant includes an
+explicit context byte capacity used for complete internal validation, not extra
+model-prompt content. The native broker must use that same grant at its second
+context check. Confirmed preflight HTTP rejection is zero-cost; transport/unknown
+generation outcomes remain reserved and must never be replayed automatically.
+The public DSH callback adapter supplies no generation endpoint by itself:
+configure an existing authorized native broker and verify its generation path,
+or leave secondary models unconfigured and show the normal main-model reminder.
+
+A main audit may quarantine an unknown read-only diagnostic whose output was never
+used, allowing unrelated completed work to proceed. It neither accepts a candidate
+nor releases the unknown charge or permits replay. Write-capable unknown workers
+remain blocked. Each audit is recorded independently; aggregate checks run at delivery.
