@@ -61,6 +61,8 @@ def _dispatch(state,actor,action,args,operation_id):
         if step['role'] in ['implement','review','deliver']:
             from .command_ledger import preparation
             preparation(task)
+            from .consistency import gate as consistency_gate
+            consistency_gate(task,state)
         if any(e['stage_id']==step['id'] for e in old['events']):raise Fault('REVISION_CONFLICT','stage already started; no replay')
         complete={e['stage_id'] for e in old['events'] if e['state']=='completed'}
         if any(x not in complete for x in step['depends_on']):raise Fault('DEPENDENCY','finish dependencies first')

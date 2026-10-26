@@ -22,7 +22,8 @@ if ($Action -eq 'status') {
   foreach ($ownedProcess in $ownedProcesses) { Stop-Process -Id $ownedProcess.ProcessId -ErrorAction SilentlyContinue }
   [pscustomobject]@{stopped=[bool]$isOwned;dataPreserved=$true} | ConvertTo-Json
 } elseif (-not $isOwned) {
-  $pythonPath = Join-Path $repoRoot '.venv\Scripts\python.exe'
+  $pythonPath = if ($deployment -and $deployment.runtime) { [IO.Path]::GetFullPath($deployment.runtime) } else { Join-Path $repoRoot '.venv\Scripts\python.exe' }
+  if (-not (Test-Path -LiteralPath $pythonPath -PathType Leaf)) { throw 'Registered locked Python runtime is missing; service was not started' }
   $arguments = '-X utf8 -m uacf --root "'+$Root+'" serve'
   Start-Process -FilePath $pythonPath -ArgumentList $arguments -WorkingDirectory $repoRoot -WindowStyle Hidden -RedirectStandardOutput (Join-Path $Root 'logs\service-stdout.log') -RedirectStandardError (Join-Path $Root 'logs\service-stderr.log') | Out-Null
   [pscustomobject]@{startRequested=$true;mode='single managed local process; embedded bounded worker'} | ConvertTo-Json

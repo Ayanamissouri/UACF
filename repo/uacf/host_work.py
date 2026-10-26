@@ -82,7 +82,9 @@ def enter(state,actor,args,operation_id):
   else:
    goal=args.get('goal') or 'Default UACF work; refine current Owner requirements before implementation'
    if not isinstance(goal,str) or len(goal.encode())>12000:raise Fault('INPUT','bounded current work goal required')
-   task=_record(state,'TaskContract','enroll:'+host+':'+sid,dict(goal=goal,required_properties=[],command_contract={'required':True},host=host,execution_state='running',allow_provider=False,unified_asset_search_authorized=True,constraints=RULES,input_vector=[p['ref']],enrollment='Owner-policy-delegated fixed template; no budget authority',native_session_id=sid,learning_capture_policy={'mode':'adaptive'}))
+   task=_record(state,'TaskContract','enroll:'+host+':'+sid,dict(goal=goal,required_properties=[],command_contract={'required':True},consistency_required=True,host=host,execution_state='running',allow_provider=False,unified_asset_search_authorized=True,constraints=RULES,input_vector=[p['ref']],enrollment='Owner-policy-delegated fixed template; no budget authority',native_session_id=sid,learning_capture_policy={'mode':'adaptive'}))
+   from .coding_workers import inherit as inherit_workers
+   task=inherit_workers(state,task)
    # Compose with the existing stage-plan service, rather than inventing a
    # second execution engine. No stage is marked started/completed by enrollment.
    if not task['payload'].get('execution_policy_ref'):
@@ -95,7 +97,8 @@ def enter(state,actor,args,operation_id):
    current=dict(host=host,native_session_id=sid,mode='uacf',decision_ref=vector(decision),task_id=task['object_id'],notice=NOTICE,at=now());atomic(path,canonical(current))
  context=state.context(actor if actor!='owner' else 'owner',task['object_id'])
  if context.get('status')!='ready':raise Fault('NOT_PREPARED','mandatory Task context is '+str(context.get('status')))
- return dict(ok=True,mode='uacf',notice=NOTICE,wait_for_answer=False,task_ref=vector(task),decision_ref=current['decision_ref'],context=context,model_calls=0)
+ from .coding_workers import notice as worker_notice
+ return dict(ok=True,mode='uacf',notice=NOTICE,worker_notice=worker_notice(state,task),wait_for_answer=False,task_ref=vector(task),decision_ref=current['decision_ref'],context=context,model_calls=0)
 
 def mode(state,actor,args,operation_id):
  if actor!='owner':raise Fault('PERMISSION','only current Owner can explicitly change work mode')
@@ -146,6 +149,9 @@ def admit(state,actor,args):
  if context.get('status')!='ready':return dict(ok=True,allowed=False,code='UACF_CONTEXT_NOT_READY',reason='Mandatory Task context unavailable or overflows')
  reason=_bypass_reason(state,args)
  if reason:return dict(ok=True,allowed=False,code=reason.split(':')[0],reason=reason,task_ref=vector(task))
+ from .consistency import tool_gate as consistency_tool_gate
+ try:consistency_tool_gate(state,task,args)
+ except Fault as error:return dict(ok=True,allowed=False,code=error.code,reason=error.detail,task_ref=vector(task))
  return dict(ok=True,allowed=True,mode='uacf',task_ref=vector(task),cache_key=context['cache_key'],policy_ref=p['ref'],scope='native tool admission + registered dispatch; not an OS/network sandbox',model_calls=0)
 
 def status(state,actor,args):

@@ -61,6 +61,29 @@ def apply(root,identity,expected=None,authorization=None):
 def rollback(root,identity,expected):
  # Same compatibility, backup and CAS as upgrades. No old DB is ever copied back.
  return apply(root,identity,expected)
+
+def activate_code_only(root,identity,expected):
+ """CAS a verified code release without migrating or restoring application data.
+
+ Reuse an identical locked Python environment. Preserve the complete old pointer
+ for code rollback; do not turn a code-only fix into an archive backup/replay.
+ """
+ root=Path(root).resolve();manifest=verify(root,identity)
+ pointer=root/'data/deployment.json';old=json.loads(pointer.read_text())
+ if old['identity']!=expected:raise Fault('DEPLOY_CONFLICT','deployment changed')
+ previous=verify(root,expected)
+ for name in ['requirements.lock','requirements.pinned.txt']:
+  if manifest['files'][name]!=previous['files'][name]:raise Fault('DEPENDENCY_CHANGED','code-only activation requires identical dependency locks')
+ old_migrations={k:v for k,v in previous['files'].items() if k.startswith('contracts/migrations/')}
+ new_migrations={k:v for k,v in manifest['files'].items() if k.startswith('contracts/migrations/')}
+ if old_migrations!=new_migrations:raise Fault('VERSION_INCOMPATIBLE','schema migration requires normal backup/deploy')
+ runtime=Path(old['runtime'])
+ if not runtime.is_file():raise Fault('RUNTIME_MISSING','existing locked runtime unavailable')
+ receipt=dict(identity=identity,previous_identity=expected,repo=str(root/'data/releases'/identity/'repo'),runtime=str(runtime),applied_at=now(),loaded='pending controlled restart',data_rollback=False,mode='code_only_identical_dependencies_no_migration')
+ journal=root/'logs'/('code-only-'+identity+'.json')
+ atomic(journal,canonical(dict(previous_pointer=old,new_pointer=receipt)))
+ if json.loads(pointer.read_text())['identity']!=expected:raise Fault('DEPLOY_CONFLICT','deployment changed before activation')
+ atomic(pointer,canonical(receipt));return dict(ok=True,**receipt,rollback_receipt=str(journal))
 def uninstall_release(root,expected):
  root=Path(root).resolve();p=root/'data/deployment.json'
  if not p.exists():return {'ok':True,'already_uninstalled':True,'data_preserved':True}

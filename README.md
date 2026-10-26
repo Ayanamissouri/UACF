@@ -1,3 +1,5 @@
+> **2026-10-26 update:** [Source consistency and coding workers](repo/docs/engineering/consistency-and-coding-workers.md) · [Changelog](repo/CHANGELOG.md). Registered review, routing and audit coverage is documented separately from universal model reliability.
+
 > **2026-10-21 current release:** [Updates and status](repo/docs/public/UPDATE-20261021.md) · [Architecture and ownership](repo/docs/public/CURRENT-ARCHITECTURE.md) · [Security preflight](repo/docs/public/DEPLOYMENT-SECURITY.md). Historical verification counts below refer to their original releases.
 
 <a id="chinese"></a>

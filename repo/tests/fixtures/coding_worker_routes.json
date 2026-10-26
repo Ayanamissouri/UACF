@@ -1,0 +1,6 @@
+[
+  {"remaining_percent":38,"reset_minutes":180,"expected_route":"deepseek","origin":"DS candidate reviewed by main host"},
+  {"remaining_percent":39,"reset_minutes":180,"expected_route":"deepseek","origin":"DS candidate reviewed by main host"},
+  {"remaining_percent":45,"reset_minutes":200,"expected_route":"deepseek","origin":"DS candidate reviewed by main host"},
+  {"remaining_percent":40,"reset_minutes":40,"expected_route":"luna","origin":"main host added omitted equality boundary"}
+]

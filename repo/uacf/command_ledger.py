@@ -65,6 +65,8 @@ def capsule(task):
 
 def preparation(task):
  """Opt-in for new work; old archive Tasks are never rewritten or reclassified."""
+ from .consistency import gate
+ gate(task)
  contract=task['payload'].get('command_contract',{})
  if not contract.get('required'):return
  rows=[x for x in task['payload'].get('command_ledger',[]) if x.get('actionable') and x['state'] not in ['superseded','cancelled']]
@@ -73,6 +75,11 @@ def preparation(task):
  if ref and not any(x['source_ref']==ref for x in rows):raise Fault('COMMAND_SOURCE_REQUIRED','the current Owner request has not been interpreted into the active requirement ledger')
 
 def delivery(task,state=None):
+ from .consistency import gate
+ gate(task,state,'deliver')
+ if state is not None:
+  from .coding_workers import audit_guard
+  audit_guard(state,task)
  preparation(task)
  active=[x for x in task['payload'].get('command_ledger',[]) if x.get('actionable') and x['state'] not in ['superseded','cancelled']]
  remaining=[x['key'] for x in active if x['state']!='satisfied']

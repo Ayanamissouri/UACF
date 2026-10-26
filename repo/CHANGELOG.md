@@ -1,3 +1,7 @@
+# 2026-10-26 — source consistency reviews and audited coding workers
+
+Adds source-span/discourse/number binding, independent interpretation review and current-file delivery traces. Registered phases and known edit/publish hooks enforce the documented scope; structural checks do not guarantee semantic correctness. Coding chores now have real registered DS/native-Luna tickets, quota-aware routing, no-configuration reminders, task budgets, no-replay handling and main-host audits. No new runtime dependency. Private research/storage adapters and private execution receipts remain excluded. See [implementation and limits](docs/engineering/consistency-and-coding-workers.md).
+
 # 2026-10-22 — task integrity and cross-host continuity
 
 Adds explicit command-contract gates at implementation/review/delivery, current-evidence rechecks, stage-plan history preservation, canonical-derived Task briefs, scoped capability observations and source-bound optional guidance. Pi uncertain actions reconcile by original operation ID. Adds focused regression coverage. Existing archives and release history remain unchanged; no new model calls or runtime dependencies. See [the full update](docs/public/UPDATE-20261022.md) and [verification scope](docs/public/VERIFICATION.md).

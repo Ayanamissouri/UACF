@@ -23,6 +23,17 @@ TOOLS += [{'name':'uacf_work_brief','description':'Read the current Task require
  {'name':'uacf_capabilities','description':'Read separate generated, installed, loaded, called and verified evidence for a host capability. Unobserved never means unavailable; records do not authorize tools.',
  'inputSchema':{'type':'object','properties':{k:{'type':'string'} for k in ['host','machine','host_version','profile','capability','source_identity','native_session_id']},'additionalProperties':False}}]
 
+for _action,_extra in {
+ 'coding_worker_status':{},
+ 'coding_worker_prepare':{'spec':{'type':'object'},'unit':{'type':'string'},'limits':{'type':'object'},'limits_observed_at':{'type':'number'}},
+ 'coding_worker_run':{'ticket_ref':{'type':'object'}},
+ 'coding_worker_fallback':{'ticket_ref':{'type':'object'},'observation':{'type':'object'}},
+ 'coding_worker_native_result':{'ticket_ref':{'type':'object'},'observation':{'type':'object'}},
+ 'coding_worker_audit':{'ticket_ref':{'type':'object'},'review':{'type':'object'}},
+ 'consistency_status':{'phase':{'enum':['implement','publish','deliver']}},
+}.items():
+ TOOLS.append(dict(name='uacf_'+_action,description='Registered '+_action+'; frozen source contract, task budget and main-model audit; no universal native interception claim.',inputSchema=dict(type='object',properties=dict(task_id={'type':'string'},task_revision={'type':'integer'},**_extra),required=['task_id']+(['task_revision'] if _action not in ['coding_worker_status'] else [])+([k for k in _extra if k not in ['limits','limits_observed_at','phase']]),additionalProperties=False)))
+
 def handle(root,host,msg):
     method=msg.get('method'); params=msg.get('params',{})
     if method=='initialize': return {'protocolVersion':params.get('protocolVersion') if params.get('protocolVersion') in ['2024-11-05','2025-03-26','2025-06-18','2025-11-25'] else '2025-11-25','capabilities':{'tools':{}},'serverInfo':{'name':'uacf','version':'0.1.1'}}
@@ -44,6 +55,7 @@ def handle(root,host,msg):
             elif name=='uacf_asset_read': result=call(root,'asset_read',args,host)
             elif name=='uacf_learning_next': result=call(root,'learning_host_next',args,host)
             elif name=='uacf_learning_submit': result=call(root,'learning_host_submit',args,host)
+            elif name.startswith('uacf_coding_worker_') or name=='uacf_consistency_status': result=call(root,name[5:],args,host)
             else: raise Fault('UNSUPPORTED','unknown tool')
             return {'content':[{'type':'text','text':canonical(result)}],'isError':not result.get('ok',False)}
         except Fault as e: return {'content':[{'type':'text','text':canonical(e.result())}],'isError':True}
