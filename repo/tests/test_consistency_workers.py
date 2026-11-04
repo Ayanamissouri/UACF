@@ -111,6 +111,23 @@ class SemanticConsistency(unittest.TestCase):
   self.task=self.state.get(out['task_ref']['object_id'],'owner');gate(self.task,self.state)
   self.task['payload']['goal']='different requirement';self.assertRaises(Fault,gate,self.task,self.state)
 
+ def test_source_inputs_stay_frozen_for_run_but_final_outputs_can_be_audited(self):
+  from uacf.coding_workers import ticket,dispatch as worker_dispatch
+  from uacf.util import file_hash,canonical
+  f=self.root/'code.py';f.write_text('before')
+  self.task['payload'].update(execution_state='running',coding_workers={'configured':True})
+  self.task=self.state.put(request(self.task,self.task['revision']),'owner')['object']
+  obj=self.put('Artifact',{'kind':'coding_worker_ticket','locator':'fixture:input-output','sha256':'0'*64,'task_id':self.task['object_id'],'requirements_hash':fingerprint(self.task),'spec':{'write_scope':'code.py','files':[{'path':str(f),'sha256':file_hash(f)}]}})
+  args=dict(task_id=self.task['object_id'],task_revision=self.task['revision'],ticket_ref=vector(obj))
+  result=self.put('Evidence',{'observation':{'candidate':'after'}})
+  (self.root/(obj['object_id']+'.result.json')).write_text(canonical({'result_ref':vector(result),'outcome':'unverified'}),encoding='utf8')
+  f.write_text('after')
+  with self.assertRaises(Fault):ticket(self.state,self.task,args)
+  args['review']=dict(reviewer='main',diff_review='Compared frozen before to integrated after',boundary_review='Current project only',test_review='Fixture changed as requested',disposition='accepted_candidate',files=[{'path':str(f),'sha256':file_hash(f)}])
+  from unittest.mock import patch
+  with patch('uacf.coding_workers.folder',return_value=self.root):self.assertTrue(worker_dispatch(self.state,'owner','coding_worker_audit',args,'fixture')['ok'])
+
+
 class CodeOnlyDeployment(unittest.TestCase):
  def test_dependencies_cas_and_rollback_pointer(self):
   from unittest.mock import patch

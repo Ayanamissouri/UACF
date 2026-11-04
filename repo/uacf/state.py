@@ -238,7 +238,7 @@ class State:
             visible=self.list(actor)
             hits=[o for o in visible if text.casefold() in canonical(o['payload']).casefold()]
             return {'ok':True,'objects':hits,'commit_seq':current,'index_watermark':water,'read_mode':'canonical','access_domain':actor}
-    def context(self,actor,task_id,budget=None):
+    def context(self,actor,task_id,budget=None,include_optional_recall=True):
         task=self.get(task_id,actor)
         if task['object_type']!='TaskContract': raise Fault('INPUT','context requires TaskContract')
         properties=task['payload'].get('required_properties',[])
@@ -293,7 +293,9 @@ class State:
                 'name':p.get('name'),'media_type':p.get('media_type'),'blob_hash':p.get('blob_hash'),
                 'source_locator':p.get('source_locator'),'origin_host':p.get('origin_host'),'candidate':True})
         content['task_assets']=assets
-        if task['payload'].get('unified_asset_search_authorized'):
+        from .action_guard import status as action_status
+        content['mandatory_action_authority']=dict(action_status(task),required=task['payload'].get('action_contract_required',False),instruction='Main host interprets the current authorized scope and binds answer/review/monitor/change with action_contract_set before source consistency review. Use the current command source; no extra user confirmation when authorization already exists. Changes invalidate semantic review. Missing required policy blocks implementation, not read-only preparation.')
+        if include_optional_recall and task['payload'].get('unified_asset_search_authorized'):
             from .unified_assets import inventory as unified_inventory
             inv=unified_inventory(self)
             content['unified_asset_sources']={'sources':inv['sources'],'coverage':inv['coverage'],'instruction':'Search all indexed sources with uacf_search / unified_search; 2531 legacy GPT conversations are one source only. Check native inventory gaps before claiming a complete archive.'}
@@ -301,7 +303,7 @@ class State:
                 from .unified_assets import search as unified_search
                 queries=task['payload'].get('asset_search_queries') or [w for w in ['Plus','Pro','UACF','DSH','Codex'] if w.lower() in task['payload'].get('goal','').lower()][:1]
                 rows=[]
-                for query in queries[:2]:rows+=unified_search(self,actor,{'task_id':task_id,'task_revision':task['revision'],'query':query,'limit':2})['items']
+                for query in queries[:2]:rows+=unified_search(self,actor,{'task_id':task_id,'task_revision':task['revision'],'query':query,'limit':2,'snapshot_only':True})['items']
                 content['optional_unified_recall']={'items':rows,'scope':'bounded automatic cross-source retrieval candidates; reading/adoption not implied'}
         from .learning import config as learning_config,recall
         if learning_config(self):
@@ -320,11 +322,13 @@ class State:
                 pending.append({'job_id':job['id'],'source_ref':ref,'instruction':'Continue source-bound learning with uacf_learning_next and uacf_learning_submit in this current host; DeepSeek is optional, do not spawn another model turn'})
                 if len(pending)>=4:break
             content['current_host_learning_pending']=pending
-            if task_id!=learning_config(self)['task_ref']['object_id']:
+            if include_optional_recall and task_id!=learning_config(self)['task_ref']['object_id']:
                 content['optional_knowledge_recall']=recall(self,actor,{'task_id':task_id})
                 from .learning_use import issue_recall,usage
                 content['optional_issue_recall']=issue_recall(self,actor,task)
                 content['learning_use_observation']={'phase':'prepared capsule; actual use requires native receipt'}
+        if not include_optional_recall:
+            content['optional_recall_deferred']='Read the prepared capsule/search snapshot when needed; this action admission includes all mandatory requirements and applicable obligations.'
         content['task_evidence']=related;content['missing_dependencies']=missing
         from .candidate_guidance import dedupe,guidance
         if 'optional_unified_recall' in content:
@@ -410,7 +414,7 @@ class State:
         task['status']='accepted'
         if complete_execution:
             task['payload']['execution_state']='completed'
-            task['payload']['trial_stage']='finite_native_trial_verified'
+            task['payload']['trial_stage']='action_admission_verified' if task['payload'].get('action_acceptance') else 'finite_native_trial_verified'
         return self.put(request(task,revision,operation_id=operation_id),actor,internal=True)
     def backup(self,dest):
         dest=Path(dest).resolve()

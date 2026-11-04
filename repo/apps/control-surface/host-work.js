@@ -9,3 +9,6 @@ async function workMode(mode){const r=await api('work_mode',{...workIdentity(),m
 $('workOptOut').onclick=guarded(()=>workMode('external'));$('workOptIn').onclick=guarded(()=>workMode('uacf'));
 const capabilityRead=document.createElement('button');capabilityRead.textContent='Read capability evidence';capabilityRead.onclick=guarded(async()=>show('workGovernanceStatus',await api('capability_status',{host:$('workHost').value})));workBox.insertBefore(capabilityRead,$('workGovernanceStatus'));
 const briefRead=document.createElement('button');briefRead.textContent='Read current task brief';briefRead.onclick=guarded(async()=>show('workGovernanceStatus',await api('work_brief',{task_id:$('projectTask').value.trim()})));workBox.insertBefore(briefRead,$('workGovernanceStatus'));
+const actionRead=document.createElement('button');actionRead.textContent='读取当前动作边界与审查状态';
+actionRead.onclick=guarded(async()=>show('workGovernanceStatus',await api('action_contract_status',{task_id:$('projectTask').value.trim()})));
+workBox.insertBefore(actionRead,$('workGovernanceStatus'));

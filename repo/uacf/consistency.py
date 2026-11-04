@@ -14,11 +14,12 @@ ROLES={'directive','prohibition','goal','question','quotation','example','rhetor
 RELATIONS={'and','contrast','condition','progression','explanation','reference','none'}
 
 def tool_gate(state,task,args):
-    """Known native edit/publish tools only; never claim a shell sandbox."""
+    """Classify covered native actions before execution; opaque code may mutate."""
     name=args.get('tool_name','').lower();body=str(args.get('tool_input',{}))
+    from .action_guard import check
+    effect=check(task,args)
     publish=bool(re.search(r'\bgit\s+push\b',body))
-    edit=any(x in name for x in ['apply_patch','write_file','edit_file','multiedit'])
-    if not edit and not publish:return
+    if effect=='read' and not publish:return
     gate(task,state,'publish' if publish else 'implement')
     if publish:
         from .coding_workers import audit_guard
@@ -26,9 +27,13 @@ def tool_gate(state,task,args):
 
 def fingerprint(task):
     p=task['payload']
-    return sha({k:p.get(k) for k in ['goal','command_contract','constraints','output_contract','research_contract']} | {
+    result={k:p.get(k) for k in ['goal','command_contract','constraints','output_contract','research_contract']} | {
         'commands':[{k:r.get(k) for k in ['key','text','kind','source_ref','source_quote','interpretation_basis']}
-                    for r in p.get('command_ledger',[]) if r.get('state') not in ['cancelled','superseded']]})
+                    for r in p.get('command_ledger',[]) if r.get('state') not in ['cancelled','superseded']]}
+    # Preserve old fingerprints when no new action policy exists. Frozen
+    # archives are not rewritten just to adopt a newly available feature.
+    if p.get('action_contract') is not None:result['action_contract']=p['action_contract']
+    return sha(result)
 
 def review_evidence(state,ref,task,seen=None):
     """Attaching a review versions the Task, not the interpreted requirements.
@@ -89,6 +94,7 @@ def validate(state,task,contract):
 def gate(task,state=None,phase='implement'):
     p=task['payload']
     if not p.get('consistency_required'):return
+    if p.get('action_contract_required') and not p.get('action_contract'):raise Fault('ACTION_CONTRACT_REQUIRED','Bind the reviewed interpretation of the current request to answer/review/monitor/change through action_contract_set; do not ask for authorization already given')
     c=p.get('consistency',{})
     if c.get('requirements_hash')!=fingerprint(task):raise Fault('CONSISTENCY_STALE','requirements changed; re-interpret and re-review')
     if sha(c.get('contract'))!=c.get('contract_hash'):raise Fault('CONSISTENCY_STALE','interpretation changed')

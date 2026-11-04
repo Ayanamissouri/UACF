@@ -13,8 +13,12 @@ from .host_work import policy
 TESTS=['tests.test_host_work','tests.test_host_work_hooks','tests.test_ecosystem','tests.test_project_workflow','tests.test_generic_budget_authorization','tests.test_command_ledger','tests.test_service_lifecycle','tests.test_archive_trigger','tests.test_work_verification']
 PROPERTIES={'host_default_work_configured','study_bundle_source_integrity','unified_assets_source_integrity'}
 PROPERTIES.add('uacf_upgrade_integrity')
+PROPERTIES.add('action_control_integrity')
 
 def environment(state,task=None):
+ if task and task['payload'].get('action_acceptance'):
+  from .action_verification import environment as action_environment
+  return action_environment(state,task)
  if task and task['payload'].get('upgrade_acceptance'):
   from .upgrade_verification import environment as upgrade_environment
   return upgrade_environment(state,task)
@@ -152,6 +156,9 @@ def dispatch(state,actor,action,args,operation_id=None):
   if prop=='uacf_upgrade_integrity':
    from .upgrade_verification import check
    check(state,task,checks,details)
+  elif prop=='action_control_integrity':
+   from .action_verification import check
+   check(state,task,checks,details)
   else:
    (_host(state,args,checks,details) if prop=='host_default_work_configured' else _unified(state,task,checks,details) if prop=='unified_assets_source_integrity' else _study(state,task,checks,details))
  except Exception as e:checks['completed_without_error']=False;details['error']={'type':type(e).__name__,'detail':str(e)[:1500]}
@@ -162,4 +169,5 @@ def dispatch(state,actor,action,args,operation_id=None):
  obj=state.put(request(val),'owner',internal=True)['object']
  out=dict(ok=True,result=result,checks=checks,details=details,evidence_ref=vector(ev),validation_ref=vector(obj),environment_hash=before['environment_hash'])
  directory=Path(task['payload']['upgrade_acceptance']['canonical_baseline']).parent if prop=='uacf_upgrade_integrity' else state.root/'artifacts/host-governance-rewrite-20261019'
+ if prop=='action_control_integrity':directory=Path(task['payload']['action_acceptance']['work_dir'])
  atomic(directory/('verified-'+prop+'.json'),canonical(out));return out

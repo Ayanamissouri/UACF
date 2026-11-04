@@ -23,6 +23,8 @@ TOOLS += [{'name':'uacf_work_brief','description':'Read the current Task require
  {'name':'uacf_capabilities','description':'Read separate generated, installed, loaded, called and verified evidence for a host capability. Unobserved never means unavailable; records do not authorize tools.',
  'inputSchema':{'type':'object','properties':{k:{'type':'string'} for k in ['host','machine','host_version','profile','capability','source_identity','native_session_id']},'additionalProperties':False}}]
 
+TOOLS.append(dict(name='uacf_action_contract_status',description='Read current action mode/file boundary separately from semantic review and observed host effect.',inputSchema=dict(type='object',properties=dict(task_id=dict(type='string')),required=['task_id'],additionalProperties=False)))
+
 for _action,_extra in {
  'coding_worker_status':{},
  'coding_worker_prepare':{'spec':{'type':'object'},'unit':{'type':'string'},'limits':{'type':'object'},'limits_observed_at':{'type':'number'}},
@@ -50,6 +52,7 @@ def handle(root,host,msg):
             elif name=='uacf_search': result=call(root,'unified_search',args,host)
             elif name=='uacf_context': result=call(root,'context',args,host)
             elif name=='uacf_work_brief': result=call(root,'work_brief',args,host)
+            elif name=='uacf_action_contract_status': result=call(root,'action_contract_status',args,host)
             elif name=='uacf_capabilities': result=call(root,'capability_status',args,host)
             elif name=='uacf_status': result=call(root,'get',args,host) if args.get('object_id') else call(root,'doctor',{},host)
             elif name=='uacf_asset_read': result=call(root,'asset_read',args,host)

@@ -1,6 +1,8 @@
+> Current naming and action-control update: [2026-11-04](UPDATE-20261104.md) · [UNHEARD / UNREAD](NAMING.md).
+
 # 当前 UACF 架构 / Current architecture — 2026-10-21
 
-UACF（Unified Agentic Continuity Fabric）拥有长期任务与资产的规范状态。它不只是给其他系统提供一份授权检查，也不只是聊天记忆库。
+UACF（Unified AI Continuity Fabric）拥有长期任务与资产的规范状态。它不只是给其他系统提供一份授权检查，也不只是聊天记忆库。
 
 | 责任 | UACF 当前实现 | 外部基础设施边界 |
 |---|---|---|

@@ -100,11 +100,11 @@ def current(state,args):
     if task['payload'].get('execution_state')!='running':raise Fault('STOPPED','Task is not running')
     return task
 
-def ticket(state,task,args):
+def ticket(state,task,args,check_files=True):
     obj=state.get(args['ticket_ref']['object_id'],'owner');p=obj['payload']
     if vector(obj)!=args['ticket_ref'] or p.get('kind')!='coding_worker_ticket' or p['task_id']!=task['object_id'] or p['requirements_hash']!=fingerprint(task):raise Fault('WORKER_STALE','worker source or requirements changed')
     root=Path(task['payload']['output_contract']['project_root']).resolve()
-    for row in p['spec'].get('files',[]):
+    for row in p['spec'].get('files',[]) if check_files else []:
         path=Path(row['path']).resolve()
         if not path.is_relative_to(root) or not path.is_file() or file_hash(path)!=row['sha256']:raise Fault('WORKER_STALE','frozen source file changed')
     return obj
@@ -174,7 +174,10 @@ def dispatch(state,actor,action,args,oid):
         p=dict(kind='coding_worker_ticket',task_id=task['object_id'],requirements_hash=fingerprint(task),spec=spec,unit=unit,route=route,prompt=stable+unit,prefix_sha256=sha(stable),prepared_at=time.time(),max_output_tokens=config.get('max_output_tokens',768),locator='coding-worker:'+str(oid),sha256=sha(stable+unit))
         obj=save(state,'Artifact',p)
         return dict(ok=True,task_ref=vector(task),ticket_ref=vector(obj),route=route,prompt=p['prompt'],model_calls=0)
-    obj=ticket(state,task,args);p=obj['payload'];job=obj['object_id'];start=directory/(job+'.started.json');resultpath=directory/(job+'.result.json')
+    # Frozen inputs must still match before dispatch. At audit the main host
+    # may have integrated the candidate into those very files; bind the final
+    # output bytes separately instead of requiring them to equal the old input.
+    obj=ticket(state,task,args,check_files=action!='coding_worker_audit');p=obj['payload'];job=obj['object_id'];start=directory/(job+'.started.json');resultpath=directory/(job+'.result.json')
     if action=='coding_worker_fallback':
         refusal=args['observation']
         if p['route']['route']!='luna' or resultpath.exists() or refusal.get('generation_started') is not False or refusal.get('error_type') not in ['unsupported_model','tool_unavailable','configuration_rejected','quota_changed_before_generation'] or not refusal.get('native_locator'):raise Fault('OUTCOME_UNKNOWN','fallback needs a recorded native refusal before generation; unknown results are never replayed')
@@ -235,6 +238,11 @@ def dispatch(state,actor,action,args,oid):
             if not review.get(k):raise Fault('WORKER_AUDIT','main audit '+k+' required')
         if review['disposition'] not in ['accepted_candidate','rejected_candidate','quarantined_unknown']:raise Fault('WORKER_AUDIT','explicit candidate disposition required')
         if review['disposition']=='accepted_candidate' and not review.get('files'):raise Fault('WORKER_AUDIT','accepted code needs actual file hashes')
+        root=Path(task['payload']['output_contract']['project_root']).resolve()
+        for row in review.get('files',[]):
+            path=Path(row['path']).resolve()
+            if not path.is_relative_to(root) or not path.is_file() or file_hash(path)!=row['sha256']:raise Fault('WORKER_AUDIT','audit must bind actual current output bytes inside the selected project')
+        review=dict(review,source_versions=p['spec'].get('files',[]))
         ev=save(state,'Evidence',dict(task_id=task['object_id'],ticket_ref=vector(obj),result_ref=result['result_ref'],review=review,observation={'scope':'main-host public diff and test review; not worker self-acceptance'}))
         atomic(directory/(job+'.audit.json'),canonical(dict(evidence_ref=vector(ev))))
         return dict(ok=True,audit_ref=vector(ev),task_accepted=False)

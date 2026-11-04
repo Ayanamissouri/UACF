@@ -1,3 +1,26 @@
+# 2026-11-05 — public naming, documentation and action-control publication
+
+Publishes the 2026-11-04 action-control update with bilingual Unified AI Continuity Fabric naming, all three mnemonic readings, UNHEARD/UNREAD, pinned STS/DeepInfer references and offline web READMEs. Public candidate: 278 tests passed; browser visual preview remains unverified.
+
+# 2026-11-04 — Unified AI Continuity Fabric / UNHEARD
+
+正式名称改为 Unified AI Continuity Fabric，保留 UACF。三句助记表达为 Understand, Act, Check, Finish；Understand All Commands First；Understand Actual Context First。UNHEARD 说明七类失败；UNREAD 单独表示未读证据，不创造新缩写。中英文 README、网页阅读入口、当前架构说明和用户指南采用同一表述；历史说明保留原文并增加当前名称注记。
+
+本次发布包含来源绑定的动作模式、文件范围、shell cmd/command 和不透明动作检查；强制上下文与可选召回分离；WAL 索引快照和由实际工作触发的一次后台更新；worker 冻结输入与最终输出分别验收；前台动作状态及有限注册验证器。空闲服务不会因此持续扫描历史库。现有宿主适配器、执行器和预算边界继续使用。
+
+参考 [Stop That Shit](https://github.com/lennney/stop-that-shit) 的动作前控制、Stop Ladder 与 STSS，参考 [DeepInfer](https://github.com/deepseek-ai/DeepInfer) 的调度和状态生命周期。具体提交、许可证和借鉴范围见 [REFERENCES](docs/public/REFERENCES.md)。没有嵌入 DeepInfer GPU 推理引擎。
+
+## English
+
+The formal expansion is now **Unified AI Continuity Fabric**. The three mnemonic readings, UNHEARD failure vocabulary and separate UNREAD evidence state are synchronized across the bilingual README, web reading pages, current architecture and guides. Historical descriptions retain their original wording with a current-name annotation.
+
+The release adds source-bound action modes/file scopes; cmd/command and opaque-action admission; mandatory-context/optional-recall separation; WAL snapshot readers and work-requested background index updates; distinct frozen-input/final-output worker audits; frontend status and a finite registered verifier. Idle services do not continuously scan archives. Existing native adapters, registered executors and budgets remain the integration path.
+
+STS supplies action-control and behavioral-design references. DeepInfer supplies structural scheduling/lifecycle references. Neither reference establishes universal language understanding or automatic callback coverage on every host. Public source tests and local installed-host observations have separate scopes; see [verification history](docs/public/VERIFICATION.md).
+
+
+---
+
 # 2026-10-26 — resumed Task worker bindings and context admission
 
 Repairs missing role/egress/budget inheritance for active resumed Tasks, preserving stopped archives and existing account conflicts. Worker context capacity is explicitly Task-bound; full history is not added to the model prompt. Confirmed broker preflight rejections retain their code and settle at zero; unknown outcomes remain reserved and unreplayed. Existing native generation brokers must apply the same context grant; the public callback-only DSH adapter does not claim to provide that broker.

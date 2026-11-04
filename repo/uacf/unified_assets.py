@@ -4,7 +4,7 @@ No provider calls, native session synthesis, source ACL changes or semantic adop
 Owner may search all local sources; hosts get only an explicitly authorized,
 mapped Task projection. Private reasoning and credential-like fields are excluded.
 """
-import json,re,sqlite3,threading
+import json,re,sqlite3,threading,time
 from contextlib import contextmanager
 from pathlib import Path
 from .util import Fault,canonical,sha,now,atomic
@@ -26,11 +26,15 @@ def clean(text):
  return re.sub(r'(?i)(?:sk-[A-Za-z0-9_-]{16,}|Bearer\s+[A-Za-z0-9._-]{16,})','[REDACTED]',text)
 
 @contextmanager
-def db(state):
- path=state.data/'unified-assets.sqlite';c=sqlite3.connect(path,timeout=30);c.row_factory=sqlite3.Row
- c.execute('pragma journal_mode=WAL')
- c.execute('create table if not exists docs(id text primary key,host text,session text,project text,title text,body text,locator text,scope text)')
- c.execute('create table if not exists marks(id text primary key,value text)')
+def db(state,readonly=False):
+ path=state.data/'unified-assets.sqlite'
+ c=sqlite3.connect('file:'+path.as_posix()+'?mode=ro',uri=True,timeout=30) if readonly else sqlite3.connect(path,timeout=30)
+ c.row_factory=sqlite3.Row
+ if readonly:c.execute('BEGIN')  # rows and watermark describe one WAL snapshot
+ else:
+  c.execute('pragma journal_mode=WAL')
+  c.execute('create table if not exists docs(id text primary key,host text,session text,project text,title text,body text,locator text,scope text)')
+  c.execute('create table if not exists marks(id text primary key,value text)')
  try:
   yield c
   c.commit()
@@ -83,7 +87,9 @@ def refresh(state):
  return inventory(state)
 
 def inventory(state):
- with LOCK,db(state) as c:
+ if not (state.data/'unified-assets.sqlite').exists():
+  return dict(ok=True,index_schema=SCHEMA,sources=[],observed_events=[],refreshed_at=None,native_inventory=None,coverage='index not prepared; explicit refresh required',model_calls=0)
+ with db(state,readonly=True) as c:
   rows=[dict(r) for r in c.execute('select host,count(*) text_records,count(distinct session) conversations,count(distinct nullif(project,\'\')) project_locators from docs group by host')]
   at=c.execute("select value from marks where id='refreshed'").fetchone()
  meta=state.data/'native-history-inventory.json'
@@ -105,8 +111,13 @@ def matches(body,term):
 def search(state,actor,args):
  authorize(state,actor,args);q=args.get('query','').strip();limit=args.get('limit',8);offset=args.get('offset',0)
  if not 1<=len(q)<=200 or type(limit)!=int or not 1<=limit<=20 or type(offset)!=int or offset<0:raise Fault('INPUT','bounded query/page required')
- refresh(state);terms=q.split();host=args.get('host');found=[];title_only_seen=set()
- with LOCK,db(state) as c:
+ # Explicit source searches retain their current-source synchronization.
+ # Automatic optional recall uses a named snapshot; admission never calls it.
+ if not args.get('snapshot_only',False):refresh(state)
+ terms=q.split();host=args.get('host');found=[];title_only_seen=set()
+ if not (state.data/'unified-assets.sqlite').exists():raise Fault('INDEX_NOT_READY','prepare the shared index; search never rebuilds it inside action execution')
+ with db(state,readonly=True) as c:
+  snapshot={r['id']:r['value'] for r in c.execute("select id,value from marks where id in ('source_signature','refreshed')")}
   sql='select * from docs'+(' where host=?' if host else '')
   for r in c.execute(sql,([host] if host else [])):
    body=r['body'];text=r['title']+'\n'+body
@@ -125,11 +136,11 @@ def search(state,actor,args):
   n=len(canonical(row).encode())
   if size+n>budget:break
   page.append(row);size+=n
- return dict(ok=True,items=page,total=len(found),offset=offset,query=q,source_counts={h:sum(r['host']==h for r in found) for h in sorted({r['host'] for r in found})},scope='all indexed sources by default; bounded source candidate excerpts, not adoption',model_calls=0)
+ return dict(ok=True,items=page,total=len(found),offset=offset,query=q,source_snapshot=snapshot,freshness='committed snapshot' if args.get('snapshot_only') else 'explicitly synchronized projection',source_counts={h:sum(r['host']==h for r in found) for h in sorted({r['host'] for r in found})},scope='all indexed sources by default; bounded source candidate excerpts, not adoption',model_calls=0)
 
 def read(state,actor,args):
  authorize(state,actor,args)
- with LOCK,db(state) as c:r=c.execute('select * from docs where id=?',(args['id'],)).fetchone()
+ with db(state,readonly=True) as c:r=c.execute('select * from docs where id=?',(args['id'],)).fetchone()
  if not r:raise Fault('NOT_FOUND','refresh/search first')
  return dict(ok=True,id=r['id'],host=r['host'],title=r['title'],body=r['body'][:8000 if actor=='owner' else 4000],truncated=len(r['body'])>(8000 if actor=='owner' else 4000),locator=json.loads(r['locator']),scope=r['scope'],model_calls=0)
 
@@ -138,3 +149,18 @@ def dispatch(state,actor,action,args):
  if action=='unified_read':return read(state,actor,args)
  if actor!='owner':raise Fault('PERMISSION','Owner index inventory')
  return refresh(state) if action=='unified_refresh' else inventory(state)
+
+def maintain(state):
+ """Existing service worker advances this rebuildable projection, never actions.
+
+ Actual admitted work requests one update; an idle service starts no archive
+ scan. One minute bounds update frequency during work. Explicit Owner refresh
+ remains available. No provider calls or canonical acceptance.
+ """
+ if not (state.data/'unified-assets.sqlite').exists():return
+ if not getattr(state,'_unified_refresh_requested',False):return
+ stamp=time.monotonic()
+ if stamp-getattr(state,'_unified_refresh_at',0)<60:return
+ state._unified_refresh_at=stamp
+ state._unified_refresh_requested=False
+ refresh(state)

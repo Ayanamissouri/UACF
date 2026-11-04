@@ -52,4 +52,22 @@ class UnifiedAssets(unittest.TestCase):
   with self.assertRaises(Fault):checkpoint(self.s,'codex',a)
   with self.assertRaises(Fault):checkpoint(self.s,'dsh',a)
 
+ def test_snapshot_search_reads_committed_rows_while_projection_writes(self):
+  from uacf.unified_assets import db
+  with db(self.s) as writer:
+   writer.execute('BEGIN IMMEDIATE')
+   writer.execute("update docs set body='uncommitted replacement' where host='codex'")
+   with patch('uacf.unified_assets.refresh',side_effect=AssertionError('snapshot read must not refresh')):
+    r=search(self.s,'owner',{'query':'Plus','host':'codex','snapshot_only':True})
+   self.assertEqual(r['total'],1);self.assertTrue(r['source_snapshot']['source_signature'])
+
+ def test_idle_worker_does_not_scan_and_actual_work_consumes_one_request(self):
+  from uacf.unified_assets import maintain
+  with patch('uacf.unified_assets.refresh') as advance:
+   maintain(self.s);advance.assert_not_called()
+   self.s._unified_refresh_requested=True;maintain(self.s);advance.assert_called_once()
+   self.assertFalse(self.s._unified_refresh_requested)
+
+
+
 if __name__=='__main__':unittest.main()

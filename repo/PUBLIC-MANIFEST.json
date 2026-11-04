@@ -1,11 +1,12 @@
 {
-  "date": "2026-10-26",
+  "date": "2026-11-05",
   "project_license": "Apache-2.0",
+  "verification": "278 public source tests; no automatic host/visual guarantee",
   "files": [
     {
       "path": ".github/workflows/verify.yml",
-      "sha256": "8430f596a046e196efdb4597f18ce686579e9e876fed76ac7b2c4cb9e6340b47",
-      "bytes": 702
+      "sha256": "e7c9035a833d0d9977b824fe57feca93b1d7920b12cdbb9a6be15b84fb4f62ad",
+      "bytes": 678
     },
     {
       "path": ".gitignore",
@@ -29,23 +30,28 @@
     },
     {
       "path": "LICENSE",
-      "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
-      "bytes": 11560
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
     },
     {
       "path": "NOTICE.md",
-      "sha256": "8356debcca9c8491a3dcc6562fa13c05380fcf661bebf27c2f665ac72aa11821",
-      "bytes": 264
+      "sha256": "1fc614119eb89569a2489de791233a286ae7f97a22b3134bcab660c6db2cdf83",
+      "bytes": 419
+    },
+    {
+      "path": "README.html",
+      "sha256": "42458b3cf2d955938928838676e988081459fa1b2a8615643b2bad3c4f416b2b",
+      "bytes": 33768
     },
     {
       "path": "README.md",
-      "sha256": "1ea156a506518007ee6a11276eeb90a7c51460407e8e73748693a8c79ee208bf",
-      "bytes": 24876
+      "sha256": "c4b811a547cc7a8a8ccf473206142f3cea404c46e6af85f05508758bc8657363",
+      "bytes": 29560
     },
     {
       "path": "Read-UACF.html",
-      "sha256": "00bb9652fc5d3f5c1729617887be8c00854387389e5fe0f83d9a44322daf2bbb",
-      "bytes": 1666
+      "sha256": "42458b3cf2d955938928838676e988081459fa1b2a8615643b2bad3c4f416b2b",
+      "bytes": 33768
     },
     {
       "path": "Start-UACF.cmd",
@@ -64,8 +70,8 @@
     },
     {
       "path": "repo/CHANGELOG.md",
-      "sha256": "f1bee52a2e8ae0a8c2c015713a8bf78b0208ab16239bfd51c9a87636b48af079",
-      "bytes": 9639
+      "sha256": "0c36a49bc70925587b90316c2b7199d0d507ebc94005f825d97e10cd5643d50b",
+      "bytes": 12424
     },
     {
       "path": "repo/CONTRIBUTING.md",
@@ -94,8 +100,8 @@
     },
     {
       "path": "repo/README.md",
-      "sha256": "1745a8e84d2c1149e3e081fdaeb54a85202cdde12210485f236d25af9c9101a2",
-      "bytes": 24178
+      "sha256": "27e4630cbe988512eb5364b0f8314d8761dfa4192888930dd85951b65b085bf9",
+      "bytes": 28847
     },
     {
       "path": "repo/REFERENCES.md",
@@ -254,8 +260,8 @@
     },
     {
       "path": "repo/apps/control-surface/host-work.js",
-      "sha256": "f88fddde4958496a9a51ed0ebacb64cbe8440de170b9fe997eeae624e4e8c047",
-      "bytes": 3029
+      "sha256": "4a4a6ade515ead0dc2f632044d3bf57776bfee2ef85fd2de1a894e959c7c9300",
+      "bytes": 3351
     },
     {
       "path": "repo/apps/control-surface/index.html",
@@ -339,28 +345,118 @@
     },
     {
       "path": "repo/contracts/openapi.json",
-      "sha256": "cce99bc3246f6b4fda85cbe3d948393dbb506d4baba21cd1739619170bfbfb8f",
-      "bytes": 4284
+      "sha256": "6451497e3357c55f726f8256bc3afad6f4314faea546465defb18a7ccf367082",
+      "bytes": 6033
+    },
+    {
+      "path": "repo/docs/baseline/DSH_第一阶段设计补充04.html",
+      "sha256": "f2fae22a2de6c9d209f2f6e06fc9f68b87d4bed19a74ef0b239310c70c923d37",
+      "bytes": 19423
+    },
+    {
+      "path": "repo/docs/baseline/DSH_第一阶段设计补充04.md",
+      "sha256": "a9d40b678b4adfc4d7f51415b2a285405fadc6b5749a2b6e74c9bfd402a3d3de",
+      "bytes": 17919
+    },
+    {
+      "path": "repo/docs/baseline/UACF_900之后架构到底改变了什么.html",
+      "sha256": "a4d3e8788cc9f0adadfcabc8408223f3e5b304a646126c4e37fb1f40c7c4d228",
+      "bytes": 16942
+    },
+    {
+      "path": "repo/docs/baseline/UACF_900之后架构到底改变了什么.md",
+      "sha256": "c383d7be3ddebb704ee5e41d8ff73bb79cbd9d9f478724f4e6b0a30e517389e0",
+      "bytes": 15411
     },
     {
       "path": "repo/docs/baseline/UACF_Complete_System_Design_English.html",
-      "sha256": "cf207b9e74719ad5418e92718edd4690ea867ff7081fc532920be06f07f35cd6",
-      "bytes": 26427
+      "sha256": "6a3849579a0e1881f2d6b0dbbbd824960ac6cfe776342d6ba9d4c192d5e26a55",
+      "bytes": 26786
     },
     {
       "path": "repo/docs/baseline/UACF_Complete_System_Design_English.md",
-      "sha256": "8fe066bfa7e6af89498f2bd85709b381897d97279a3ee183b70f4b1d46521e45",
-      "bytes": 24997
+      "sha256": "3f85631a65e34a6e675eb1b71e5ec0981430abdd66a08a8ffaceb314b9ec7d52",
+      "bytes": 25288
     },
     {
       "path": "repo/docs/baseline/UACF_User_Guide_English.html",
-      "sha256": "3ba1eb0582c3cc8f24f934a6d1ef92e896a34b9299b614412573b7e93eba2007",
-      "bytes": 23733
+      "sha256": "6e0c388e5cf4bf4acdc145e2aab886667205c769ad051db44eb84f4adaedd8a6",
+      "bytes": 24092
     },
     {
       "path": "repo/docs/baseline/UACF_User_Guide_English.md",
-      "sha256": "6bf6184424f2de6a44c30de52359dd82d703a3c16ab52ab531e1778b4b024c05",
-      "bytes": 22324
+      "sha256": "115d86dd015d361e576688dde8973ee7fe440d84ac25d7cbf6e3d9ffd075d3b3",
+      "bytes": 22615
+    },
+    {
+      "path": "repo/docs/baseline/UACF_七项问题修正与验收说明.html",
+      "sha256": "7c9a325790ba5d70bc05ef74c0de47a562c58d0918b781a41468fff9fbf0a2da",
+      "bytes": 14985
+    },
+    {
+      "path": "repo/docs/baseline/UACF_七项问题修正与验收说明.md",
+      "sha256": "8a13750af5b3e8eb472f93c58389cd67fe6102d9bb8261f6cbdf11e9355f2f88",
+      "bytes": 13466
+    },
+    {
+      "path": "repo/docs/baseline/UACF_交付要求逐项核对.html",
+      "sha256": "056ff955df6cab2ddeebb9d9bc911172144dfcd7d294a777de61bf05057fc359",
+      "bytes": 7401
+    },
+    {
+      "path": "repo/docs/baseline/UACF_交付要求逐项核对.md",
+      "sha256": "066ab38461b28ad2e2309cf3fdd31f1564a5511c3316fd9aed7abdae521c183b",
+      "bytes": 5681
+    },
+    {
+      "path": "repo/docs/baseline/UACF_从早期工作台到当前流程的迭代说明.html",
+      "sha256": "dcd8e2555bdb0539f140ad5a9f617378338e19ce7823f72d456d31f88df0383b",
+      "bytes": 12037
+    },
+    {
+      "path": "repo/docs/baseline/UACF_从早期工作台到当前流程的迭代说明.md",
+      "sha256": "93114d78c0cf12423a5b9d32227408b9bd4be6ec476de2da95d9d2d447d465c3",
+      "bytes": 10732
+    },
+    {
+      "path": "repo/docs/baseline/UACF_普通用户使用手册_中文.html",
+      "sha256": "64c01961ca2c428493c07baeffdda475eabf96b1a25e8fc570c5b54957e095ba",
+      "bytes": 23258
+    },
+    {
+      "path": "repo/docs/baseline/UACF_普通用户使用手册_中文.md",
+      "sha256": "34a7c541d40575bbe3b15cadedf9b06b1ba35e0db4f105e63495f60183907d99",
+      "bytes": 21818
+    },
+    {
+      "path": "repo/docs/baseline/UACF_正式完整版设计总说明.html",
+      "sha256": "68a4117159f8592a29e509f2a0d9e366dff9445c630593e172dd1249a521aaac",
+      "bytes": 25421
+    },
+    {
+      "path": "repo/docs/baseline/UACF_正式完整版设计总说明.md",
+      "sha256": "9b82cdaa6d12d96479b10ec2cd870f3b6fbc727377a9409bca9569419001e7dd",
+      "bytes": 23736
+    },
+    {
+      "path": "repo/docs/baseline/UACF_第二阶段整体运行与操作模式.html",
+      "sha256": "b186f98e023e029658fd315b0aeb3d89b19153465bb27b85cd6a7f2cfe1e1f09",
+      "bytes": 25288
+    },
+    {
+      "path": "repo/docs/baseline/UACF_第二阶段整体运行与操作模式.md",
+      "sha256": "c6f32f1e4ade1bd7cd1316b12aa5bb90cfe4c8d9f40b5d1e13e7111f0f51899e",
+      "bytes": 23798
+    },
+    {
+      "path": "repo/docs/baseline/UACF_阅读导航.html",
+      "sha256": "9148c1583e0c904c33ce1218fed600099d5dd8d3556b7c55b4e02eb4f5793b00",
+      "bytes": 7032
+    },
+    {
+      "path": "repo/docs/baseline/UACF_阅读导航.md",
+      "sha256": "d4801f4e589743eac4b310058051ce495f9d185a642af41a5048633ec4907b27",
+      "bytes": 5241
     },
     {
       "path": "repo/docs/engineering/consistency-and-coding-workers.md",
@@ -384,8 +480,8 @@
     },
     {
       "path": "repo/docs/public/CURRENT-ARCHITECTURE.md",
-      "sha256": "a05383ff45ba622f9fe75ffb65af25ac54b01f322fb8d1657cff6e97dfd7ebb9",
-      "bytes": 4101
+      "sha256": "fb591ffa45364122ab28fcd463eb117e349a12cf065b7c88bef1462f978bcf1d",
+      "bytes": 4253
     },
     {
       "path": "repo/docs/public/DEPLOYMENT-SECURITY.md",
@@ -393,9 +489,19 @@
       "bytes": 1954
     },
     {
+      "path": "repo/docs/public/NAMING.md",
+      "sha256": "d7d7f2aaa596c1d78f5f825ed081380b797e93e5e2273f89ac57a5bce26930fd",
+      "bytes": 4224
+    },
+    {
       "path": "repo/docs/public/OPERATIONS.md",
       "sha256": "9dc7b34389e419c5c9b3449682ecef1c19159df50c8964783a97cd86249afc9b",
       "bytes": 2816
+    },
+    {
+      "path": "repo/docs/public/REFERENCES.md",
+      "sha256": "0ef6ff8d3f2b3db9c0c3d46e4bf8806e54d5d8403177f640caa64492f2b46e0f",
+      "bytes": 2464
     },
     {
       "path": "repo/docs/public/UPDATE-20261021.md",
@@ -408,9 +514,14 @@
       "bytes": 3806
     },
     {
+      "path": "repo/docs/public/UPDATE-20261104.md",
+      "sha256": "7dd822176d90d8e78cf0f824bf1fccfcad4d2fb6387a971ac6cd2516a3ead6df",
+      "bytes": 2387
+    },
+    {
       "path": "repo/docs/public/VERIFICATION.md",
-      "sha256": "055f97cc669c43048a360f3c1cbaa8242c0a50d39244e07162aefa1c89314f66",
-      "bytes": 3177
+      "sha256": "5684ade75a512a5fd4fc3c4d58b470300354717453ceb59a3cbac1abdc91a060",
+      "bytes": 4267
     },
     {
       "path": "repo/modules/lessons.json",
@@ -498,6 +609,11 @@
       "bytes": 2441
     },
     {
+      "path": "repo/tests/test_action_guard.py",
+      "sha256": "81dabd6f7a090069e5a526c0057e68022b54162da62b12d111e535e6cf5b2aea",
+      "bytes": 7201
+    },
+    {
       "path": "repo/tests/test_archive_batch4.py",
       "sha256": "0f28571b933efc8ac5a3eb308af3e7051ec2dd2353f8d292cf9d352cf89e8516",
       "bytes": 1555
@@ -564,8 +680,8 @@
     },
     {
       "path": "repo/tests/test_consistency_workers.py",
-      "sha256": "5393244ad87b28ba5b5c61110096e7d110cbcf49424acb3501891bee12b35076",
-      "bytes": 13457
+      "sha256": "13d4b7bb8329e868301f5480c2faf24312a58e0095b23d3e219976b892b6e392",
+      "bytes": 15170
     },
     {
       "path": "repo/tests/test_core.py",
@@ -679,8 +795,8 @@
     },
     {
       "path": "repo/tests/test_transport.py",
-      "sha256": "a385052058fd949f0ebb8f11ed20b92bdecd6b92f5c871afe23efe78fab8cf6e",
-      "bytes": 5375
+      "sha256": "575d1fff9a07af958e7dd7f9f78c0d6d77872c34dc3e47eabbeee941a1cd19a0",
+      "bytes": 6584
     },
     {
       "path": "repo/tests/test_trial_budget.py",
@@ -689,8 +805,8 @@
     },
     {
       "path": "repo/tests/test_unified_assets.py",
-      "sha256": "50fa4b1d3d79c43a9774703e9c04a5395c71af4fc14cfc2897d6af60e93110e1",
-      "bytes": 4852
+      "sha256": "06f6a25bad1b7d4e15f59fb6e10dd302afa6113d5a42f03a8c34bf7378a273b2",
+      "bytes": 5793
     },
     {
       "path": "repo/tests/test_work_verification.py",
@@ -716,6 +832,21 @@
       "path": "repo/uacf/__main__.py",
       "sha256": "2947b7ca722267eb266efff107a951fe5d0e03e190b35093d27ebb91e598b019",
       "bytes": 7328
+    },
+    {
+      "path": "repo/uacf/action_classifier.py",
+      "sha256": "71da99aaac6ce369c8a1736576a9f29ad1bb155a8dffe252f6b0dcf8e9de14fa",
+      "bytes": 2016
+    },
+    {
+      "path": "repo/uacf/action_guard.py",
+      "sha256": "948ab80d4267a4dd202d65eaac78b3861f3096079e9be14c3ac18b1fdcdc31ff",
+      "bytes": 6668
+    },
+    {
+      "path": "repo/uacf/action_verification.py",
+      "sha256": "ddafd825fedfba7fa74f27da59f3aa9cc0289ec313f1242bfb56856c3be5e497",
+      "bytes": 4163
     },
     {
       "path": "repo/uacf/archive.py",
@@ -764,8 +895,8 @@
     },
     {
       "path": "repo/uacf/coding_workers.py",
-      "sha256": "21924c71b11b3ab1a91b7ca4cd1c696a1b60c07f80e804c97190732a53745b76",
-      "bytes": 21543
+      "sha256": "f2cef322f1e2851a9011b780dbbbc0679b33e5205b3da9444075c3c0624d6403",
+      "bytes": 22550
     },
     {
       "path": "repo/uacf/command_ledger.py",
@@ -774,8 +905,8 @@
     },
     {
       "path": "repo/uacf/consistency.py",
-      "sha256": "c99bda341ff59954ff9e6a89fb9631960b3d7e53a321cb681946d70f005769e0",
-      "bytes": 11223
+      "sha256": "420f8ae69f7e2174cfa19e1da9b7873b4076d9f5f05a07ec73cf1b2c5f00c292",
+      "bytes": 11897
     },
     {
       "path": "repo/uacf/deploy.py",
@@ -809,8 +940,8 @@
     },
     {
       "path": "repo/uacf/host_work.py",
-      "sha256": "dd0f54952b88a5bfe8e3fbfbad9abbae9a15a57982779c0ecfe60c6cdf9a0ad4",
-      "bytes": 13583
+      "sha256": "88449492ecb0d7e67e7ab74582b47c53b641f9c4c760c34672945dfc0eeec52a",
+      "bytes": 14556
     },
     {
       "path": "repo/uacf/human_directory.py",
@@ -879,8 +1010,8 @@
     },
     {
       "path": "repo/uacf/mcp.py",
-      "sha256": "73c8eefa1d1f12b346dd8934dd172fd3b64d0b407f772aeee57685211730946e",
-      "bytes": 8091
+      "sha256": "9aa196bb4380b43a35adb698e53943b5036292a067155dc8a04ff420500ef2d8",
+      "bytes": 8566
     },
     {
       "path": "repo/uacf/metric_evidence.py",
@@ -924,8 +1055,8 @@
     },
     {
       "path": "repo/uacf/service.py",
-      "sha256": "42cdce8594f2b5e9f74559f698a3abb667be13ea73dd4e7336a50d9e23ce8800",
-      "bytes": 27818
+      "sha256": "7a40f2ccfeb127784cb4a320bee2449dde802c7da30123b62bc5ad8e0e87d675",
+      "bytes": 28921
     },
     {
       "path": "repo/uacf/spool.py",
@@ -934,8 +1065,8 @@
     },
     {
       "path": "repo/uacf/state.py",
-      "sha256": "bc0e01d62c2d98e04e0ce802b831ed401fe204df17aaa1257b4ba7aa2345e97a",
-      "bytes": 42892
+      "sha256": "1247b3b777976998b4780756c9d1f1c50e6db6abd04abd66efed9d5e75d859f4",
+      "bytes": 43869
     },
     {
       "path": "repo/uacf/task_views.py",
@@ -949,8 +1080,8 @@
     },
     {
       "path": "repo/uacf/unified_assets.py",
-      "sha256": "ed98f861d2199a199adc83afa0c89d76ed8b256db75457f08094d042c6194321",
-      "bytes": 10492
+      "sha256": "647afe7c84727323b4d7a7f84e4a6fa3e1ca2ab372b4e30501d6b3eb5dfd5aa8",
+      "bytes": 12216
     },
     {
       "path": "repo/uacf/upgrade_verification.py",
@@ -964,8 +1095,8 @@
     },
     {
       "path": "repo/uacf/work_verification.py",
-      "sha256": "bd32af386b946a2b09b03061e28f95ea84627e8eb1f0b37cbcc2e963bc94dc53",
-      "bytes": 15239
+      "sha256": "7226370c0d51177ece3deedf585fdd70d650f49afbf47d44f2658f1249984725",
+      "bytes": 15675
     },
     {
       "path": "repo/uacf/workflow.py",
@@ -976,6 +1107,22 @@
       "path": "repo/uacf/workspace.py",
       "sha256": "5bb4f9b356381dd68c6603e07ad8a6f416d2a734d190a2e6485ea2f56e942f62",
       "bytes": 4958
+    },
+    {
+      "path": "先读我-READ-ME.txt",
+      "sha256": "b34d5f7e8677be885643f5e4d49c17c1272edd09bbfed7a80f61a85b57566f15",
+      "bytes": 382
+    },
+    {
+      "path": "开始使用UACF.cmd",
+      "sha256": "152c6de40cd67f2acdc19aec7c6b212ae911a2d1cff334feba491af31ab8d775",
+      "bytes": 136
+    },
+    {
+      "path": "阅读说明.html",
+      "sha256": "42458b3cf2d955938928838676e988081459fa1b2a8615643b2bad3c4f416b2b",
+      "bytes": 33768
     }
-  ]
+  ],
+  "byte_identity": "Git blob bytes; working-tree newline conversion may differ"
 }

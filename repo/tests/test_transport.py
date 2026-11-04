@@ -64,4 +64,17 @@ class TransportTests(unittest.TestCase):
         recovered=call(self.root,'put',req); self.assertEqual(initial,recovered)
         self.assertEqual(len(self.state.list('owner')),1)
 
+    def test_action_contract_http_owner_scope_and_mcp_discovery(self):
+        from uacf.fabric import vector
+        source=call(self.root,'put',request(object_new('Message',dict(source_kind='direct_user',current=True,text='只审查，不改文件'),visibility='shared')))['object']
+        task=call(self.root,'put',request(object_new('TaskContract',dict(goal='review fixture',required_properties=[],command_contract={'source_ref':vector(source)}),visibility='shared')))['object']
+        args=dict(task_id=task['object_id'],task_revision=1,source_ref=vector(source),source_quote='只审查',interpretation_basis='Current user read-only request',contract={'mode':'review'})
+        with self.assertRaises(Fault):call(self.root,'action_contract_set',args,'codex')
+        result=call(self.root,'action_contract_set',args)
+        self.assertTrue(result['review_invalidated'])
+        self.assertEqual(call(self.root,'action_contract_status',{'task_id':task['object_id']},'codex')['contract']['mode'],'review')
+        from uacf.mcp import TOOLS
+        self.assertIn('uacf_action_contract_status',{t['name'] for t in TOOLS})
+
+
 if __name__=='__main__': unittest.main(verbosity=2)

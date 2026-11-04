@@ -1,3 +1,13 @@
+# 2026-11-04 — current public candidate
+
+**278 tests passed** in the complete public suite using Python 3.11 / UTF-8. This includes added action-boundary, source-policy, worker input/output and committed-index snapshot regressions. No new runtime dependency. HTML content, anchors and relative links passed mechanical checks. Browser preview was stopped by the Computer Use tool because it could not reliably identify the current browser URL; no visual acceptance is claimed.
+
+The earlier local installed-hook diagnostic and registered60-test check concern their declared local revision and native mapping. Public source/CI results are separate; neither establishes automatic callbacks on every installed host or general language reliability. No private receipts or conversations are included. Publication does not upgrade existing user installations automatically.
+
+中英文命名、三句助记、UNHEARD/UNREAD、两个项目的固定提交引用及历史注记均已检查。旧测试数量保留原始范围，不与本次数量相加。
+
+---
+
 # Current verification — 2026-10-21
 
 | Check | Observed scope |

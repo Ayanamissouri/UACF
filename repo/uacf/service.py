@@ -55,6 +55,9 @@ def PathSafe(raw,allowed):
     return allowed
 
 def dispatch(state,actor,action,args,operation_id=None):
+    if action in ['action_contract_set','action_contract_status']:
+        from .action_guard import configure,status
+        return configure(state,actor,args) if action=='action_contract_set' else dict(ok=True,**status(state.get(args['task_id'],actor)))
     if action.startswith("consistency_"):
         from .consistency import dispatch as consistency_dispatch
         return consistency_dispatch(state,actor,action,args)
@@ -172,6 +175,12 @@ def dispatch(state,actor,action,args,operation_id=None):
             return {'ok':True,'operation':result,'outcome':'unknown or in flight' if result['state']=='pending' else 'recorded'}
     if action=='verify_dsh': return verify_dsh(state,actor,args['task_id'],args['revision'])
     if action=='promote':
+        task=state.get(args['task_id'],actor)
+        if set(task['payload'].get('required_properties',[]))=={'action_control_integrity'} and task['payload'].get('action_acceptance'):
+            from .command_ledger import delivery
+            from .work_verification import environment
+            delivery(task,state)
+            return state.promote(actor,args['task_id'],args['revision'],environment(state,task)['environment_hash'],operation_id,complete_execution=True)
         # Re-probe environment before accepting; no stale loaded process validation reuse.
         v=verify_dsh(state,actor,args['task_id'],args['revision'])
         return state.promote(actor,args['task_id'],args['revision'],v['environment_hash'],operation_id)
@@ -184,6 +193,7 @@ def dispatch(state,actor,action,args,operation_id=None):
 MUTATIONS={'put','verify_dsh','promote','profile_set','host_event','artifact_capture','source_register','ingest','workunit','correct','integrate','rebuild','budget_reserve','budget_settle','model_dispatch','review_response','interpret','exchange_export','exchange_import','lease_acquire','lease_result','budget_open'}
 MUTATIONS.update({'consistency_prepare','consistency_review','consistency_publish','consistency_deliver','coding_worker_configure','coding_worker_bind','coding_worker_prepare','coding_worker_run','coding_worker_fallback','coding_worker_native_result','coding_worker_audit'})
 MUTATIONS.add('capability_record')
+MUTATIONS.add('action_contract_set')
 MUTATIONS.update(['work_policy_configure','work_enter','work_mode'])
 MUTATIONS.add('native_watch_configure')
 MUTATIONS.update(['portable_draft','portable_revise','portable_review','archive_trigger_check','command_update','guard_probe','guard_reprepare'])
@@ -317,9 +327,12 @@ def serve(root,bind='127.0.0.1',port=None):
             except Fault as e: self.send({'AUTHENTICATION':401,'PERMISSION':403,'NOT_FOUND':404,'REVISION_CONFLICT':409,'OPERATION_CONFLICT':409}.get(e.code,400),e.result())
             except (KeyError,ValueError,TypeError) as e: self.send(400,Fault('INPUT',str(e)).result())
             except Exception:
-                self.send(500,Fault('INTERNAL','service error; see local logs').result())
                 import traceback
                 with (state.root/'logs/service-errors.log').open('a',encoding='utf-8') as f: traceback.print_exc(file=f)
+                # A disconnected caller must not hide the original failure.
+                # Pending mutation outcomes stay pending; never auto-replay.
+                try:self.send(500,Fault('INTERNAL','service error; see local logs').result())
+                except (ConnectionError,OSError):pass
     server=LocalStateServer((bind,port or state.config['port']),Handler)
     def worker():
         while not stop.wait(.25):
@@ -329,6 +342,8 @@ def serve(root,bind='127.0.0.1',port=None):
                 maintain(state)
                 from .archive_trigger import maintain as archive_maintain
                 archive_maintain(state)
+                from .unified_assets import maintain as index_maintain
+                index_maintain(state)
             except Exception:
                 import traceback
                 with (state.root/'logs/worker-errors.log').open('a',encoding='utf-8') as f: traceback.print_exc(file=f)

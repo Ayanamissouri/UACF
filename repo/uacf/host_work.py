@@ -84,7 +84,7 @@ def enter(state,actor,args,operation_id):
   else:
    goal=args.get('goal') or 'Default UACF work; refine current Owner requirements before implementation'
    if not isinstance(goal,str) or len(goal.encode())>12000:raise Fault('INPUT','bounded current work goal required')
-   task=_record(state,'TaskContract','enroll:'+host+':'+sid,dict(goal=goal,required_properties=[],command_contract={'required':True},consistency_required=True,host=host,execution_state='running',allow_provider=False,unified_asset_search_authorized=True,constraints=RULES,input_vector=[p['ref']],enrollment='Owner-policy-delegated fixed template; no budget authority',native_session_id=sid,learning_capture_policy={'mode':'adaptive'}))
+   task=_record(state,'TaskContract','enroll:'+host+':'+sid,dict(goal=goal,required_properties=[],command_contract={'required':True},consistency_required=True,action_contract_required=True,host=host,execution_state='running',allow_provider=False,unified_asset_search_authorized=True,constraints=RULES,input_vector=[p['ref']],enrollment='Owner-policy-delegated fixed template; no budget authority',native_session_id=sid,learning_capture_policy={'mode':'adaptive'}))
    from .coding_workers import inherit as inherit_workers
    task=inherit_workers(state,task)
    # Compose with the existing stage-plan service, rather than inventing a
@@ -137,7 +137,7 @@ def _bypass_reason(state,args):
  if credential and re.search(r'(?i)read_text|Get-Content|open\s*\(|readFile|readFileSync',text):return 'UACF_CREDENTIAL_BOUNDARY: provider credentials are read by registered adapters, not ad-hoc Host tools'
  return None
 
-def admit(state,actor,args):
+def _admit(state,actor,args):
  host,sid=_identity(args,actor);p=policy(state)
  if not p:raise Fault('NOT_PREPARED','default work policy missing')
  _,s=_session_checked(state,host,sid)
@@ -147,7 +147,9 @@ def admit(state,actor,args):
  if not tid:return dict(ok=True,allowed=False,code='UACF_SESSION_UNMAPPED',reason='Default UACF work must enter through work_enter before this tool')
  task=state.get(tid,actor);revision=args.get('task_revision')
  if revision is not None and revision!=task['revision']:return dict(ok=True,allowed=False,code='REVISION_CONFLICT',reason='Task changed; prepare the current revision')
- context=state.context(actor,tid)
+ # Mandatory requirements, dependencies and applicable obligations are checked
+ # afresh. Optional archive recall belongs to preparation, not every tool call.
+ context=state.context(actor,tid,include_optional_recall=False)
  if context.get('status')!='ready':return dict(ok=True,allowed=False,code='UACF_CONTEXT_NOT_READY',reason='Mandatory Task context unavailable or overflows')
  reason=_bypass_reason(state,args)
  if reason:return dict(ok=True,allowed=False,code=reason.split(':')[0],reason=reason,task_ref=vector(task))
@@ -156,10 +158,26 @@ def admit(state,actor,args):
  except Fault as error:return dict(ok=True,allowed=False,code=error.code,reason=error.detail,task_ref=vector(task))
  return dict(ok=True,allowed=True,mode='uacf',task_ref=vector(task),cache_key=context['cache_key'],policy_ref=p['ref'],scope='native tool admission + registered dispatch; not an OS/network sandbox',model_calls=0)
 
+def admit(state,actor,args):
+ result=_admit(state,actor,args)
+ result['host_effect']='unobserved'
+ if result.get('allowed') and result.get('mode')=='uacf':state._unified_refresh_requested=True
+ try:
+  from .action_guard import record
+  with LOCK:record(state,args,result)
+ except (OSError,ValueError,KeyError,TypeError):result['telemetry']='unavailable; admission decision unchanged'
+ return result
+
 def status(state,actor,args):
  p=policy(state);result=dict(ok=True,policy=p,notice=NOTICE,model_calls=0)
  if args.get('native_session_id'):
   host,sid=_identity(args,actor);_,s=_session_checked(state,host,sid);result['session']=s
+  if s and s.get('task_id'):
+   task=state.get(s['task_id'],actor)
+   from .action_guard import status as action_status
+   result['action_authority']=action_status(task)
+   path=state.data/'host-work/admissions'/(task['object_id']+'.json')
+   result['admission_telemetry']=json.loads(path.read_text('utf8')) if path.exists() else None
  return result
 
 def dispatch(state,actor,action,args,operation_id=None):

@@ -1,3 +1,5 @@
+> Current name / 当前名称：UACF — Unified AI Continuity Fabric. Understand, Act, Check, Finish; Understand All Commands First; Understand Actual Context First. UNHEARD / UNREAD: [current definitions](../public/NAMING.md). Historical descriptions below retain their original scope.
+
 # UACF 正式完整版设计总说明
 
 ## 当前阅读说明 · 2026-10-08
