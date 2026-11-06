@@ -4,6 +4,17 @@ import tempfile,json
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('public_read',Path(__file__).resolve().parents[1]/'adapters/codex/public_read.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 class PublicReadTests(unittest.TestCase):
+ def test_workspace_requires_canonical_exact_session(self):
+  root=Path(tempfile.gettempdir()).resolve();other=root/'synthetic-other'
+  task={'payload':{'host':'codex','native_session_id':'synthetic','native_cwd':str(other)}}
+  self.assertEqual(m.mapped_workspace(task,'synthetic',root),other)
+  with self.assertRaises(m.Fault):m.mapped_workspace(task,'unmapped',root)
+  self.assertEqual(m.mapped_workspace(task,'continuation',root,archive_only=True),other)
+  task['payload']['native_cwd']='relative/path'
+  with self.assertRaises(m.Fault):m.mapped_workspace(task,'synthetic',root)
+  task['payload'].pop('native_cwd')
+  with self.assertRaises(m.Fault):m.mapped_workspace(task,'continuation',root,archive_only=True)
+  self.assertEqual(m.mapped_workspace(task,'synthetic',root),root)
  def test_native_end_reuses_first_receipted_completion_across_observation_ranges(self):
   with tempfile.TemporaryDirectory() as directory:
    root=Path(directory)

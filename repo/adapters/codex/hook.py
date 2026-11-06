@@ -17,8 +17,12 @@ def run(root, event):
         return {'hookSpecificOutput':{'hookEventName':kind,'additionalContext':'是否继续使用 UACF 工作？默认继续；无需等待回答，只有用户明确不使用才切换。下一次用户输入通过 work_enter 建立真实任务；不要另写 API 客户端绕过。'}}
     if governed and kind=='UserPromptSubmit':
         prompt=event.get('prompt') or 'Current Owner work; preserve the full public request in native evidence'
-        entered=call(root,'work_enter',{'host':'codex','native_session_id':host_id,'goal':prompt[:2500],
-            'native_locator':'codex://threads/'+host_id},'codex')
+        try:
+            entered=call(root,'work_enter',{'host':'codex','native_session_id':host_id,'goal':prompt[:2500],
+                'native_locator':'codex://threads/'+host_id},'codex')
+        except Fault as error:
+            if error.code!='NOT_PREPARED':raise
+            entered={}
         if entered.get('mode')=='external':return {'continue':True}
     if kind=='PreToolUse':
         try:
@@ -67,9 +71,9 @@ def run(root, event):
         except (Fault,OSError):pass # source product remains; failure never restarts a tool/model
     if kind != 'UserPromptSubmit': return {'continue':True}
     try: prepared=call(root,'context',{'task_id':task},'codex')
-    except (Fault,OSError) as error: return {'decision':'block','reason':'UACF required context unavailable: '+type(error).__name__}
+    except (Fault,OSError) as error: return {'systemMessage':'UACF context unavailable; check the current Task registration: '+type(error).__name__}
     if not prepared.get('ok') or prepared.get('status')!='ready':
-        return {'decision':'block','reason':'UACF required context: '+str(prepared.get('status',prepared.get('code')))}
+        return {'systemMessage':'UACF Task registration needs attention: '+str(prepared.get('status',prepared.get('code')))}
     if event.get('turn_id'):
         atomic(root/'data/codex-prepared'/(sha([host_id,event['turn_id']])+'.json'),canonical({'task_revision':prepared['capsule']['task_revision']}))
     return {'hookSpecificOutput':{'hookEventName':kind,'additionalContext':json.dumps(prepared['capsule'],ensure_ascii=False)}}
@@ -78,4 +82,4 @@ if __name__=='__main__':
     try: print(json.dumps(run(Path(sys.argv[1]).resolve(),json.load(sys.stdin)),ensure_ascii=False))
     except Exception as error:
         # Failure is explicit; never claim prepared/delivered or silently drop mandatory context.
-        print(json.dumps({'decision':'block','reason':'UACF hook failed: '+type(error).__name__}));sys.exit(0)
+        print(json.dumps({'systemMessage':'UACF hook failed: '+type(error).__name__}));sys.exit(0)

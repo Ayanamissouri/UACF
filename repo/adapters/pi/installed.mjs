@@ -75,7 +75,16 @@ export default function installed(pi) {
     const bindings=JSON.parse(fs.readFileSync(path.join(config.root,'data/host-bindings.json'),'utf8'));
     let task=bindings.pi?.[native];
     if(bridge.governed()){
-      const entered=await send('work_enter',{host:'pi',native_session_id:native,goal:'Pi work in '+ctx.sessionManager.getCwd(),native_locator:'pi:session:'+native});
+      let entered;
+      try{
+        entered=await send('work_enter',{host:'pi',native_session_id:native,goal:'Pi work in '+ctx.sessionManager.getCwd(),native_locator:'pi:session:'+native});
+      }catch(error){
+        if(error.message!=='UACF_NOT_PREPARED')throw error;
+        const saved=JSON.parse(fs.readFileSync(path.join(config.root,'data/host-bindings.json'),'utf8'));
+        task=saved.pi?.[native];
+        if(!task)throw error;
+        entered={task_ref:{object_id:task},notice:'UACF Task enrolled; current requirements still need registration.'};
+      }
       if(entered.mode==='external'){external=true;return;}
       task=entered.task_ref.object_id;
       if(ctx.hasUI&&ctx.ui?.notify)ctx.ui.notify(entered.notice,'info');

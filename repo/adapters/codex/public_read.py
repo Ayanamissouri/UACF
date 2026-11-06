@@ -70,11 +70,26 @@ class Reader:
   try:self.p.wait(timeout=5)
   except subprocess.TimeoutExpired:self.p.terminate();self.p.wait(timeout=5)
 
-def observe(root,binary,sid,task_id):
+def mapped_workspace(task, sid, authority_root, archive_only=False):
+ # Only an Owner-written TaskContract can extend the workspace boundary. A
+ # tool argument or folder name cannot authorize reading an unrelated thread.
+ payload=task['payload']
+ if payload.get('host')!='codex' or (payload.get('native_session_id')!=sid and not archive_only):
+  raise Fault('MAPPING_CONFLICT','canonical Task does not identify this native session')
+ declared=payload.get('native_cwd')
+ if archive_only and payload.get('native_session_id')!=sid and not declared:
+  raise Fault('MAPPING_CONFLICT','archive continuation requires a declared native workspace')
+ if declared is not None and (not isinstance(declared,str) or not Path(declared).is_absolute()):
+  raise Fault('MAPPING_CONFLICT','canonical native workspace must be absolute')
+ return Path(declared).resolve() if declared else Path(authority_root).resolve()
+
+def observe(root,binary,sid,task_id,archive_only=False):
  root=Path(root).resolve();bindings=json.loads((root/'data/host-bindings.json').read_text())
  if bindings.get('codex',{}).get(sid)!=task_id:raise Fault('MAPPING_CONFLICT','explicit exact current Task required')
- task=call(root,'get',{'object_id':task_id})['object'];ready=call(root,'context',{'task_id':task_id},'codex')
- if ready.get('status')!='ready':raise Fault('NOT_PREPARED','mandatory context not ready')
+ task=call(root,'get',{'object_id':task_id})['object']
+ if not archive_only:
+  ready=call(root,'context',{'task_id':task_id},'codex')
+  if ready.get('status')!='ready':raise Fault('NOT_PREPARED','mandatory context not ready')
  reader=Reader(binary,root);result=[];outdir=root/'data/codex-public-observer';outdir.mkdir(exist_ok=True)
  def deliver(turn,identity,payload,occurred):
   eid=str(uuid.uuid5(uuid.NAMESPACE_URL,'uacf-public-read-v2:'+sid+':'+turn+':'+identity));p=outdir/(eid+'.json');receipt=outdir/(eid+'-receipt.json')
@@ -88,7 +103,7 @@ def observe(root,binary,sid,task_id):
   response=reconcile_event(root,event,op);atomic(receipt,canonical(response));return eid
  try:
   thread=reader.rpc('thread/read',{'threadId':sid,'includeTurns':False})['thread']
-  if thread['id']!=sid or Path(thread['cwd']).resolve()!=root:raise Fault('MAPPING_CONFLICT','actual native thread workspace mismatch')
+  if thread['id']!=sid or Path(thread['cwd']).resolve()!=mapped_workspace(task,sid,root,archive_only):raise Fault('MAPPING_CONFLICT','actual native thread workspace mismatch')
   turns=reader.rpc('thread/turns/list',{'threadId':sid,'limit':2,'itemsView':'notLoaded','sortDirection':'desc'})['data']
   for turn in reversed(turns):
    occurred=datetime.datetime.fromtimestamp(turn['startedAt'],datetime.timezone.utc).isoformat();cursor=None;count=0;last=None;bounded=False;public_ids=[];has_work=False;has_final=False;pending=[]
@@ -137,9 +152,9 @@ def observe(root,binary,sid,task_id):
  return {'ok':True,'task_ref':{'object_id':task_id,'revision':task['revision']},'turns':result,'live_hook_delivery':False,'model_turns_started':0,'coverage':'two latest explicitly mapped public turns; no full-session acceptance'}
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--binary',required=True);p.add_argument('--session',required=True);p.add_argument('--task',required=True);p.add_argument('--watch',action='store_true');a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('--root',required=True);p.add_argument('--binary',required=True);p.add_argument('--session',required=True);p.add_argument('--task',required=True);p.add_argument('--watch',action='store_true');p.add_argument('--archive-only',action='store_true');a=p.parse_args()
  while True:
-  try:print(canonical(observe(a.root,a.binary,a.session,a.task)),flush=True)
+  try:print(canonical(observe(a.root,a.binary,a.session,a.task,a.archive_only)),flush=True)
   except (TimeoutError,Fault) as error:
    if not a.watch or isinstance(error,Fault) and error.code not in ['CORE_UNAVAILABLE','OUTCOME_UNKNOWN']:raise
    print(canonical({'ok':False,'state':'waiting_reconciliation','reason':type(error).__name__,'detail':str(error),'model_turns_started':0,'live_hook_delivery':False}),flush=True)

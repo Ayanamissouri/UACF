@@ -23,15 +23,19 @@ export default function continuity(pi, bridge) {
   }});
   pi.on('before_agent_start',async()=>{
     if (bridge.active && !bridge.active()) return;
-    const result=await prepare();
+    let result;
+    try { result=await prepare(); }
+    catch(error) { return {message:{customType:'uacf-continuity',content:'UACF Task '+bridge.taskId+' needs registration or preparation: '+error.message,display:false}}; }
     return {message:{customType:'uacf-continuity',content:JSON.stringify(result.capsule),display:false}};
   });
-  // Explicit admission: unsupported/overflow inputs are consumed before the agent starts.
-  // This governs mapped user input, not arbitrary provider calls by other extensions.
-  pi.on('input',async()=>{
+  // Preserve the request when preparation is incomplete so the host can reconcile it.
+  pi.on('input',async event=>{
     if (bridge.active && !bridge.active()) return {action:'continue'};
     try { await prepare(); return {action:'continue'}; }
-    catch { await record({kind:'preparation_refused',task_id:bridge.taskId}); return {action:'handled'}; }
+    catch(error) {
+      await record({kind:'preparation_refused',task_id:bridge.taskId,prompt:event.text,reason:error.message});
+      return {action:'continue'};
+    }
   });
   pi.on('tool_call',async event=>{
     if (bridge.active && !bridge.active()) return bridge.governed?.()?{block:true,reason:'UACF default work enrollment required; silence is not opt-out'}:undefined;

@@ -93,13 +93,18 @@ export function continuity(ctx, root, core) {
       const entered=await core('work_enter',{host:'dsh',native_session_id:id,goal:'DSH native work; preserve current Owner request before implementation',native_locator:'dsh:session:'+id})
       if(entered.mode==='external'){externalSessions.add(id);return next()}
       externalSessions.delete(id)
-      task=entered.task_ref.object_id;notice=entered.notice
+      if(!entered.ok && entered.code!=='NOT_PREPARED')throw new Error('UACF_'+entered.code)
+      task=entered.task_ref?.object_id || bindings()[id];notice=entered.notice
     }
     if (!task) return next()
     const prepared = await core('context',{task_id:task})
     record({kind:'round_preparation',native_session_id:id,task_id:task,status:prepared.status || prepared.code,
       cache_key:prepared.cache_key,required_bytes:prepared.required_bytes,learning_use:prepared.capsule?.learning_use_observation,delivery:'assembly contribution; request/context verifies actual delivery'})
-    if (!prepared.ok || prepared.status !== 'ready') throw new Error('UACF_CONTEXT_' + (prepared.status || prepared.code))
+    if (!prepared.ok || prepared.status !== 'ready') {
+      preparedRevisions.delete(id)
+      const result = await next()
+      return {...result,contexts:[...result.contexts,{name:'uacf:registration-pending',text:'UACF Task '+task+' needs registration or preparation: '+(prepared.status || prepared.code)}]}
+    }
     preparedRevisions.set(id,prepared.capsule.task_revision)
     const result = await next()
     return {...result,contexts:[...result.contexts,{name:'uacf:canonical-task',text:JSON.stringify({...prepared.capsule,default_work_notice:notice,notice_is_nonblocking:true})}]}
